@@ -1,21 +1,74 @@
 guiTypes = {
     containerWindowType = {
         name = "GDP647_launcher"
-        position = { x = -170 y = -320 }
-        orientation = lower_right
-        size = { width = 148 height = 34 }
+        position = { x = 4 y = 82 }
+        orientation = UPPER_LEFT
+        size = { width = 346 height = 40 }
+        moveable = yes
+        click_to_front = yes
+        background = {
+            name = "GDP647_launcher_frame"
+            quadTextureSprite = "GFX_GDP647_launcher_frame"
+        }
         buttonType = {
-            name = "GDP647_toggle" position = { x = 0 y = 0 }
-            quadTextureSprite = "GFX_button_148x34"
+            name = "GDP647_toggle" position = { x = 14 y = 0 }
+            size = { x = 332 y = 40 }
+            quadTextureSprite = "GFX_tiled_window_transparent"
             buttonText = "" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_LAUNCHER_TOOLTIP"
             clicksound = click_default
             shortcut = "shift+g"
         }
+        iconType = {
+            name = "GDP647_launcher_icon" position = { x = 17 y = 2 }
+            quadTextureSprite = "GFX_efficiency_icon" scale = 0.85
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_launcher_rank_frame" position = { x = 43 y = 9 }
+            quadTextureSprite = "GFX_generic_text_bg_48"
+            alwaystransparent = yes
+        }
         instantTextBoxType = {
-            name = "GDP647_launcher_gdp" position = { x = 7 y = 6 }
-            font = "hoi_16mbs" text = "GDP647_LAUNCHER_GDP" format = centre
-            maxWidth = 134 maxHeight = 23 fixedsize = yes
+            name = "GDP647_launcher_drag" position = { x = 2 y = 10 }
+            font = "hoi_16mbs" text = "GDP647_LAUNCHER_DRAG" format = centre
+            maxWidth = 10 maxHeight = 18 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_launcher_symbol" position = { x = 14 y = 20 }
+            font = "hoi_16mbs" text = "GDP647_LAUNCHER_SYMBOL" format = centre
+            maxWidth = 29 maxHeight = 18 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_launcher_rank" position = { x = 44 y = 11 }
+            font = "hoi_16mbs" text = "GDP647_LAUNCHER_RANK" format = centre
+            maxWidth = 46 maxHeight = 18 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_launcher_gdp" position = { x = 98 y = 3 }
+            font = "hoi_16mbs" text = "GDP647_LAUNCHER_GDP" format = left
+            maxWidth = 122 maxHeight = 18 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_launcher_pc" position = { x = 98 y = 21 }
+            font = "hoi_16mbs" text = "GDP647_LAUNCHER_PC" format = left
+            maxWidth = 122 maxHeight = 18 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_launcher_mom" position = { x = 225 y = 3 }
+            font = "hoi_16mbs" text = "GDP647_LAUNCHER_MOM" format = left
+            maxWidth = 115 maxHeight = 18 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_launcher_yoy" position = { x = 225 y = 21 }
+            font = "hoi_16mbs" text = "GDP647_LAUNCHER_YOY" format = left
+            maxWidth = 115 maxHeight = 18 fixedsize = yes
             alwaystransparent = yes
         }
     }
@@ -38,7 +91,7 @@ guiTypes = {
         }
         buttonType = {
             name = "GDP647_tab_country" position = { x = 20 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
+            quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
         }
         buttonType = {
@@ -84,12 +137,12 @@ guiTypes = {
         containerWindowType = {
             name = "GDP647_profile_panel"
             position = { x = 20 y = 119 }
-            size = { width = 222 height = 358 }
+            size = { width = 222 height = 410 }
             background = { name = "GDP647_profile_background" quadTextureSprite = "GFX_tiled_window_1b_thin_border" }
             gridboxtype = {
                 name = "GDP647_profile_grid" position = { x = 0 y = 0 }
-                size = { width = 222 height = 358 }
-                slotsize = { width = 222 height = 358 }
+                size = { width = 222 height = 410 }
+                slotsize = { width = 222 height = 410 }
                 max_slots_horizontal = 1 max_slots_vertical = 1
                 format = "UPPER_LEFT" add_horizontal = no
             }
@@ -160,7 +213,7 @@ guiTypes = {
         }
         buttonType = {
             name = "GDP647_tab_faction" position = { x = 130 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
+            quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
         }
         buttonType = {
@@ -183,7 +236,7 @@ guiTypes = {
         containerWindowType = {
             name = "GDP647_faction_detail_panel"
             position = { x = 20 y = 119 }
-            size = { width = 222 height = 196 }
+            size = { width = 222 height = 236 }
             background = {
                 name = "GDP647_faction_detail_background"
                 quadTextureSprite = "GFX_tiled_window_1b_thin_border"
@@ -195,8 +248,8 @@ guiTypes = {
         }
             gridboxtype = {
                 name = "GDP647_faction_detail_grid" position = { x = 0 y = 0 }
-                size = { width = 222 height = 196 }
-                slotsize = { width = 222 height = 196 }
+                size = { width = 222 height = 236 }
+                slotsize = { width = 222 height = 236 }
                 max_slots_horizontal = 1 max_slots_vertical = 1
                 format = "UPPER_LEFT" add_horizontal = no
             }
@@ -272,7 +325,7 @@ guiTypes = {
         }
         buttonType = {
             name = "GDP647_tab_state" position = { x = 240 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
+            quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
         }
         buttonType = {
@@ -320,7 +373,7 @@ guiTypes = {
         containerWindowType = {
             name = "GDP647_state_detail_panel"
             position = { x = 20 y = 119 }
-            size = { width = 222 height = 358 }
+            size = { width = 222 height = 410 }
             background = {
                 name = "GDP647_state_detail_background"
                 quadTextureSprite = "GFX_tiled_window_1b_thin_border"
@@ -332,8 +385,8 @@ guiTypes = {
         }
             gridboxtype = {
                 name = "GDP647_state_detail_grid" position = { x = 0 y = 0 }
-                size = { width = 222 height = 358 }
-                slotsize = { width = 222 height = 358 }
+                size = { width = 222 height = 410 }
+                slotsize = { width = 222 height = 410 }
                 max_slots_horizontal = 1 max_slots_vertical = 1
                 format = "UPPER_LEFT" add_horizontal = no
             }
@@ -499,7 +552,7 @@ guiTypes = {
 
     containerWindowType = {
         name = "GDP647_profile_row"
-        size = { width = 222 height = 358 }
+        size = { width = 222 height = 410 }
         iconType = {
             name = "GDP647_profile_flag" position = { x = 70 y = 34 }
             quadTextureSprite = "GFX_shield_medium"
@@ -531,51 +584,93 @@ guiTypes = {
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_heading" position = { x = 12 y = 201 }
+            name = "GDP647_country_breakdown_heading" position = { x = 12 y = 245 }
             font = "hoi_18mbs" text = "GDP647_STATE_BREAKDOWN" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_pending" position = { x = 12 y = 226 }
+            name = "GDP647_country_breakdown_pending" position = { x = 12 y = 270 }
             font = "hoi_16mbs" text = "GDP647_STATE_BREAKDOWN_PENDING" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
+        iconType = {
+            name = "GDP647_country_breakdown_agriculture_icon" position = { x = 13 y = 272 }
+            quadTextureSprite = "GFX_population_icon" scale = 0.50
+            alwaystransparent = yes
+        }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_agriculture" position = { x = 12 y = 226 }
+            name = "GDP647_country_breakdown_agriculture" position = { x = 33 y = 270 }
             font = "hoi_16mbs" text = "GDP647_COUNTRY_SECTOR_AGRICULTURE" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_country_breakdown_civilian_icon" position = { x = 13 y = 292 }
+            quadTextureSprite = "GFX_industrial_capacity_icon" scale = 0.51
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_civilian" position = { x = 12 y = 246 }
+            name = "GDP647_country_breakdown_civilian" position = { x = 33 y = 290 }
             font = "hoi_16mbs" text = "GDP647_COUNTRY_SECTOR_CIVILIAN" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_country_breakdown_military_icon" position = { x = 13 y = 312 }
+            quadTextureSprite = "GFX_military_factory_icon" scale = 0.65
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_military" position = { x = 12 y = 266 }
+            name = "GDP647_country_breakdown_military" position = { x = 33 y = 310 }
             font = "hoi_16mbs" text = "GDP647_COUNTRY_SECTOR_MILITARY" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_country_breakdown_services_icon" position = { x = 13 y = 332 }
+            quadTextureSprite = "GFX_traded_factories_icon" scale = 0.39
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_services" position = { x = 12 y = 286 }
+            name = "GDP647_country_breakdown_services" position = { x = 33 y = 330 }
             font = "hoi_16mbs" text = "GDP647_COUNTRY_SECTOR_SERVICES" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_country_breakdown_resources_icon" position = { x = 13 y = 351 }
+            quadTextureSprite = "GFX_resources_strip" frame = 5 scale = 0.62
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_resources" position = { x = 12 y = 306 }
+            name = "GDP647_country_breakdown_resources" position = { x = 33 y = 350 }
             font = "hoi_16mbs" text = "GDP647_COUNTRY_SECTOR_RESOURCES" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_country_breakdown_reinvestment_icon" position = { x = 13 y = 374 }
+            quadTextureSprite = "GFX_construction_speed_icon" scale = 0.60
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_country_breakdown_reinvestment" position = { x = 12 y = 326 }
+            name = "GDP647_country_breakdown_reinvestment" position = { x = 33 y = 370 }
             font = "hoi_16mbs" text = "GDP647_COUNTRY_SECTOR_REINVESTMENT" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_country_growth_mom" position = { x = 12 y = 174 }
+            font = "hoi_16mbs" text = "GDP647_GDP_GROWTH_MOM" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_GROWTH_MOM_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_country_growth_yoy" position = { x = 12 y = 194 }
+            font = "hoi_16mbs" text = "GDP647_GDP_GROWTH_YOY" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_GROWTH_YOY_TT"
         }
     }
 
 
     containerWindowType = {
         name = "GDP647_faction_detail_row"
-        size = { width = 222 height = 196 }
+        size = { width = 222 height = 236 }
         iconType = {
             name = "GDP647_faction_detail_flag" position = { x = 70 y = 34 }
             quadTextureSprite = "GFX_shield_medium"
@@ -605,11 +700,23 @@ guiTypes = {
             font = "hoi_16mbs" text = "GDP647_PROFILE_RANK" format = centre
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
+        instantTextBoxType = {
+            name = "GDP647_faction_growth_mom" position = { x = 12 y = 178 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_GROWTH_MOM" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_GROWTH_MOM_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_growth_yoy" position = { x = 12 y = 198 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_GROWTH_YOY" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_GROWTH_YOY_TT"
+        }
     }
 
     containerWindowType = {
         name = "GDP647_state_detail_row"
-        size = { width = 222 height = 358 }
+        size = { width = 222 height = 410 }
         background = {
             name = "GDP647_state_detail_row_background"
             quadTextureSprite = "GFX_tiled_window_1b_thin_border"
@@ -649,44 +756,86 @@ guiTypes = {
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_heading" position = { x = 12 y = 201 }
+            name = "GDP647_state_breakdown_heading" position = { x = 12 y = 245 }
             font = "hoi_18mbs" text = "GDP647_STATE_BREAKDOWN" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_pending" position = { x = 12 y = 226 }
+            name = "GDP647_state_breakdown_pending" position = { x = 12 y = 270 }
             font = "hoi_16mbs" text = "GDP647_STATE_BREAKDOWN_PENDING" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
+        iconType = {
+            name = "GDP647_state_breakdown_agriculture_icon" position = { x = 13 y = 272 }
+            quadTextureSprite = "GFX_population_icon" scale = 0.50
+            alwaystransparent = yes
+        }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_agriculture" position = { x = 12 y = 226 }
+            name = "GDP647_state_breakdown_agriculture" position = { x = 33 y = 270 }
             font = "hoi_16mbs" text = "GDP647_STATE_SECTOR_AGRICULTURE" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_state_breakdown_civilian_icon" position = { x = 13 y = 292 }
+            quadTextureSprite = "GFX_industrial_capacity_icon" scale = 0.51
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_civilian" position = { x = 12 y = 246 }
+            name = "GDP647_state_breakdown_civilian" position = { x = 33 y = 290 }
             font = "hoi_16mbs" text = "GDP647_STATE_SECTOR_CIVILIAN" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_state_breakdown_military_icon" position = { x = 13 y = 312 }
+            quadTextureSprite = "GFX_military_factory_icon" scale = 0.65
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_military" position = { x = 12 y = 266 }
+            name = "GDP647_state_breakdown_military" position = { x = 33 y = 310 }
             font = "hoi_16mbs" text = "GDP647_STATE_SECTOR_MILITARY" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_state_breakdown_services_icon" position = { x = 13 y = 332 }
+            quadTextureSprite = "GFX_traded_factories_icon" scale = 0.39
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_services" position = { x = 12 y = 286 }
+            name = "GDP647_state_breakdown_services" position = { x = 33 y = 330 }
             font = "hoi_16mbs" text = "GDP647_STATE_SECTOR_SERVICES" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_state_breakdown_resources_icon" position = { x = 13 y = 351 }
+            quadTextureSprite = "GFX_resources_strip" frame = 5 scale = 0.62
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_resources" position = { x = 12 y = 306 }
+            name = "GDP647_state_breakdown_resources" position = { x = 33 y = 350 }
             font = "hoi_16mbs" text = "GDP647_STATE_SECTOR_RESOURCES" format = left
-            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_state_breakdown_reinvestment_icon" position = { x = 13 y = 374 }
+            quadTextureSprite = "GFX_construction_speed_icon" scale = 0.60
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_state_breakdown_reinvestment" position = { x = 12 y = 326 }
+            name = "GDP647_state_breakdown_reinvestment" position = { x = 33 y = 370 }
             font = "hoi_16mbs" text = "GDP647_STATE_SECTOR_REINVESTMENT" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_state_growth_mom" position = { x = 12 y = 195 }
+            font = "hoi_16mbs" text = "GDP647_GDP_GROWTH_MOM" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_GROWTH_MOM_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_state_growth_yoy" position = { x = 12 y = 215 }
+            font = "hoi_16mbs" text = "GDP647_GDP_GROWTH_YOY" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_GROWTH_YOY_TT"
         }
     }
 

@@ -1,0 +1,9 @@
+spriteTypes = {
+    corneredTileSpriteType = {
+        name = "GFX_GDP647_launcher_frame"
+        textureFile = "gfx/interface/generic_text_bg_88.dds"
+        size = { x = 88 y = 27 }
+        borderSize = { x = 4 y = 4 }
+        tilingCenter = yes
+    }
+}

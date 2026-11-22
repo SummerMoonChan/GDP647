@@ -10,6 +10,8 @@ scripted_gui = {
             GDP647_toggle_click = {
                 if = { limit = { has_country_flag = GDP647_open } GDP647_close_dashboard = yes }
                 else = {
+                    GDP647_repair_population_update_snapshot = yes
+                    GDP647_backfill_population_display = yes
                     set_country_flag = GDP647_open
                     clr_country_flag = GDP647_state_manual_detail
                     GDP647_refresh_order = yes
@@ -94,11 +96,17 @@ scripted_gui = {
             GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
             GDP647_country_population_filter_click_enabled = { has_country_flag = GDP647_per_capita_order }
             GDP647_country_breakdown_agriculture_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_agriculture_icon_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_civilian_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_civilian_icon_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_military_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_military_icon_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_services_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_services_icon_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_resources_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_resources_icon_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_reinvestment_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_reinvestment_icon_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_pending_visible = { NOT = { has_variable = GDP647_country_sector_agriculture } }
         }
         dynamic_lists = {
@@ -288,11 +296,17 @@ scripted_gui = {
             GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
             GDP647_state_detail_empty_visible = { NOT = { has_country_flag = GDP647_state_manual_detail } }
             GDP647_state_breakdown_agriculture_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_agriculture_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_civilian_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_civilian_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_military_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_military_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_services_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_services_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_resources_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_resources_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_reinvestment_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_reinvestment_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_pending_visible = { NOT = { has_variable = GDP647_state_sector_agriculture } }
             GDP647_state_population_filter_click_enabled = { has_country_flag = GDP647_per_capita_order }
         }
@@ -328,11 +342,17 @@ scripted_gui = {
         }
         triggers = {
             GDP647_state_breakdown_agriculture_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_agriculture_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_civilian_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_civilian_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_military_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_military_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_services_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_services_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_resources_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_resources_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_reinvestment_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_reinvestment_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_pending_visible = { NOT = { has_variable = GDP647_state_sector_agriculture } }
         }
         properties = {

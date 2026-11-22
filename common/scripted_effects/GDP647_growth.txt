@@ -1,0 +1,120 @@
+GDP647_prepare_growth_sample = {
+    set_variable = { global.GDP647_growth_previous_revision = -1 }
+    if = {
+        limit = { has_variable = global.GDP647_growth_last_capture_day }
+        set_temp_variable = { GDP647_growth_elapsed_days = global.GDP647_capture_day }
+        subtract_from_temp_variable = { GDP647_growth_elapsed_days = global.GDP647_growth_last_capture_day }
+        if = {
+            limit = {
+                check_variable = { var = GDP647_growth_elapsed_days value = 28 compare = greater_than_or_equals }
+                check_variable = { var = GDP647_growth_elapsed_days value = 31 compare = less_than_or_equals }
+            }
+            set_variable = { global.GDP647_growth_previous_revision = global.GDP647_published_revision }
+        }
+    }
+    set_variable = { global.GDP647_growth_last_capture_day = global.GDP647_capture_day }
+    add_to_variable = { global.GDP647_published_revision = 1 }
+    set_variable = { global.GDP647_growth_slot = global.GDP647_published_revision }
+    modulo_variable = { var = global.GDP647_growth_slot value = 12 }
+    set_variable = { global.GDP647_growth_previous_slot = global.GDP647_growth_slot }
+    add_to_variable = { global.GDP647_growth_previous_slot = 11 }
+    modulo_variable = { var = global.GDP647_growth_previous_slot value = 12 }
+}
+
+GDP647_record_gdp_growth = {
+    set_temp_variable = { GDP647_growth_slot = global.GDP647_growth_slot }
+    set_temp_variable = { GDP647_growth_previous_slot = global.GDP647_growth_previous_slot }
+    if = {
+        limit = {
+            OR = {
+                NOT = { has_variable = GDP647_gdp_growth_last_revision }
+                NOT = { check_variable = { GDP647_gdp_growth_last_revision = global.GDP647_growth_previous_revision } }
+            }
+        }
+        set_variable = { GDP647_gdp_growth_samples = 0 }
+        resize_array = { array = GDP647_gdp_growth_history size = 12 value = 0 }
+    }
+    set_variable = { GDP647_gdp_growth_mom_valid = 0 }
+    if = {
+        limit = {
+            check_variable = { var = GDP647_gdp_growth_samples value = 1 compare = greater_than_or_equals }
+        }
+        set_temp_variable = { GDP647_growth_base = GDP647_gdp_growth_history^GDP647_growth_previous_slot }
+        if = {
+            limit = { check_variable = { GDP647_growth_base > 0 } }
+            set_variable = { GDP647_gdp_growth_mom = GDP647_growth_sample }
+            divide_variable = { GDP647_gdp_growth_mom = GDP647_growth_base }
+            subtract_from_variable = { GDP647_gdp_growth_mom = 1 }
+            multiply_variable = { GDP647_gdp_growth_mom = 100 }
+            set_variable = { GDP647_gdp_growth_mom_valid = 1 }
+        }
+    }
+    set_variable = { GDP647_gdp_growth_yoy_valid = 0 }
+    if = {
+        limit = {
+            check_variable = { var = GDP647_gdp_growth_samples value = 12 compare = greater_than_or_equals }
+        }
+        set_temp_variable = { GDP647_growth_base = GDP647_gdp_growth_history^GDP647_growth_slot }
+        if = {
+            limit = { check_variable = { GDP647_growth_base > 0 } }
+            set_variable = { GDP647_gdp_growth_yoy = GDP647_growth_sample }
+            divide_variable = { GDP647_gdp_growth_yoy = GDP647_growth_base }
+            subtract_from_variable = { GDP647_gdp_growth_yoy = 1 }
+            multiply_variable = { GDP647_gdp_growth_yoy = 100 }
+            set_variable = { GDP647_gdp_growth_yoy_valid = 1 }
+        }
+    }
+    set_variable = { GDP647_gdp_growth_history^GDP647_growth_slot = GDP647_growth_sample }
+    add_to_variable = { GDP647_gdp_growth_samples = 1 }
+    clamp_variable = { var = GDP647_gdp_growth_samples max = 12 }
+    set_variable = { GDP647_gdp_growth_last_revision = global.GDP647_published_revision }
+}
+
+GDP647_record_faction_growth = {
+    set_temp_variable = { GDP647_growth_slot = global.GDP647_growth_slot }
+    set_temp_variable = { GDP647_growth_previous_slot = global.GDP647_growth_previous_slot }
+    if = {
+        limit = {
+            OR = {
+                NOT = { has_variable = GDP647_faction_growth_last_revision }
+                NOT = { check_variable = { GDP647_faction_growth_last_revision = global.GDP647_growth_previous_revision } }
+            }
+        }
+        set_variable = { GDP647_faction_growth_samples = 0 }
+        resize_array = { array = GDP647_faction_growth_history size = 12 value = 0 }
+    }
+    set_variable = { GDP647_faction_growth_mom_valid = 0 }
+    if = {
+        limit = {
+            check_variable = { var = GDP647_faction_growth_samples value = 1 compare = greater_than_or_equals }
+        }
+        set_temp_variable = { GDP647_growth_base = GDP647_faction_growth_history^GDP647_growth_previous_slot }
+        if = {
+            limit = { check_variable = { GDP647_growth_base > 0 } }
+            set_variable = { GDP647_faction_growth_mom = GDP647_growth_sample }
+            divide_variable = { GDP647_faction_growth_mom = GDP647_growth_base }
+            subtract_from_variable = { GDP647_faction_growth_mom = 1 }
+            multiply_variable = { GDP647_faction_growth_mom = 100 }
+            set_variable = { GDP647_faction_growth_mom_valid = 1 }
+        }
+    }
+    set_variable = { GDP647_faction_growth_yoy_valid = 0 }
+    if = {
+        limit = {
+            check_variable = { var = GDP647_faction_growth_samples value = 12 compare = greater_than_or_equals }
+        }
+        set_temp_variable = { GDP647_growth_base = GDP647_faction_growth_history^GDP647_growth_slot }
+        if = {
+            limit = { check_variable = { GDP647_growth_base > 0 } }
+            set_variable = { GDP647_faction_growth_yoy = GDP647_growth_sample }
+            divide_variable = { GDP647_faction_growth_yoy = GDP647_growth_base }
+            subtract_from_variable = { GDP647_faction_growth_yoy = 1 }
+            multiply_variable = { GDP647_faction_growth_yoy = 100 }
+            set_variable = { GDP647_faction_growth_yoy_valid = 1 }
+        }
+    }
+    set_variable = { GDP647_faction_growth_history^GDP647_growth_slot = GDP647_growth_sample }
+    add_to_variable = { GDP647_faction_growth_samples = 1 }
+    clamp_variable = { var = GDP647_faction_growth_samples max = 12 }
+    set_variable = { GDP647_faction_growth_last_revision = global.GDP647_published_revision }
+}

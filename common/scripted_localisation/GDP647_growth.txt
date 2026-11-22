@@ -1,0 +1,44 @@
+defined_text = {
+    name = GetGDP647GdpGrowthMom
+    text = {
+        trigger = { check_variable = { GDP647_gdp_growth_mom_valid = 1 } }
+        localization_key = GDP647_GDP_GROWTH_MOM_VALUE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}
+
+defined_text = {
+    name = GetGDP647GdpGrowthYoy
+    text = {
+        trigger = { check_variable = { GDP647_gdp_growth_yoy_valid = 1 } }
+        localization_key = GDP647_GDP_GROWTH_YOY_VALUE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}
+
+defined_text = {
+    name = GetGDP647FactionGrowthMom
+    text = {
+        trigger = { check_variable = { GDP647_faction_growth_mom_valid = 1 } }
+        localization_key = GDP647_FACTION_GROWTH_MOM_VALUE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}
+
+defined_text = {
+    name = GetGDP647FactionGrowthYoy
+    text = {
+        trigger = { check_variable = { GDP647_faction_growth_yoy_valid = 1 } }
+        localization_key = GDP647_FACTION_GROWTH_YOY_VALUE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}
+
+defined_text = {
+    name = GetGDP647LauncherRank
+    text = {
+        trigger = { has_variable = GDP647_launcher_rank }
+        localization_key = GDP647_LAUNCHER_RANK_VALUE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}

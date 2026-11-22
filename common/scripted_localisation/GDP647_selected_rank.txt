@@ -32,7 +32,7 @@ defined_text = {
             check_variable = { GDP647_state_detail_revision_pc_filtered_desc = global.GDP647_published_revision }
             OR = {
                 NOT = { has_variable = GDP647_published_state_population }
-                check_variable = { var = GDP647_published_state_population value = 0.01 compare = greater_than_or_equals }
+                check_variable = { var = GDP647_published_state_population value = 0.025 compare = greater_than_or_equals }
             }
         }
         localization_key = GDP647_STATE_DETAIL_RANK_PC_FILTERED_DESC
@@ -44,7 +44,7 @@ defined_text = {
             check_variable = { GDP647_state_detail_revision_pc_filtered_asc = global.GDP647_published_revision }
             OR = {
                 NOT = { has_variable = GDP647_published_state_population }
-                check_variable = { var = GDP647_published_state_population value = 0.01 compare = greater_than_or_equals }
+                check_variable = { var = GDP647_published_state_population value = 0.025 compare = greater_than_or_equals }
             }
         }
         localization_key = GDP647_STATE_DETAIL_RANK_PC_FILTERED_ASC

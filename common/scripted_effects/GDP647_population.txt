@@ -1,0 +1,105 @@
+# Convert the stored population in thousands to the display unit.
+GDP647_format_state_population = {
+    set_variable = { GDP647_state_population_display = GDP647_state_people_k }
+    if = {
+        limit = { check_variable = { var = GDP647_state_people_k value = 1000000 compare = greater_than_or_equals } }
+        divide_variable = { GDP647_state_population_display = 1000000 }
+    }
+    else_if = {
+        limit = { check_variable = { var = GDP647_state_people_k value = 1000 compare = greater_than_or_equals } }
+        divide_variable = { GDP647_state_population_display = 1000 }
+    }
+    else_if = {
+        limit = { check_variable = { GDP647_state_people_k < 1 } }
+        multiply_variable = { GDP647_state_population_display = 1000 }
+    }
+}
+
+GDP647_format_country_population = {
+    set_variable = { GDP647_country_population_display = GDP647_country_people_k }
+    if = {
+        limit = { check_variable = { var = GDP647_country_people_k value = 1000000 compare = greater_than_or_equals } }
+        divide_variable = { GDP647_country_population_display = 1000000 }
+    }
+    else_if = {
+        limit = { check_variable = { var = GDP647_country_people_k value = 1000 compare = greater_than_or_equals } }
+        divide_variable = { GDP647_country_population_display = 1000 }
+    }
+    else_if = {
+        limit = { check_variable = { GDP647_country_people_k < 1 } }
+        multiply_variable = { GDP647_country_population_display = 1000 }
+    }
+}
+
+GDP647_format_faction_population = {
+    set_variable = { GDP647_faction_population_display = GDP647_faction_people_k }
+    if = {
+        limit = { check_variable = { var = GDP647_faction_people_k value = 1000000 compare = greater_than_or_equals } }
+        divide_variable = { GDP647_faction_population_display = 1000000 }
+    }
+    else_if = {
+        limit = { check_variable = { var = GDP647_faction_people_k value = 1000 compare = greater_than_or_equals } }
+        divide_variable = { GDP647_faction_population_display = 1000 }
+    }
+    else_if = {
+        limit = { check_variable = { GDP647_faction_people_k < 1 } }
+        multiply_variable = { GDP647_faction_population_display = 1000 }
+    }
+}
+
+# Format the latest snapshot when an older save opens the dashboard for the first time.
+GDP647_backfill_population_display = {
+    if = {
+        limit = {
+            has_global_flag = GDP647_ready_v2
+            NOT = { has_global_flag = GDP647_population_display_v2 }
+        }
+        for_each_scope_loop = {
+            array = global.GDP647_states
+            set_variable = { GDP647_state_people_k = GDP647_state_population_10k }
+            multiply_variable = { GDP647_state_people_k = 10 }
+            GDP647_format_state_population = yes
+        }
+        for_each_scope_loop = {
+            array = global.GDP647_countries
+            set_variable = { GDP647_country_people_k = GDP647_country_population_10k }
+            multiply_variable = { GDP647_country_people_k = 10 }
+            GDP647_format_country_population = yes
+        }
+        for_each_scope_loop = {
+            array = global.GDP647_factions
+            set_variable = { GDP647_faction_people_k = GDP647_faction_population_10k }
+            multiply_variable = { GDP647_faction_people_k = 10 }
+            GDP647_format_faction_population = yes
+        }
+        set_global_flag = GDP647_population_display_v2
+    }
+}
+
+# A save written after a failed publish can be marked ready with no usable GDP.
+GDP647_repair_population_update_snapshot = {
+    if = {
+        limit = { NOT = { has_global_flag = GDP647_population_snapshot_checked } }
+        set_global_flag = GDP647_population_snapshot_checked
+        if = {
+            limit = { has_global_flag = GDP647_ready_v2 }
+            set_temp_variable = { GDP647_snapshot_has_gdp = 0 }
+            for_each_scope_loop = {
+                array = global.GDP647_countries
+                if = {
+                    limit = { check_variable = { GDP647_country_gdp > 0 } }
+                    set_temp_variable = { GDP647_snapshot_has_gdp = 1 }
+                }
+            }
+            if = {
+                limit = {
+                    OR = {
+                        check_variable = { GDP647_snapshot_has_gdp = 0 }
+                        NOT = { check_variable = { global.GDP647_states^num > 0 } }
+                    }
+                }
+                random_country = { limit = { exists = yes } GDP647_initialize = yes }
+            }
+        }
+    }
+}

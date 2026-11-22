@@ -1,0 +1,63 @@
+defined_text = {
+    name = GetGDP647CountryPopulation
+    text = {
+        trigger = { check_variable = { var = GDP647_country_people_k value = 1000000 compare = greater_than_or_equals } }
+        localization_key = GDP647_COUNTRY_POPULATION_B
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_country_people_k value = 1000 compare = greater_than_or_equals } }
+        localization_key = GDP647_COUNTRY_POPULATION_M
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_country_people_k value = 1 compare = greater_than_or_equals } }
+        localization_key = GDP647_COUNTRY_POPULATION_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_population_display }
+        localization_key = GDP647_COUNTRY_POPULATION_PEOPLE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}
+
+defined_text = {
+    name = GetGDP647FactionPopulation
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_people_k value = 1000000 compare = greater_than_or_equals } }
+        localization_key = GDP647_FACTION_POPULATION_B
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_people_k value = 1000 compare = greater_than_or_equals } }
+        localization_key = GDP647_FACTION_POPULATION_M
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_people_k value = 1 compare = greater_than_or_equals } }
+        localization_key = GDP647_FACTION_POPULATION_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_population_display }
+        localization_key = GDP647_FACTION_POPULATION_PEOPLE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}
+
+defined_text = {
+    name = GetGDP647StatePopulation
+    text = {
+        trigger = { check_variable = { var = GDP647_state_people_k value = 1000000 compare = greater_than_or_equals } }
+        localization_key = GDP647_STATE_POPULATION_B
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_state_people_k value = 1000 compare = greater_than_or_equals } }
+        localization_key = GDP647_STATE_POPULATION_M
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_state_people_k value = 1 compare = greater_than_or_equals } }
+        localization_key = GDP647_STATE_POPULATION_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_population_display }
+        localization_key = GDP647_STATE_POPULATION_PEOPLE
+    }
+    text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
+}
+

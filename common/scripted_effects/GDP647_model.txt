@@ -806,6 +806,8 @@ else = { set_variable = { GDP647_geo_P5_f_occupied_noncore = 1 } }
 }
 
 GDP647_geo_P5_capture_state = {
+set_variable = { GDP647_capture_controller = PREV.id }
+set_variable = { GDP647_capture_population_k = state_population_k }
 GDP647_geo_v4_read_state = yes
 GDP647_geo_U9_seed = yes
 set_variable = { GDP647_geo_P5_is_core = 0 }
