@@ -34,6 +34,7 @@ GDP647_capture_country = {
 }
 
 GDP647_begin = {
+    GDP647_capture_state_economy_categories = yes
     set_global_flag = GDP647_sampling
     clear_array = global.GDP647_sampled_countries
     set_variable = { global.GDP647_geo_P5_bucket = 0 }

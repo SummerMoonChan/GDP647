@@ -10,6 +10,10 @@ scripted_gui = {
             GDP647_toggle_click = {
                 if = { limit = { has_country_flag = GDP647_open } GDP647_close_dashboard = yes }
                 else = {
+                    if = {
+                        limit = { NOT = { has_global_flag = GDP647_ready_v2 } }
+                        GDP647_initialize = yes
+                    }
                     GDP647_repair_population_update_snapshot = yes
                     GDP647_backfill_population_display = yes
                     set_country_flag = GDP647_open

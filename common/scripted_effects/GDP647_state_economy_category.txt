@@ -1,0 +1,145 @@
+# Parse only the category table for the active map, once per monthly snapshot.
+# Kaiserreich and EOE share a replacement for the vanilla category registry.
+GDP647_capture_state_economy_categories = {
+    if = {
+        limit = {
+            OR = {
+                has_global_flag = EOE_on_startup_completed
+                has_global_flag = on_startup_completed
+            }
+        }
+        meta_effect = {
+            text = {
+                every_state = {
+                    set_variable = { GDP647_geo_city = 1 }
+                    set_variable = { GDP647_geo_urban = 0.25 }
+                    if = {
+                        limit = { has_state_category = one }
+                        set_variable = { GDP647_geo_city = 0.5 }
+                        set_variable = { GDP647_geo_urban = 0.05 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = two }
+                        set_variable = { GDP647_geo_city = 0.7 }
+                        set_variable = { GDP647_geo_urban = 0.10 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = three }
+                        set_variable = { GDP647_geo_city = 0.85 }
+                        set_variable = { GDP647_geo_urban = 0.175 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = four }
+                        set_variable = { GDP647_geo_city = 1 }
+                        set_variable = { GDP647_geo_urban = 0.25 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = five }
+                        set_variable = { GDP647_geo_city = 1.25 }
+                        set_variable = { GDP647_geo_urban = 0.40 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = six }
+                        set_variable = { GDP647_geo_city = 1.6 }
+                        set_variable = { GDP647_geo_urban = 0.60 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = seven }
+                        set_variable = { GDP647_geo_city = 1.8 }
+                        set_variable = { GDP647_geo_urban = 0.675 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = eight }
+                        set_variable = { GDP647_geo_city = 2 }
+                        set_variable = { GDP647_geo_urban = 0.75 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = nine }
+                        set_variable = { GDP647_geo_city = 2.25 }
+                        set_variable = { GDP647_geo_urban = 0.80 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = ten }
+                        set_variable = { GDP647_geo_city = 2.5 }
+                        set_variable = { GDP647_geo_urban = 0.85 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = eleven }
+                        set_variable = { GDP647_geo_city = 2.85 }
+                        set_variable = { GDP647_geo_urban = 0.90 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = twelve }
+                        set_variable = { GDP647_geo_city = 3.2 }
+                        set_variable = { GDP647_geo_urban = 0.95 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = wasteland }
+                        set_variable = { GDP647_geo_city = 0.3 }
+                        set_variable = { GDP647_geo_urban = 0.03 }
+                    }
+                }
+            }
+        }
+    }
+    else = {
+        meta_effect = {
+            text = {
+                every_state = {
+                    set_variable = { GDP647_geo_city = 1 }
+                    set_variable = { GDP647_geo_urban = 0.25 }
+                    if = {
+                        limit = { has_state_category = wasteland }
+                        set_variable = { GDP647_geo_city = 0.3 }
+                        set_variable = { GDP647_geo_urban = 0.03 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = enclave }
+                        set_variable = { GDP647_geo_city = 0.3 }
+                        set_variable = { GDP647_geo_urban = 0.03 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = pastoral }
+                        set_variable = { GDP647_geo_city = 0.5 }
+                        set_variable = { GDP647_geo_urban = 0.05 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = rural }
+                        set_variable = { GDP647_geo_city = 0.7 }
+                        set_variable = { GDP647_geo_urban = 0.1 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = town }
+                        set_variable = { GDP647_geo_city = 1 }
+                        set_variable = { GDP647_geo_urban = 0.25 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = large_town }
+                        set_variable = { GDP647_geo_city = 1.25 }
+                        set_variable = { GDP647_geo_urban = 0.4 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = city }
+                        set_variable = { GDP647_geo_city = 1.6 }
+                        set_variable = { GDP647_geo_urban = 0.6 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = large_city }
+                        set_variable = { GDP647_geo_city = 2 }
+                        set_variable = { GDP647_geo_urban = 0.75 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = metropolis }
+                        set_variable = { GDP647_geo_city = 2.5 }
+                        set_variable = { GDP647_geo_urban = 0.85 }
+                    }
+                    else_if = {
+                        limit = { has_state_category = megalopolis }
+                        set_variable = { GDP647_geo_city = 3.2 }
+                        set_variable = { GDP647_geo_urban = 0.95 }
+                    }
+                }
+            }
+        }
+    }
+}

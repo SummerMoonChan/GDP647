@@ -676,44 +676,6 @@ GDP647_geo_v4_read_state = {
 set_variable = { GDP647_geo_pop = state_population_k }
 divide_variable = { GDP647_geo_pop = 1000 }
 clamp_variable = { var = GDP647_geo_pop min = 0 }
-set_variable = { GDP647_geo_city = 1 }
-set_variable = { GDP647_geo_urban = 0.25 }
-if = { limit = { has_state_category = wasteland }
-set_variable = { GDP647_geo_city = 0.3 }
-set_variable = { GDP647_geo_urban = 0.03 }
-}
-else_if = { limit = { has_state_category = pastoral }
-set_variable = { GDP647_geo_city = 0.5 }
-set_variable = { GDP647_geo_urban = 0.05 }
-}
-else_if = { limit = { has_state_category = rural }
-set_variable = { GDP647_geo_city = 0.7 }
-set_variable = { GDP647_geo_urban = 0.1 }
-}
-else_if = { limit = { has_state_category = town }
-set_variable = { GDP647_geo_city = 1 }
-set_variable = { GDP647_geo_urban = 0.25 }
-}
-else_if = { limit = { has_state_category = large_town }
-set_variable = { GDP647_geo_city = 1.25 }
-set_variable = { GDP647_geo_urban = 0.4 }
-}
-else_if = { limit = { has_state_category = city }
-set_variable = { GDP647_geo_city = 1.6 }
-set_variable = { GDP647_geo_urban = 0.6 }
-}
-else_if = { limit = { has_state_category = large_city }
-set_variable = { GDP647_geo_city = 2 }
-set_variable = { GDP647_geo_urban = 0.75 }
-}
-else_if = { limit = { has_state_category = metropolis }
-set_variable = { GDP647_geo_city = 2.5 }
-set_variable = { GDP647_geo_urban = 0.85 }
-}
-else_if = { limit = { has_state_category = megalopolis }
-set_variable = { GDP647_geo_city = 3.2 }
-set_variable = { GDP647_geo_urban = 0.95 }
-}
 set_variable = { GDP647_geo_infra_level = non_damaged_building_level@infrastructure }
 clamp_variable = { var = GDP647_geo_infra_level min = 0 max = 5 }
 if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 0 } }
