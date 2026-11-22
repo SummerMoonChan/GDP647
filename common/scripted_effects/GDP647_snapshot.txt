@@ -89,6 +89,7 @@ GDP647_publish = {
     for_each_scope_loop = {
         array = global.GDP647_sampled_countries
         GDP647_geo_SA_finish_frozen = yes
+        set_temp_variable = { GDP647_prior_country_gdp = GDP647_country_gdp }
         set_variable = { GDP647_country_gdp = GDP647_geo_P5_next_GDP_total }
         set_variable = { GDP647_published_core_population = GDP647_next_core_population }
         set_variable = { GDP647_published_country_population = 0 }
@@ -109,6 +110,7 @@ GDP647_publish = {
         }
         for_each_scope_loop = {
             array = GDP647_geo_P5_states
+            set_temp_variable = { GDP647_growth_prior_published = GDP647_state_gdp }
             set_variable = { GDP647_state_gdp = GDP647_geo_P5_next_state_total }
             set_variable = { GDP647_state_sector_agriculture = GDP647_geo_agri }
             set_variable = { GDP647_state_sector_civilian = GDP647_geo_civ }
@@ -169,6 +171,7 @@ GDP647_publish = {
         set_variable = { GDP647_country_population_10k = GDP647_published_country_population }
         multiply_variable = { GDP647_country_population_10k = 100 }
         GDP647_format_country_population = yes
+        set_temp_variable = { GDP647_growth_prior_published = GDP647_prior_country_gdp }
         set_temp_variable = { GDP647_growth_sample = GDP647_country_gdp }
         GDP647_record_gdp_growth = yes
         GDP647_format_country_amounts = yes
@@ -179,6 +182,7 @@ GDP647_publish = {
         if = {
             limit = { is_faction_leader = yes }
             add_to_array = { array = global.GDP647_factions }
+            set_temp_variable = { GDP647_growth_prior_published = GDP647_faction_gdp }
             set_variable = { GDP647_faction_gdp = GDP647_country_gdp }
             set_variable = { GDP647_faction_member_count = 1 }
             set_variable = { GDP647_faction_population_10k = GDP647_country_population_10k }

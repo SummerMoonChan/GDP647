@@ -10,7 +10,10 @@ defined_text = {
 defined_text = {
     name = GetGDP647GdpGrowthYoy
     text = {
-        trigger = { check_variable = { GDP647_gdp_growth_yoy_valid = 1 } }
+        trigger = {
+            check_variable = { GDP647_gdp_growth_yoy_valid = 1 }
+            check_variable = { GDP647_gdp_growth_monthly_gdp^num = 12 }
+        }
         localization_key = GDP647_GDP_GROWTH_YOY_VALUE
     }
     text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
@@ -28,7 +31,10 @@ defined_text = {
 defined_text = {
     name = GetGDP647FactionGrowthYoy
     text = {
-        trigger = { check_variable = { GDP647_faction_growth_yoy_valid = 1 } }
+        trigger = {
+            check_variable = { GDP647_faction_growth_yoy_valid = 1 }
+            check_variable = { GDP647_faction_growth_monthly_gdp^num = 12 }
+        }
         localization_key = GDP647_FACTION_GROWTH_YOY_VALUE
     }
     text = { localization_key = GDP647_GROWTH_UNAVAILABLE }
