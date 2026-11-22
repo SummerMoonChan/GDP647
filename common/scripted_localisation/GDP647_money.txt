@@ -1,0 +1,348 @@
+defined_text = {
+    name = GetGDP647MoneyCountryGdp
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_gdp value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_gdp value = -1000 compare = less_than_or_equals } } has_variable = GDP647_country_gdp_compact }
+        localization_key = GDP647_COUNTRY_GDP_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_gdp value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_country_gdp value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_COUNTRY_GDP_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_gdp value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_country_gdp value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_country_gdp_compact }
+        localization_key = GDP647_COUNTRY_GDP_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_gdp_compact }
+        localization_key = GDP647_COUNTRY_GDP_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_COUNTRY_GDP_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyCoreGdpPerCapita
+    text = {
+        trigger = { check_variable = { GDP647_core_gdp_per_capita_compact_unit = 3 } }
+        localization_key = GDP647_CORE_GDP_PER_CAPITA_DISPLAY_B
+    }
+    text = {
+        trigger = { check_variable = { GDP647_core_gdp_per_capita_compact_unit = 2 } }
+        localization_key = GDP647_CORE_GDP_PER_CAPITA_DISPLAY_M
+    }
+    text = {
+        trigger = { check_variable = { GDP647_core_gdp_per_capita_compact_unit = 1 } }
+        localization_key = GDP647_CORE_GDP_PER_CAPITA_DISPLAY_K
+    }
+    text = { localization_key = GDP647_CORE_GDP_PER_CAPITA_DISPLAY_USD }
+}
+
+defined_text = {
+    name = GetGDP647MoneyCountrySectorAgriculture
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_agriculture value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_agriculture value = -1000 compare = less_than_or_equals } } has_variable = GDP647_country_sector_agriculture_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_AGRICULTURE_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_agriculture value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_agriculture value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_COUNTRY_SECTOR_AGRICULTURE_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_agriculture value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_agriculture value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_country_sector_agriculture_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_AGRICULTURE_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_sector_agriculture_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_AGRICULTURE_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_COUNTRY_SECTOR_AGRICULTURE_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyCountrySectorCivilian
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_civilian value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_civilian value = -1000 compare = less_than_or_equals } } has_variable = GDP647_country_sector_civilian_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_CIVILIAN_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_civilian value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_civilian value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_COUNTRY_SECTOR_CIVILIAN_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_civilian value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_civilian value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_country_sector_civilian_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_CIVILIAN_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_sector_civilian_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_CIVILIAN_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_COUNTRY_SECTOR_CIVILIAN_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyCountrySectorMilitary
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_military value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_military value = -1000 compare = less_than_or_equals } } has_variable = GDP647_country_sector_military_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_MILITARY_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_military value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_military value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_COUNTRY_SECTOR_MILITARY_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_military value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_military value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_country_sector_military_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_MILITARY_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_sector_military_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_MILITARY_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_COUNTRY_SECTOR_MILITARY_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyCountrySectorServices
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_services value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_services value = -1000 compare = less_than_or_equals } } has_variable = GDP647_country_sector_services_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_SERVICES_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_services value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_services value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_COUNTRY_SECTOR_SERVICES_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_services value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_services value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_country_sector_services_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_SERVICES_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_sector_services_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_SERVICES_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_COUNTRY_SECTOR_SERVICES_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyCountrySectorResources
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_resources value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_resources value = -1000 compare = less_than_or_equals } } has_variable = GDP647_country_sector_resources_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_RESOURCES_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_resources value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_resources value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_COUNTRY_SECTOR_RESOURCES_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_resources value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_resources value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_country_sector_resources_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_RESOURCES_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_sector_resources_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_RESOURCES_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_COUNTRY_SECTOR_RESOURCES_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyCountrySectorReinvestment
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_reinvestment value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_reinvestment value = -1000 compare = less_than_or_equals } } has_variable = GDP647_country_sector_reinvestment_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_REINVESTMENT_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_reinvestment value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_reinvestment value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_COUNTRY_SECTOR_REINVESTMENT_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_country_sector_reinvestment value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_country_sector_reinvestment value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_country_sector_reinvestment_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_REINVESTMENT_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_country_sector_reinvestment_compact }
+        localization_key = GDP647_COUNTRY_SECTOR_REINVESTMENT_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_COUNTRY_SECTOR_REINVESTMENT_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyFactionGdp
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_gdp value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_gdp value = -1000 compare = less_than_or_equals } } has_variable = GDP647_faction_gdp_compact }
+        localization_key = GDP647_FACTION_GDP_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_gdp value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_gdp value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_FACTION_GDP_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_gdp value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_gdp value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_faction_gdp_compact }
+        localization_key = GDP647_FACTION_GDP_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_gdp_compact }
+        localization_key = GDP647_FACTION_GDP_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_FACTION_GDP_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateGdp
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_gdp value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_gdp value = -1000 compare = less_than_or_equals } } has_variable = GDP647_state_gdp_compact }
+        localization_key = GDP647_STATE_GDP_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_gdp value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_state_gdp value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_STATE_GDP_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_gdp value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_state_gdp value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_state_gdp_compact }
+        localization_key = GDP647_STATE_GDP_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_gdp_compact }
+        localization_key = GDP647_STATE_GDP_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_STATE_GDP_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateGdpPerCapita
+    text = {
+        trigger = { check_variable = { GDP647_state_gdp_per_capita_compact_unit = 3 } }
+        localization_key = GDP647_STATE_GDP_PER_CAPITA_DISPLAY_B
+    }
+    text = {
+        trigger = { check_variable = { GDP647_state_gdp_per_capita_compact_unit = 2 } }
+        localization_key = GDP647_STATE_GDP_PER_CAPITA_DISPLAY_M
+    }
+    text = {
+        trigger = { check_variable = { GDP647_state_gdp_per_capita_compact_unit = 1 } }
+        localization_key = GDP647_STATE_GDP_PER_CAPITA_DISPLAY_K
+    }
+    text = { localization_key = GDP647_STATE_GDP_PER_CAPITA_DISPLAY_USD }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateSectorAgriculture
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_agriculture value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_agriculture value = -1000 compare = less_than_or_equals } } has_variable = GDP647_state_sector_agriculture_compact }
+        localization_key = GDP647_STATE_SECTOR_AGRICULTURE_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_agriculture value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_agriculture value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_STATE_SECTOR_AGRICULTURE_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_agriculture value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_agriculture value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_state_sector_agriculture_compact }
+        localization_key = GDP647_STATE_SECTOR_AGRICULTURE_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_sector_agriculture_compact }
+        localization_key = GDP647_STATE_SECTOR_AGRICULTURE_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_STATE_SECTOR_AGRICULTURE_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateSectorCivilian
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_civilian value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_civilian value = -1000 compare = less_than_or_equals } } has_variable = GDP647_state_sector_civilian_compact }
+        localization_key = GDP647_STATE_SECTOR_CIVILIAN_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_civilian value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_civilian value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_STATE_SECTOR_CIVILIAN_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_civilian value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_civilian value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_state_sector_civilian_compact }
+        localization_key = GDP647_STATE_SECTOR_CIVILIAN_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_sector_civilian_compact }
+        localization_key = GDP647_STATE_SECTOR_CIVILIAN_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_STATE_SECTOR_CIVILIAN_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateSectorMilitary
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_military value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_military value = -1000 compare = less_than_or_equals } } has_variable = GDP647_state_sector_military_compact }
+        localization_key = GDP647_STATE_SECTOR_MILITARY_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_military value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_military value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_STATE_SECTOR_MILITARY_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_military value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_military value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_state_sector_military_compact }
+        localization_key = GDP647_STATE_SECTOR_MILITARY_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_sector_military_compact }
+        localization_key = GDP647_STATE_SECTOR_MILITARY_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_STATE_SECTOR_MILITARY_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateSectorServices
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_services value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_services value = -1000 compare = less_than_or_equals } } has_variable = GDP647_state_sector_services_compact }
+        localization_key = GDP647_STATE_SECTOR_SERVICES_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_services value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_services value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_STATE_SECTOR_SERVICES_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_services value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_services value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_state_sector_services_compact }
+        localization_key = GDP647_STATE_SECTOR_SERVICES_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_sector_services_compact }
+        localization_key = GDP647_STATE_SECTOR_SERVICES_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_STATE_SECTOR_SERVICES_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateSectorResources
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_resources value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_resources value = -1000 compare = less_than_or_equals } } has_variable = GDP647_state_sector_resources_compact }
+        localization_key = GDP647_STATE_SECTOR_RESOURCES_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_resources value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_resources value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_STATE_SECTOR_RESOURCES_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_resources value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_resources value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_state_sector_resources_compact }
+        localization_key = GDP647_STATE_SECTOR_RESOURCES_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_sector_resources_compact }
+        localization_key = GDP647_STATE_SECTOR_RESOURCES_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_STATE_SECTOR_RESOURCES_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyStateSectorReinvestment
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_reinvestment value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_reinvestment value = -1000 compare = less_than_or_equals } } has_variable = GDP647_state_sector_reinvestment_compact }
+        localization_key = GDP647_STATE_SECTOR_REINVESTMENT_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_reinvestment value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_reinvestment value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_STATE_SECTOR_REINVESTMENT_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_state_sector_reinvestment value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_state_sector_reinvestment value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_state_sector_reinvestment_compact }
+        localization_key = GDP647_STATE_SECTOR_REINVESTMENT_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_state_sector_reinvestment_compact }
+        localization_key = GDP647_STATE_SECTOR_REINVESTMENT_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_STATE_SECTOR_REINVESTMENT_DISPLAY_FALLBACK }
+}

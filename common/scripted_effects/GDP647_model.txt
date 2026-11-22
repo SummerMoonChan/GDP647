@@ -1,0 +1,855 @@
+# GDP model and service allocation ported from Global Economy Overview 0.9.6.
+
+GDP647_geo_U9_seed = {
+    if = {
+        limit = { NOT = { has_variable = GDP647_geo_invested_capital_m } }
+        set_variable = { GDP647_geo_invested_capital_m = 0 }
+    }
+    if = {
+        limit = { NOT = { has_variable = GDP647_geo_U9_census_population_m } }
+        set_variable = { GDP647_geo_U9_census_population_m = state_population_k }
+        divide_variable = { GDP647_geo_U9_census_population_m = 1000 }
+        clamp_variable = { var = GDP647_geo_U9_census_population_m min = 0 }
+    }
+}
+
+
+GDP647_geo_U9_operation = {
+set_variable = { GDP647_geo_C92_work_policy = global.GDP647_geo_C92_policy }
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 1 compare = equals } }
+set_variable = { GDP647_geo_C92_work_policy = PREV.GDP647_geo_C92_f_policy }
+}
+set_variable = { GDP647_geo_operation = 1 }
+if = { limit = { OR = { check_variable = { var = GDP647_geo_P5_f_occupied_noncore value = 1 compare = equals } AND = { check_variable = { var = GDP647_geo_C92_is_colony value = 1 compare = equals } check_variable = { var = GDP647_geo_C92_work_policy value = 0 compare = greater_than } } } }
+set_variable = { GDP647_geo_operation = GDP647_geo_P5_f_compliance }
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 0 compare = equals } }
+set_variable = { GDP647_geo_operation = compliance }
+}
+clamp_variable = { var = GDP647_geo_operation min = 0 max = 100 }
+multiply_variable = { GDP647_geo_operation = global.GDP647_geo_U9_p_occupation_compliance }
+add_to_variable = { GDP647_geo_operation = global.GDP647_geo_U9_p_occupation_base }
+clamp_variable = { var = GDP647_geo_operation min = global.GDP647_geo_U9_p_occupation_base max = global.GDP647_geo_U9_p_occupation_ceiling }
+}
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 1 compare = equals } check_variable = { var = GDP647_geo_C92_work_policy value = 0 compare = greater_than } }
+set_variable = { GDP647_geo_operation = GDP647_geo_C92_f_operation }
+}
+}
+
+GDP647_geo_U9_productivity = {
+set_variable = { GDP647_geo_v4_productivity = modifier@industrial_capacity_factory }
+add_to_variable = { GDP647_geo_v4_productivity = 1 }
+clamp_variable = { var = GDP647_geo_v4_productivity min = global.GDP647_geo_U9_p_productivity_floor max = global.GDP647_geo_U9_p_productivity_ceiling }
+}
+
+GDP647_geo_U9_read_resources = {
+set_variable = { GDP647_geo_U9_resource_raw_m = 0 }
+set_variable = { GDP647_geo_resource_part = resource@coal }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_coal }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = resource@oil }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_oil }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = resource@steel }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_steel }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = resource@aluminium }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_aluminium }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = resource@rubber }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_rubber }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = resource@tungsten }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_tungsten }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = resource@chromium }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_chromium }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+}
+
+GDP647_geo_U9_capture_resources = {
+set_variable = { GDP647_geo_U9_resource_raw_m = 0 }
+if = { limit = { OR = { check_variable = { var = GDP647_geo_P5_f_resource_coal value = 0 compare = greater_than } check_variable = { var = GDP647_geo_P5_f_resource_oil value = 0 compare = greater_than } check_variable = { var = GDP647_geo_P5_f_resource_steel value = 0 compare = greater_than } check_variable = { var = GDP647_geo_P5_f_resource_aluminium value = 0 compare = greater_than } check_variable = { var = GDP647_geo_P5_f_resource_rubber value = 0 compare = greater_than } check_variable = { var = GDP647_geo_P5_f_resource_tungsten value = 0 compare = greater_than } check_variable = { var = GDP647_geo_P5_f_resource_chromium value = 0 compare = greater_than } } }
+set_variable = { GDP647_geo_resource_part = GDP647_geo_P5_f_resource_coal }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_coal }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = GDP647_geo_P5_f_resource_oil }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_oil }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = GDP647_geo_P5_f_resource_steel }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_steel }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = GDP647_geo_P5_f_resource_aluminium }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_aluminium }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = GDP647_geo_P5_f_resource_rubber }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_rubber }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = GDP647_geo_P5_f_resource_tungsten }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_tungsten }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+set_variable = { GDP647_geo_resource_part = GDP647_geo_P5_f_resource_chromium }
+clamp_variable = { var = GDP647_geo_resource_part min = 0 }
+multiply_variable = { GDP647_geo_resource_part = global.GDP647_geo_U9_p_resource_chromium }
+add_to_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_resource_part }
+}
+set_variable = { GDP647_geo_U9_f_resource_raw_m = GDP647_geo_U9_resource_raw_m }
+}
+
+GDP647_geo_U9_reset_frozen = {
+set_variable = { GDP647_geo_U9_frozen_core_population = 0 }
+set_variable = { GDP647_geo_U9_frozen_core_infrastructure = 0 }
+set_variable = { GDP647_geo_U9_frozen_core_urban = 0 }
+set_variable = { GDP647_geo_U9_frozen_core_civil = 0 }
+set_variable = { GDP647_geo_U9_frozen_core_capacity = 0 }
+set_variable = { GDP647_geo_U9_frozen_core_resource = 0 }
+set_variable = { GDP647_geo_U9_frozen_other_population = 0 }
+set_variable = { GDP647_geo_U9_frozen_other_infrastructure = 0 }
+set_variable = { GDP647_geo_U9_frozen_other_urban = 0 }
+set_variable = { GDP647_geo_U9_frozen_other_civil = 0 }
+set_variable = { GDP647_geo_U9_frozen_other_capacity = 0 }
+set_variable = { GDP647_geo_U9_frozen_other_resource = 0 }
+}
+
+GDP647_geo_U9_collect_frozen = {
+if = { limit = { is_core_of = PREV }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_population = GDP647_geo_U9_census_population_m }
+set_variable = { GDP647_geo_U9_part = GDP647_geo_U9_census_population_m }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_infra_level }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_infrastructure = GDP647_geo_U9_part }
+set_variable = { GDP647_geo_U9_part = GDP647_geo_U9_census_population_m }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_urban }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_urban = GDP647_geo_U9_part }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_civil = GDP647_geo_civ_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_capacity = GDP647_geo_civ_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_capacity = GDP647_geo_mil_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_capacity = GDP647_geo_dock_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_core_resource = GDP647_geo_U9_resource_raw_m }
+}
+else = {
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_population = GDP647_geo_U9_census_population_m }
+set_variable = { GDP647_geo_U9_part = GDP647_geo_U9_census_population_m }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_infra_level }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_infrastructure = GDP647_geo_U9_part }
+set_variable = { GDP647_geo_U9_part = GDP647_geo_U9_census_population_m }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_urban }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_urban = GDP647_geo_U9_part }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_civil = GDP647_geo_civ_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_capacity = GDP647_geo_civ_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_capacity = GDP647_geo_mil_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_capacity = GDP647_geo_dock_count }
+add_to_variable = { PREV.GDP647_geo_U9_frozen_other_resource = GDP647_geo_U9_resource_raw_m }
+}
+}
+
+GDP647_geo_U9_prepare_frozen = {
+if = { limit = { OR = { check_variable = { var = GDP647_geo_U9_frozen_core_population value = 0 compare = greater_than } check_variable = { var = GDP647_geo_U9_frozen_core_capacity value = 0 compare = greater_than } check_variable = { var = GDP647_geo_U9_frozen_core_resource value = 0 compare = greater_than } } }
+set_variable = { GDP647_geo_U9_population = GDP647_geo_U9_frozen_core_population }
+clamp_variable = { var = GDP647_geo_U9_population min = global.GDP647_geo_U9_p_population_floor }
+set_variable = { GDP647_geo_U9_infrastructure = GDP647_geo_U9_frozen_core_infrastructure }
+divide_variable = { GDP647_geo_U9_infrastructure = GDP647_geo_U9_population }
+add_to_variable = { GDP647_geo_U9_infrastructure = global.GDP647_geo_U9_p_infrastructure_offset }
+divide_variable = { GDP647_geo_U9_infrastructure = global.GDP647_geo_U9_p_infrastructure_divisor }
+clamp_variable = { var = GDP647_geo_U9_infrastructure min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_urban = GDP647_geo_U9_frozen_core_urban }
+divide_variable = { GDP647_geo_U9_urban = GDP647_geo_U9_population }
+clamp_variable = { var = GDP647_geo_U9_urban min = 0 max = 1 }
+add_to_variable = { GDP647_geo_U9_urban = global.GDP647_geo_U9_p_urban_offset }
+set_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_frozen_core_resource }
+divide_variable = { GDP647_geo_U9_resource_density = global.GDP647_geo_U9_p_resource_capacity_cost }
+divide_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_population }
+set_variable = { GDP647_geo_U9_density = GDP647_geo_U9_frozen_core_capacity }
+divide_variable = { GDP647_geo_U9_density = GDP647_geo_U9_population }
+add_to_variable = { GDP647_geo_U9_density = GDP647_geo_U9_resource_density }
+set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_density }
+add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
+divide_variable = { GDP647_geo_U9_density = GDP647_geo_U9_denom }
+clamp_variable = { var = GDP647_geo_U9_density min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_resource_density }
+add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
+divide_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_denom }
+clamp_variable = { var = GDP647_geo_U9_resource_density min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_frozen_core_civil }
+set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_frozen_core_civil }
+add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_cluster_half }
+divide_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_denom }
+clamp_variable = { var = GDP647_geo_U9_cluster min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = global.GDP647_geo_U9_p_agriculture_gain }
+multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_resource_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_resource_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_infrastructure }
+multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_infrastructure }
+multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_infrastructure }
+add_to_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = global.GDP647_geo_U9_p_agriculture_floor }
+set_variable = { GDP647_geo_U9_frozen_core_modern_unit = global.GDP647_geo_U9_p_civil_unit }
+set_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_modern_floor }
+multiply_variable = { GDP647_geo_U9_part = -1 }
+add_to_variable = { GDP647_geo_U9_part = 1 }
+multiply_variable = { GDP647_geo_U9_frozen_core_modern_unit = GDP647_geo_U9_part }
+multiply_variable = { GDP647_geo_U9_frozen_core_modern_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_modern_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_modern_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_modern_unit = GDP647_geo_U9_cluster }
+multiply_variable = { GDP647_geo_U9_frozen_core_modern_unit = GDP647_geo_U9_cluster }
+set_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_civil_unit }
+multiply_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_modern_floor }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_U9_cluster }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_U9_cluster }
+add_to_variable = { GDP647_geo_U9_frozen_core_modern_unit = GDP647_geo_U9_part }
+set_variable = { GDP647_geo_U9_frozen_core_service_unit = global.GDP647_geo_U9_p_service_gain }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_urban }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_infrastructure }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_cluster }
+multiply_variable = { GDP647_geo_U9_frozen_core_service_unit = GDP647_geo_U9_cluster }
+add_to_variable = { GDP647_geo_U9_frozen_core_service_unit = global.GDP647_geo_U9_p_service_floor }
+}
+else = {
+set_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = global.GDP647_geo_U9_p_agriculture_floor }
+set_variable = { GDP647_geo_U9_frozen_core_modern_unit = 0 }
+set_variable = { GDP647_geo_U9_frozen_core_service_unit = global.GDP647_geo_U9_p_service_floor }
+}
+if = { limit = { OR = { check_variable = { var = GDP647_geo_U9_frozen_other_population value = 0 compare = greater_than } check_variable = { var = GDP647_geo_U9_frozen_other_capacity value = 0 compare = greater_than } check_variable = { var = GDP647_geo_U9_frozen_other_resource value = 0 compare = greater_than } } }
+set_variable = { GDP647_geo_U9_population = GDP647_geo_U9_frozen_other_population }
+clamp_variable = { var = GDP647_geo_U9_population min = global.GDP647_geo_U9_p_population_floor }
+set_variable = { GDP647_geo_U9_infrastructure = GDP647_geo_U9_frozen_other_infrastructure }
+divide_variable = { GDP647_geo_U9_infrastructure = GDP647_geo_U9_population }
+add_to_variable = { GDP647_geo_U9_infrastructure = global.GDP647_geo_U9_p_infrastructure_offset }
+divide_variable = { GDP647_geo_U9_infrastructure = global.GDP647_geo_U9_p_infrastructure_divisor }
+clamp_variable = { var = GDP647_geo_U9_infrastructure min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_urban = GDP647_geo_U9_frozen_other_urban }
+divide_variable = { GDP647_geo_U9_urban = GDP647_geo_U9_population }
+clamp_variable = { var = GDP647_geo_U9_urban min = 0 max = 1 }
+add_to_variable = { GDP647_geo_U9_urban = global.GDP647_geo_U9_p_urban_offset }
+set_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_frozen_other_resource }
+divide_variable = { GDP647_geo_U9_resource_density = global.GDP647_geo_U9_p_resource_capacity_cost }
+divide_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_population }
+set_variable = { GDP647_geo_U9_density = GDP647_geo_U9_frozen_other_capacity }
+divide_variable = { GDP647_geo_U9_density = GDP647_geo_U9_population }
+add_to_variable = { GDP647_geo_U9_density = GDP647_geo_U9_resource_density }
+set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_density }
+add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
+divide_variable = { GDP647_geo_U9_density = GDP647_geo_U9_denom }
+clamp_variable = { var = GDP647_geo_U9_density min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_resource_density }
+add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
+divide_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_denom }
+clamp_variable = { var = GDP647_geo_U9_resource_density min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_frozen_other_civil }
+set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_frozen_other_civil }
+add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_cluster_half }
+divide_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_denom }
+clamp_variable = { var = GDP647_geo_U9_cluster min = 0 max = 1 }
+set_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = global.GDP647_geo_U9_p_agriculture_gain }
+multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_resource_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_resource_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_infrastructure }
+multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_infrastructure }
+multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_infrastructure }
+add_to_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = global.GDP647_geo_U9_p_agriculture_floor }
+set_variable = { GDP647_geo_U9_frozen_other_modern_unit = global.GDP647_geo_U9_p_civil_unit }
+set_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_modern_floor }
+multiply_variable = { GDP647_geo_U9_part = -1 }
+add_to_variable = { GDP647_geo_U9_part = 1 }
+multiply_variable = { GDP647_geo_U9_frozen_other_modern_unit = GDP647_geo_U9_part }
+multiply_variable = { GDP647_geo_U9_frozen_other_modern_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_modern_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_modern_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_modern_unit = GDP647_geo_U9_cluster }
+multiply_variable = { GDP647_geo_U9_frozen_other_modern_unit = GDP647_geo_U9_cluster }
+set_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_civil_unit }
+multiply_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_modern_floor }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_U9_cluster }
+multiply_variable = { GDP647_geo_U9_part = GDP647_geo_U9_cluster }
+add_to_variable = { GDP647_geo_U9_frozen_other_modern_unit = GDP647_geo_U9_part }
+set_variable = { GDP647_geo_U9_frozen_other_service_unit = global.GDP647_geo_U9_p_service_gain }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_density }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_urban }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_infrastructure }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_cluster }
+multiply_variable = { GDP647_geo_U9_frozen_other_service_unit = GDP647_geo_U9_cluster }
+add_to_variable = { GDP647_geo_U9_frozen_other_service_unit = global.GDP647_geo_U9_p_service_floor }
+}
+else = {
+set_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = global.GDP647_geo_U9_p_agriculture_floor }
+set_variable = { GDP647_geo_U9_frozen_other_modern_unit = 0 }
+set_variable = { GDP647_geo_U9_frozen_other_service_unit = global.GDP647_geo_U9_p_service_floor }
+}
+}
+
+GDP647_geo_U9_output = {
+GDP647_geo_U9_seed = yes
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 1 compare = equals } }
+set_variable = { GDP647_geo_pop = GDP647_geo_U9_f_pop }
+set_variable = { GDP647_geo_urban = GDP647_geo_U9_f_urban }
+set_variable = { GDP647_geo_transport = GDP647_geo_U9_f_transport }
+set_variable = { GDP647_geo_civ_count = GDP647_geo_U9_f_civ_count }
+set_variable = { GDP647_geo_mil_count = GDP647_geo_U9_f_mil_count }
+set_variable = { GDP647_geo_dock_count = GDP647_geo_U9_f_dock_count }
+set_variable = { GDP647_geo_industry_available = GDP647_geo_U9_f_industry_available }
+set_variable = { GDP647_geo_P5_f_occupied_noncore = GDP647_geo_U9_f_P5_f_occupied_noncore }
+set_variable = { GDP647_geo_U9_resource_raw_m = GDP647_geo_U9_f_resource_raw_m }
+set_variable = { GDP647_geo_C92_is_colony = GDP647_geo_C92_f_is_colony }
+
+}
+else = { GDP647_geo_U9_read_resources = yes }
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 0 compare = equals } }
+if = { limit = { is_core_of = PREV }
+set_variable = { GDP647_geo_U9_agriculture_unit = PREV.GDP647_geo_U9_live_core_agriculture_unit }
+set_variable = { GDP647_geo_U9_modern_unit = PREV.GDP647_geo_U9_live_core_modern_unit }
+set_variable = { GDP647_geo_U9_service_unit = PREV.GDP647_geo_U9_live_core_service_unit }
+}
+else = {
+set_variable = { GDP647_geo_U9_agriculture_unit = PREV.GDP647_geo_U9_live_other_agriculture_unit }
+set_variable = { GDP647_geo_U9_modern_unit = PREV.GDP647_geo_U9_live_other_modern_unit }
+set_variable = { GDP647_geo_U9_service_unit = PREV.GDP647_geo_U9_live_other_service_unit }
+}
+set_variable = { GDP647_geo_U9_productivity = PREV.GDP647_geo_v4_productivity }
+}
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 1 compare = equals } }
+if = { limit = { check_variable = { var = GDP647_geo_P5_is_core value = 1 compare = equals } }
+set_variable = { GDP647_geo_U9_agriculture_unit = PREV.GDP647_geo_U9_frozen_core_agriculture_unit }
+set_variable = { GDP647_geo_U9_modern_unit = PREV.GDP647_geo_U9_frozen_core_modern_unit }
+set_variable = { GDP647_geo_U9_service_unit = PREV.GDP647_geo_U9_frozen_core_service_unit }
+}
+else = {
+set_variable = { GDP647_geo_U9_agriculture_unit = PREV.GDP647_geo_U9_frozen_other_agriculture_unit }
+set_variable = { GDP647_geo_U9_modern_unit = PREV.GDP647_geo_U9_frozen_other_modern_unit }
+set_variable = { GDP647_geo_U9_service_unit = PREV.GDP647_geo_U9_frozen_other_service_unit }
+}
+set_variable = { GDP647_geo_U9_productivity = PREV.GDP647_geo_U9_f_productivity }
+}
+GDP647_geo_U9_operation = yes
+
+set_variable = { GDP647_geo_U9_rural_population = GDP647_geo_urban }
+multiply_variable = { GDP647_geo_U9_rural_population = -1 }
+add_to_variable = { GDP647_geo_U9_rural_population = 1 }
+multiply_variable = { GDP647_geo_U9_rural_population = GDP647_geo_pop }
+set_variable = { GDP647_geo_agri = GDP647_geo_U9_rural_population }
+multiply_variable = { GDP647_geo_agri = GDP647_geo_U9_agriculture_unit }
+set_variable = { GDP647_geo_basic = GDP647_geo_U9_rural_population }
+multiply_variable = { GDP647_geo_basic = global.GDP647_geo_U9_p_traditional_unit }
+multiply_variable = { GDP647_geo_basic = GDP647_geo_transport }
+set_variable = { GDP647_geo_civ = GDP647_geo_civ_count }
+multiply_variable = { GDP647_geo_civ = GDP647_geo_U9_modern_unit }
+multiply_variable = { GDP647_geo_civ = GDP647_geo_transport }
+multiply_variable = { GDP647_geo_civ = GDP647_geo_U9_productivity }
+set_variable = { GDP647_geo_mil = GDP647_geo_mil_count }
+multiply_variable = { GDP647_geo_mil = GDP647_geo_U9_modern_unit }
+multiply_variable = { GDP647_geo_mil = GDP647_geo_transport }
+multiply_variable = { GDP647_geo_mil = GDP647_geo_U9_productivity }
+multiply_variable = { GDP647_geo_mil = global.GDP647_geo_U9_p_military_relative_unit }
+set_variable = { GDP647_geo_dock = GDP647_geo_dock_count }
+multiply_variable = { GDP647_geo_dock = GDP647_geo_U9_modern_unit }
+multiply_variable = { GDP647_geo_dock = GDP647_geo_transport }
+multiply_variable = { GDP647_geo_dock = GDP647_geo_U9_productivity }
+multiply_variable = { GDP647_geo_dock = global.GDP647_geo_U9_p_dockyard_relative_unit }
+set_variable = { GDP647_geo_service = GDP647_geo_pop }
+multiply_variable = { GDP647_geo_service = GDP647_geo_U9_service_unit }
+GDP647_geo_SA_allocate = yes
+set_variable = { GDP647_geo_population_potential = GDP647_geo_agri }
+add_to_variable = { GDP647_geo_population_potential = GDP647_geo_basic }
+add_to_variable = { GDP647_geo_population_potential = GDP647_geo_service }
+set_variable = { GDP647_geo_support = 0 }
+set_variable = { GDP647_geo_industry_potential = GDP647_geo_civ }
+add_to_variable = { GDP647_geo_industry_potential = GDP647_geo_mil }
+add_to_variable = { GDP647_geo_industry_potential = GDP647_geo_dock }
+multiply_variable = { GDP647_geo_agri = GDP647_geo_operation }
+multiply_variable = { GDP647_geo_basic = GDP647_geo_operation }
+multiply_variable = { GDP647_geo_service = GDP647_geo_operation }
+multiply_variable = { GDP647_geo_civ = GDP647_geo_industry_available }
+multiply_variable = { GDP647_geo_mil = GDP647_geo_industry_available }
+multiply_variable = { GDP647_geo_dock = GDP647_geo_industry_available }
+set_variable = { GDP647_geo_resources = GDP647_geo_U9_resource_raw_m }
+multiply_variable = { GDP647_geo_resources = global.GDP647_geo_U9_p_mining_scale }
+set_variable = { GDP647_geo_C92_resource_potential = GDP647_geo_resources }
+if = { limit = { check_variable = { var = GDP647_geo_C92_is_colony value = 1 compare = equals } check_variable = { var = GDP647_geo_C92_work_policy value = 0 compare = greater_than } }
+multiply_variable = { GDP647_geo_civ = GDP647_geo_operation }
+multiply_variable = { GDP647_geo_mil = GDP647_geo_operation }
+multiply_variable = { GDP647_geo_dock = GDP647_geo_operation }
+multiply_variable = { GDP647_geo_resources = GDP647_geo_operation }
+}
+set_variable = { GDP647_geo_cic_base = GDP647_geo_civ }
+add_to_variable = { GDP647_geo_civ = GDP647_geo_dock }
+add_to_variable = { GDP647_geo_civ = GDP647_geo_basic }
+}
+
+GDP647_geo_SA_make_index = {
+if = { limit = { OR = { NOT = { check_variable = { var = GDP647_geo_SA_cached_urban value = GDP647_geo_urban compare = equals } } NOT = { check_variable = { var = GDP647_geo_SA_cached_infra_level value = GDP647_geo_infra_level compare = equals } } NOT = { check_variable = { var = GDP647_geo_SA_cached_port_level value = GDP647_geo_port_level compare = equals } } NOT = { check_variable = { var = GDP647_geo_SA_cached_civ_count value = GDP647_geo_civ_count compare = equals } } NOT = { check_variable = { var = GDP647_geo_SA_cached_mil_count value = GDP647_geo_mil_count compare = equals } } NOT = { check_variable = { var = GDP647_geo_SA_cached_dock_count value = GDP647_geo_dock_count compare = equals } } NOT = { check_variable = { var = GDP647_geo_SA_cached_census value = GDP647_geo_U9_census_population_m compare = equals } } NOT = { check_variable = { var = GDP647_geo_SA_cached_epoch value = global.GDP647_geo_SA_parameter_epoch compare = equals } } } }
+set_variable = { GDP647_geo_SA_index = GDP647_geo_urban }
+add_to_variable = { GDP647_geo_SA_index = global.GDP647_geo_U9_p_urban_offset }
+set_variable = { GDP647_geo_SA_part = GDP647_geo_SA_index }
+multiply_variable = { GDP647_geo_SA_index = GDP647_geo_SA_part }
+multiply_variable = { GDP647_geo_SA_index = GDP647_geo_SA_part }
+set_variable = { GDP647_geo_SA_part = GDP647_geo_infra_level }
+multiply_variable = { GDP647_geo_SA_part = global.GDP647_geo_SA_p_infrastructure_step }
+add_to_variable = { GDP647_geo_SA_part = global.GDP647_geo_SA_p_infrastructure_base }
+multiply_variable = { GDP647_geo_SA_index = GDP647_geo_SA_part }
+set_variable = { GDP647_geo_SA_part = GDP647_geo_port_level }
+multiply_variable = { GDP647_geo_SA_part = global.GDP647_geo_SA_p_port_step }
+add_to_variable = { GDP647_geo_SA_part = 1 }
+multiply_variable = { GDP647_geo_SA_index = GDP647_geo_SA_part }
+set_variable = { GDP647_geo_SA_density = GDP647_geo_dock_count }
+multiply_variable = { GDP647_geo_SA_density = global.GDP647_geo_U9_p_dockyard_relative_unit }
+add_to_variable = { GDP647_geo_SA_density = GDP647_geo_civ_count }
+add_to_variable = { GDP647_geo_SA_density = GDP647_geo_mil_count }
+set_variable = { GDP647_geo_SA_population = GDP647_geo_U9_census_population_m }
+clamp_variable = { var = GDP647_geo_SA_population min = global.GDP647_geo_U9_p_population_floor }
+divide_variable = { GDP647_geo_SA_density = GDP647_geo_SA_population }
+set_variable = { GDP647_geo_SA_part = GDP647_geo_SA_density }
+add_to_variable = { GDP647_geo_SA_part = global.GDP647_geo_SA_p_industry_half }
+divide_variable = { GDP647_geo_SA_density = GDP647_geo_SA_part }
+multiply_variable = { GDP647_geo_SA_density = global.GDP647_geo_SA_p_industry_gain }
+add_to_variable = { GDP647_geo_SA_density = 1 }
+multiply_variable = { GDP647_geo_SA_index = GDP647_geo_SA_density }
+set_variable = { GDP647_geo_SA_cached_index = GDP647_geo_SA_index }
+set_variable = { GDP647_geo_SA_cached_urban = GDP647_geo_urban }
+set_variable = { GDP647_geo_SA_cached_infra_level = GDP647_geo_infra_level }
+set_variable = { GDP647_geo_SA_cached_port_level = GDP647_geo_port_level }
+set_variable = { GDP647_geo_SA_cached_civ_count = GDP647_geo_civ_count }
+set_variable = { GDP647_geo_SA_cached_mil_count = GDP647_geo_mil_count }
+set_variable = { GDP647_geo_SA_cached_dock_count = GDP647_geo_dock_count }
+set_variable = { GDP647_geo_SA_cached_census = GDP647_geo_U9_census_population_m }
+set_variable = { GDP647_geo_SA_cached_epoch = global.GDP647_geo_SA_parameter_epoch }
+}
+set_variable = { GDP647_geo_SA_index = GDP647_geo_SA_cached_index }
+}
+
+GDP647_geo_SA_parameter_epoch = {
+if = { limit = { OR = { NOT = { check_variable = { var = global.GDP647_geo_SA_previous_0 value = global.GDP647_geo_SA_p_infrastructure_base compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_1 value = global.GDP647_geo_SA_p_infrastructure_step compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_2 value = global.GDP647_geo_SA_p_port_step compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_3 value = global.GDP647_geo_SA_p_industry_gain compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_4 value = global.GDP647_geo_SA_p_industry_half compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_5 value = global.GDP647_geo_SA_p_index_shape compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_6 value = global.GDP647_geo_SA_p_basic_share compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_7 value = global.GDP647_geo_SA_p_cluster_share compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_8 value = global.GDP647_geo_U9_p_urban_offset compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_9 value = global.GDP647_geo_U9_p_dockyard_relative_unit compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_10 value = global.GDP647_geo_U9_p_population_floor compare = equals } } NOT = { check_variable = { var = global.GDP647_geo_SA_previous_11 value = global.GDP647_geo_SA_p_support_share compare = equals } } } }
+add_to_variable = { global.GDP647_geo_SA_parameter_epoch = 1 }
+set_variable = { global.GDP647_geo_SA_previous_0 = global.GDP647_geo_SA_p_infrastructure_base }
+set_variable = { global.GDP647_geo_SA_previous_1 = global.GDP647_geo_SA_p_infrastructure_step }
+set_variable = { global.GDP647_geo_SA_previous_2 = global.GDP647_geo_SA_p_port_step }
+set_variable = { global.GDP647_geo_SA_previous_3 = global.GDP647_geo_SA_p_industry_gain }
+set_variable = { global.GDP647_geo_SA_previous_4 = global.GDP647_geo_SA_p_industry_half }
+set_variable = { global.GDP647_geo_SA_previous_5 = global.GDP647_geo_SA_p_index_shape }
+set_variable = { global.GDP647_geo_SA_previous_6 = global.GDP647_geo_SA_p_basic_share }
+set_variable = { global.GDP647_geo_SA_previous_7 = global.GDP647_geo_SA_p_cluster_share }
+set_variable = { global.GDP647_geo_SA_previous_8 = global.GDP647_geo_U9_p_urban_offset }
+set_variable = { global.GDP647_geo_SA_previous_9 = global.GDP647_geo_U9_p_dockyard_relative_unit }
+set_variable = { global.GDP647_geo_SA_previous_10 = global.GDP647_geo_U9_p_population_floor }
+set_variable = { global.GDP647_geo_SA_previous_11 = global.GDP647_geo_SA_p_support_share }
+}
+}
+
+GDP647_geo_SA_reset_frozen = {
+set_variable = { GDP647_geo_SA_frozen_active = 1 }
+set_variable = { GDP647_geo_SA_frozen_finished = 0 }
+set_variable = { GDP647_geo_SA_frozen_policy_epoch = global.GDP647_geo_SA_parameter_epoch }
+set_variable = { GDP647_geo_SA_frozen_support_share = global.GDP647_geo_SA_p_support_share }
+clamp_variable = { var = GDP647_geo_SA_frozen_support_share min = 0 max = 1 }
+set_variable = { GDP647_geo_SA_frozen_support_traditional_unit = global.GDP647_geo_U9_p_traditional_unit }
+set_variable = { GDP647_geo_SA_frozen_basic_share = global.GDP647_geo_SA_p_basic_share }
+set_variable = { GDP647_geo_SA_frozen_cluster_share = global.GDP647_geo_SA_p_cluster_share }
+set_variable = { GDP647_geo_SA_frozen_core_population = 0 }
+set_variable = { GDP647_geo_SA_frozen_core_rural_transport = 0 }
+set_variable = { GDP647_geo_SA_frozen_core_weight = 0 }
+set_variable = { GDP647_geo_SA_frozen_core_maximum = 0 }
+set_variable = { GDP647_geo_SA_frozen_core_target = 0 }
+set_variable = { GDP647_geo_SA_frozen_core_allocated = 0 }
+clear_array = GDP647_geo_SA_frozen_core_winner
+set_variable = { GDP647_geo_SA_frozen_other_population = 0 }
+set_variable = { GDP647_geo_SA_frozen_other_rural_transport = 0 }
+set_variable = { GDP647_geo_SA_frozen_other_weight = 0 }
+set_variable = { GDP647_geo_SA_frozen_other_maximum = 0 }
+set_variable = { GDP647_geo_SA_frozen_other_target = 0 }
+set_variable = { GDP647_geo_SA_frozen_other_allocated = 0 }
+clear_array = GDP647_geo_SA_frozen_other_winner
+}
+
+GDP647_geo_SA_capture_frozen = {
+set_variable = { GDP647_geo_U9_frozen = 0 }
+GDP647_geo_U9_operation = yes
+GDP647_geo_SA_make_index = yes
+set_variable = { GDP647_geo_SA_frozen_operation = GDP647_geo_operation }
+set_variable = { GDP647_geo_SA_frozen_index = GDP647_geo_SA_index }
+set_variable = { GDP647_geo_SA_effective_population = GDP647_geo_pop }
+multiply_variable = { GDP647_geo_SA_effective_population = GDP647_geo_operation }
+set_variable = { GDP647_geo_SA_rural_transport = GDP647_geo_urban }
+multiply_variable = { GDP647_geo_SA_rural_transport = -1 }
+add_to_variable = { GDP647_geo_SA_rural_transport = 1 }
+multiply_variable = { GDP647_geo_SA_rural_transport = GDP647_geo_SA_effective_population }
+multiply_variable = { GDP647_geo_SA_rural_transport = GDP647_geo_transport }
+set_variable = { GDP647_geo_SA_weight = GDP647_geo_SA_effective_population }
+multiply_variable = { GDP647_geo_SA_weight = GDP647_geo_SA_index }
+if = { limit = { is_core_of = PREV }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_core_population = GDP647_geo_SA_effective_population }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_core_rural_transport = GDP647_geo_SA_rural_transport }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_core_weight = GDP647_geo_SA_weight }
+if = { limit = { check_variable = { var = GDP647_geo_SA_weight value = PREV.GDP647_geo_SA_frozen_core_maximum compare = greater_than } }
+set_variable = { PREV.GDP647_geo_SA_frozen_core_maximum = GDP647_geo_SA_weight }
+clear_array = PREV.GDP647_geo_SA_frozen_core_winner
+add_to_array = { array = PREV.GDP647_geo_SA_frozen_core_winner }
+}
+}
+else = {
+add_to_variable = { PREV.GDP647_geo_SA_frozen_other_population = GDP647_geo_SA_effective_population }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_other_rural_transport = GDP647_geo_SA_rural_transport }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_other_weight = GDP647_geo_SA_weight }
+if = { limit = { check_variable = { var = GDP647_geo_SA_weight value = PREV.GDP647_geo_SA_frozen_other_maximum compare = greater_than } }
+set_variable = { PREV.GDP647_geo_SA_frozen_other_maximum = GDP647_geo_SA_weight }
+clear_array = PREV.GDP647_geo_SA_frozen_other_winner
+add_to_array = { array = PREV.GDP647_geo_SA_frozen_other_winner }
+}
+}
+}
+
+GDP647_geo_SA_prepare_frozen = {
+set_variable = { GDP647_geo_SA_frozen_core_normalizer = 1 }
+if = { limit = { check_variable = { var = GDP647_geo_SA_frozen_core_weight value = 0 compare = greater_than } }
+set_variable = { GDP647_geo_SA_frozen_core_normalizer = GDP647_geo_SA_frozen_core_population }
+divide_variable = { GDP647_geo_SA_frozen_core_normalizer = GDP647_geo_SA_frozen_core_weight }
+}
+set_variable = { GDP647_geo_SA_frozen_other_normalizer = 1 }
+if = { limit = { check_variable = { var = GDP647_geo_SA_frozen_other_weight value = 0 compare = greater_than } }
+set_variable = { GDP647_geo_SA_frozen_other_normalizer = GDP647_geo_SA_frozen_other_population }
+divide_variable = { GDP647_geo_SA_frozen_other_normalizer = GDP647_geo_SA_frozen_other_weight }
+}
+set_variable = { GDP647_geo_SA_frozen_core_support_unit = 0 }
+if = { limit = { check_variable = { var = GDP647_geo_SA_frozen_core_population value = 0 compare = greater_than } }
+set_variable = { GDP647_geo_SA_frozen_core_support_unit = GDP647_geo_SA_frozen_core_rural_transport }
+multiply_variable = { GDP647_geo_SA_frozen_core_support_unit = GDP647_geo_SA_frozen_support_traditional_unit }
+multiply_variable = { GDP647_geo_SA_frozen_core_support_unit = GDP647_geo_SA_frozen_support_share }
+divide_variable = { GDP647_geo_SA_frozen_core_support_unit = GDP647_geo_SA_frozen_core_population }
+}
+set_variable = { GDP647_geo_SA_frozen_other_support_unit = 0 }
+if = { limit = { check_variable = { var = GDP647_geo_SA_frozen_other_population value = 0 compare = greater_than } }
+set_variable = { GDP647_geo_SA_frozen_other_support_unit = GDP647_geo_SA_frozen_other_rural_transport }
+multiply_variable = { GDP647_geo_SA_frozen_other_support_unit = GDP647_geo_SA_frozen_support_traditional_unit }
+multiply_variable = { GDP647_geo_SA_frozen_other_support_unit = GDP647_geo_SA_frozen_support_share }
+divide_variable = { GDP647_geo_SA_frozen_other_support_unit = GDP647_geo_SA_frozen_other_population }
+}
+}
+
+GDP647_geo_SA_support_services = {
+set_variable = { GDP647_geo_SA_support_share = 0 }
+set_variable = { GDP647_geo_SA_support_unit = 0 }
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 0 compare = equals } check_variable = { var = PREV.GDP647_geo_SA_live_active value = 1 compare = equals } }
+set_variable = { GDP647_geo_SA_support_share = PREV.GDP647_geo_SA_live_support_share }
+if = { limit = { is_core_of = PREV }
+set_variable = { GDP647_geo_SA_support_unit = PREV.GDP647_geo_SA_live_core_support_unit }
+}
+else = {
+set_variable = { GDP647_geo_SA_support_unit = PREV.GDP647_geo_SA_live_other_support_unit }
+}
+}
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 1 compare = equals } check_variable = { var = PREV.GDP647_geo_SA_frozen_active value = 1 compare = equals } }
+set_variable = { GDP647_geo_SA_support_share = PREV.GDP647_geo_SA_frozen_support_share }
+if = { limit = { check_variable = { var = GDP647_geo_P5_is_core value = 1 compare = equals } }
+set_variable = { GDP647_geo_SA_support_unit = PREV.GDP647_geo_SA_frozen_core_support_unit }
+}
+else = {
+set_variable = { GDP647_geo_SA_support_unit = PREV.GDP647_geo_SA_frozen_other_support_unit }
+}
+}
+set_variable = { GDP647_geo_SA_support_transfer = GDP647_geo_basic }
+multiply_variable = { GDP647_geo_SA_support_transfer = GDP647_geo_SA_support_share }
+subtract_from_variable = { GDP647_geo_basic = GDP647_geo_SA_support_transfer }
+add_to_variable = { GDP647_geo_SA_legacy_service = GDP647_geo_SA_support_transfer }
+set_variable = { GDP647_geo_SA_support_credit = GDP647_geo_pop }
+multiply_variable = { GDP647_geo_SA_support_credit = GDP647_geo_SA_support_unit }
+add_to_variable = { GDP647_geo_service = GDP647_geo_SA_support_credit }
+}
+
+GDP647_geo_SA_allocate = {
+set_variable = { GDP647_geo_SA_work_method = 0 }
+set_variable = { GDP647_geo_SA_legacy_service = GDP647_geo_service }
+GDP647_geo_SA_support_services = yes
+multiply_variable = { GDP647_geo_SA_legacy_service = GDP647_geo_operation }
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 0 compare = equals } check_variable = { var = PREV.GDP647_geo_SA_live_active value = 1 compare = equals } }
+set_variable = { GDP647_geo_SA_work_method = PREV.GDP647_geo_SA_live_policy_epoch }
+set_variable = { GDP647_geo_SA_index = GDP647_geo_SA_live_index }
+if = { limit = { is_core_of = PREV }
+set_variable = { GDP647_geo_SA_multiplier = GDP647_geo_SA_index }
+multiply_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_live_core_normalizer }
+multiply_variable = { GDP647_geo_SA_multiplier = global.GDP647_geo_SA_p_cluster_share }
+add_to_variable = { GDP647_geo_SA_multiplier = global.GDP647_geo_SA_p_basic_share }
+multiply_variable = { GDP647_geo_service = GDP647_geo_SA_multiplier }
+add_to_variable = { PREV.GDP647_geo_SA_live_core_target = GDP647_geo_SA_legacy_service }
+set_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_service }
+multiply_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_operation }
+add_to_variable = { PREV.GDP647_geo_SA_live_core_allocated = GDP647_geo_SA_allocated_service }
+}
+else = {
+set_variable = { GDP647_geo_SA_multiplier = GDP647_geo_SA_index }
+multiply_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_live_other_normalizer }
+multiply_variable = { GDP647_geo_SA_multiplier = global.GDP647_geo_SA_p_cluster_share }
+add_to_variable = { GDP647_geo_SA_multiplier = global.GDP647_geo_SA_p_basic_share }
+multiply_variable = { GDP647_geo_service = GDP647_geo_SA_multiplier }
+add_to_variable = { PREV.GDP647_geo_SA_live_other_target = GDP647_geo_SA_legacy_service }
+set_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_service }
+multiply_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_operation }
+add_to_variable = { PREV.GDP647_geo_SA_live_other_allocated = GDP647_geo_SA_allocated_service }
+}
+}
+if = { limit = { check_variable = { var = GDP647_geo_U9_frozen value = 1 compare = equals } check_variable = { var = PREV.GDP647_geo_SA_frozen_active value = 1 compare = equals } }
+set_variable = { GDP647_geo_SA_work_method = PREV.GDP647_geo_SA_frozen_policy_epoch }
+set_variable = { GDP647_geo_SA_index = GDP647_geo_SA_frozen_index }
+if = { limit = { check_variable = { var = GDP647_geo_P5_is_core value = 1 compare = equals } }
+set_variable = { GDP647_geo_SA_multiplier = GDP647_geo_SA_index }
+multiply_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_frozen_core_normalizer }
+multiply_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_frozen_cluster_share }
+add_to_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_frozen_basic_share }
+multiply_variable = { GDP647_geo_service = GDP647_geo_SA_multiplier }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_core_target = GDP647_geo_SA_legacy_service }
+set_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_service }
+multiply_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_operation }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_core_allocated = GDP647_geo_SA_allocated_service }
+}
+else = {
+set_variable = { GDP647_geo_SA_multiplier = GDP647_geo_SA_index }
+multiply_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_frozen_other_normalizer }
+multiply_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_frozen_cluster_share }
+add_to_variable = { GDP647_geo_SA_multiplier = PREV.GDP647_geo_SA_frozen_basic_share }
+multiply_variable = { GDP647_geo_service = GDP647_geo_SA_multiplier }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_other_target = GDP647_geo_SA_legacy_service }
+set_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_service }
+multiply_variable = { GDP647_geo_SA_allocated_service = GDP647_geo_operation }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_other_allocated = GDP647_geo_SA_allocated_service }
+}
+}
+}
+
+GDP647_geo_SA_finish_frozen = {
+if = { limit = { check_variable = { var = GDP647_geo_SA_frozen_active value = 1 compare = equals } check_variable = { var = GDP647_geo_SA_frozen_finished value = 0 compare = equals } }
+for_each_scope_loop = { array = GDP647_geo_SA_frozen_core_winner
+set_variable = { GDP647_geo_SA_correction = PREV.GDP647_geo_SA_frozen_core_target }
+subtract_from_variable = { GDP647_geo_SA_correction = PREV.GDP647_geo_SA_frozen_core_allocated }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_core_allocated = GDP647_geo_SA_correction }
+if = { limit = { NOT = { check_variable = { var = GDP647_geo_SA_correction value = 0 compare = equals } } }
+add_to_variable = { GDP647_geo_service = GDP647_geo_SA_correction }
+add_to_variable = { GDP647_geo_base_gdp = GDP647_geo_SA_correction }
+add_to_variable = { GDP647_geo_P5_next_state_total = GDP647_geo_SA_correction }
+set_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = 0 }
+if = { limit = { check_variable = { var = GDP647_geo_U9_f_pop value = 0 compare = greater_than } }
+set_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = GDP647_geo_P5_next_state_total }
+divide_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = GDP647_geo_U9_f_pop }
+}
+add_to_variable = { PREV.GDP647_geo_P5_next_GDP_total = GDP647_geo_SA_correction }
+}
+}
+for_each_scope_loop = { array = GDP647_geo_SA_frozen_other_winner
+set_variable = { GDP647_geo_SA_correction = PREV.GDP647_geo_SA_frozen_other_target }
+subtract_from_variable = { GDP647_geo_SA_correction = PREV.GDP647_geo_SA_frozen_other_allocated }
+add_to_variable = { PREV.GDP647_geo_SA_frozen_other_allocated = GDP647_geo_SA_correction }
+if = { limit = { NOT = { check_variable = { var = GDP647_geo_SA_correction value = 0 compare = equals } } }
+add_to_variable = { GDP647_geo_service = GDP647_geo_SA_correction }
+# Carry the same rounding adjustment into the potential-output denominator.
+set_temp_variable = { GDP647_unadjusted_service_correction = GDP647_geo_SA_correction }
+divide_temp_variable = { GDP647_unadjusted_service_correction = GDP647_geo_SA_frozen_operation }
+add_to_variable = { GDP647_geo_population_potential = GDP647_unadjusted_service_correction }
+add_to_variable = { GDP647_geo_base_gdp = GDP647_geo_SA_correction }
+add_to_variable = { GDP647_geo_P5_next_state_total = GDP647_geo_SA_correction }
+set_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = 0 }
+if = { limit = { check_variable = { var = GDP647_geo_U9_f_pop value = 0 compare = greater_than } }
+set_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = GDP647_geo_P5_next_state_total }
+divide_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = GDP647_geo_U9_f_pop }
+}
+add_to_variable = { PREV.GDP647_geo_P5_next_GDP_total = GDP647_geo_SA_correction }
+add_to_variable = { PREV.GDP647_geo_P5_next_GDP_overseas_m = GDP647_geo_SA_correction }
+}
+}
+set_variable = { GDP647_geo_SA_frozen_finished = 1 }
+}
+}
+
+GDP647_geo_v4_read_state = {
+set_variable = { GDP647_geo_pop = state_population_k }
+divide_variable = { GDP647_geo_pop = 1000 }
+clamp_variable = { var = GDP647_geo_pop min = 0 }
+set_variable = { GDP647_geo_city = 1 }
+set_variable = { GDP647_geo_urban = 0.25 }
+if = { limit = { has_state_category = wasteland }
+set_variable = { GDP647_geo_city = 0.3 }
+set_variable = { GDP647_geo_urban = 0.03 }
+}
+else_if = { limit = { has_state_category = pastoral }
+set_variable = { GDP647_geo_city = 0.5 }
+set_variable = { GDP647_geo_urban = 0.05 }
+}
+else_if = { limit = { has_state_category = rural }
+set_variable = { GDP647_geo_city = 0.7 }
+set_variable = { GDP647_geo_urban = 0.1 }
+}
+else_if = { limit = { has_state_category = town }
+set_variable = { GDP647_geo_city = 1 }
+set_variable = { GDP647_geo_urban = 0.25 }
+}
+else_if = { limit = { has_state_category = large_town }
+set_variable = { GDP647_geo_city = 1.25 }
+set_variable = { GDP647_geo_urban = 0.4 }
+}
+else_if = { limit = { has_state_category = city }
+set_variable = { GDP647_geo_city = 1.6 }
+set_variable = { GDP647_geo_urban = 0.6 }
+}
+else_if = { limit = { has_state_category = large_city }
+set_variable = { GDP647_geo_city = 2 }
+set_variable = { GDP647_geo_urban = 0.75 }
+}
+else_if = { limit = { has_state_category = metropolis }
+set_variable = { GDP647_geo_city = 2.5 }
+set_variable = { GDP647_geo_urban = 0.85 }
+}
+else_if = { limit = { has_state_category = megalopolis }
+set_variable = { GDP647_geo_city = 3.2 }
+set_variable = { GDP647_geo_urban = 0.95 }
+}
+set_variable = { GDP647_geo_infra_level = non_damaged_building_level@infrastructure }
+clamp_variable = { var = GDP647_geo_infra_level min = 0 max = 5 }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 0 } }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 4 } }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 7 } }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 8 } }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 9 } }
+set_variable = { GDP647_geo_port_level = 10 }
+}
+else = {
+set_variable = { GDP647_geo_port_level = 9 }
+}
+}
+else = {
+set_variable = { GDP647_geo_port_level = 8 }
+}
+}
+else = {
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 5 } }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 6 } }
+set_variable = { GDP647_geo_port_level = 7 }
+}
+else = {
+set_variable = { GDP647_geo_port_level = 6 }
+}
+}
+else = {
+set_variable = { GDP647_geo_port_level = 5 }
+}
+}
+}
+else = {
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 1 } }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 2 } }
+if = { limit = { any_province_building_level = { province = { all_provinces = yes limit_to_naval_base = yes } building = naval_base level > 3 } }
+set_variable = { GDP647_geo_port_level = 4 }
+}
+else = {
+set_variable = { GDP647_geo_port_level = 3 }
+}
+}
+else = {
+set_variable = { GDP647_geo_port_level = 2 }
+}
+}
+else = {
+set_variable = { GDP647_geo_port_level = 1 }
+}
+}
+}
+else = { set_variable = { GDP647_geo_port_level = 0 } }
+
+set_variable = { GDP647_geo_civ_count = non_damaged_building_level@industrial_complex }
+clamp_variable = { var = GDP647_geo_civ_count min = 0 }
+set_variable = { GDP647_geo_mil_count = non_damaged_building_level@arms_factory }
+clamp_variable = { var = GDP647_geo_mil_count min = 0 }
+set_variable = { GDP647_geo_dock_count = non_damaged_building_level@dockyard }
+clamp_variable = { var = GDP647_geo_dock_count min = 0 }
+set_variable = { GDP647_geo_agri_infra = GDP647_geo_infra_level }
+multiply_variable = { GDP647_geo_agri_infra = 0.05 }
+add_to_variable = { GDP647_geo_agri_infra = 0.85 }
+set_variable = { GDP647_geo_transport = GDP647_geo_port_level }
+multiply_variable = { GDP647_geo_transport = 0.5 }
+add_to_variable = { GDP647_geo_transport = GDP647_geo_infra_level }
+clamp_variable = { var = GDP647_geo_transport min = 0 max = 5 }
+multiply_variable = { GDP647_geo_transport = 0.1 }
+add_to_variable = { GDP647_geo_transport = 0.7 }
+set_variable = { GDP647_geo_port_factor = GDP647_geo_port_level }
+multiply_variable = { GDP647_geo_port_factor = 0.02 }
+add_to_variable = { GDP647_geo_port_factor = 1 }
+set_variable = { GDP647_geo_resident_weight = GDP647_geo_city }
+multiply_variable = { GDP647_geo_resident_weight = GDP647_geo_agri_infra }
+multiply_variable = { GDP647_geo_resident_weight = GDP647_geo_port_factor }
+set_variable = { GDP647_geo_basic_weight = GDP647_geo_city }
+multiply_variable = { GDP647_geo_basic_weight = GDP647_geo_transport }
+set_variable = { GDP647_geo_industry_available = modifier@local_factories }
+add_to_variable = { GDP647_geo_industry_available = 1 }
+clamp_variable = { var = GDP647_geo_industry_available min = 0 max = 1 }
+set_variable = { GDP647_geo_P5_f_occupied_noncore = 0 }
+set_variable = { GDP647_geo_C92_is_colony = 0 }
+
+if = { limit = { NOT = { is_core_of = PREV } }
+if = { limit = { is_owned_by = PREV }
+set_variable = { GDP647_geo_industry_available = 1 }
+set_variable = { GDP647_geo_C92_is_colony = 1 }
+
+}
+else = { set_variable = { GDP647_geo_P5_f_occupied_noncore = 1 } }
+}
+}
+
+GDP647_geo_P5_capture_state = {
+GDP647_geo_v4_read_state = yes
+GDP647_geo_U9_seed = yes
+set_variable = { GDP647_geo_P5_is_core = 0 }
+if = { limit = { is_core_of = PREV }
+set_variable = { GDP647_geo_P5_is_core = 1 }
+}
+set_variable = { GDP647_geo_P5_f_compliance = compliance }
+set_variable = { GDP647_geo_P5_f_war = PREV.GDP647_geo_P5_f_war }
+set_variable = { GDP647_geo_P5_f_resource_coal = resource@coal }
+set_variable = { GDP647_geo_P5_f_resource_oil = resource@oil }
+set_variable = { GDP647_geo_P5_f_resource_steel = resource@steel }
+set_variable = { GDP647_geo_P5_f_resource_aluminium = resource@aluminium }
+set_variable = { GDP647_geo_P5_f_resource_rubber = resource@rubber }
+set_variable = { GDP647_geo_P5_f_resource_tungsten = resource@tungsten }
+set_variable = { GDP647_geo_P5_f_resource_chromium = resource@chromium }
+GDP647_geo_U9_capture_resources = yes
+GDP647_geo_U9_collect_frozen = yes
+set_variable = { GDP647_geo_U9_f_pop = GDP647_geo_pop }
+set_variable = { GDP647_geo_U9_f_urban = GDP647_geo_urban }
+set_variable = { GDP647_geo_U9_f_transport = GDP647_geo_transport }
+set_variable = { GDP647_geo_U9_f_civ_count = GDP647_geo_civ_count }
+set_variable = { GDP647_geo_U9_f_mil_count = GDP647_geo_mil_count }
+set_variable = { GDP647_geo_U9_f_dock_count = GDP647_geo_dock_count }
+set_variable = { GDP647_geo_U9_f_industry_available = GDP647_geo_industry_available }
+set_variable = { GDP647_geo_U9_f_P5_f_occupied_noncore = GDP647_geo_P5_f_occupied_noncore }
+set_variable = { GDP647_geo_C92_f_is_colony = GDP647_geo_C92_is_colony }
+GDP647_geo_SA_capture_frozen = yes
+set_variable = { GDP647_geo_C92_f_operation = GDP647_geo_operation }
+
+add_to_array = { array = PREV.GDP647_geo_P5_states }
+if = { limit = { check_variable = { var = global.GDP647_geo_P5_bucket value = 0 compare = equals } }
+add_to_array = { array = PREV.GDP647_geo_P5_week_1 }
+}
+else_if = { limit = { check_variable = { var = global.GDP647_geo_P5_bucket value = 1 compare = equals } }
+add_to_array = { array = PREV.GDP647_geo_P5_week_2 }
+}
+else_if = { limit = { check_variable = { var = global.GDP647_geo_P5_bucket value = 2 compare = equals } }
+add_to_array = { array = PREV.GDP647_geo_P5_week_3 }
+}
+else_if = { limit = { check_variable = { var = global.GDP647_geo_P5_bucket value = 3 compare = equals } }
+add_to_array = { array = PREV.GDP647_geo_P5_week_4 }
+}
+add_to_variable = { global.GDP647_geo_P5_bucket = 1 }
+if = { limit = { check_variable = { var = global.GDP647_geo_P5_bucket value = 4 compare = greater_than_or_equals } }
+set_variable = { global.GDP647_geo_P5_bucket = 0 }
+}
+}

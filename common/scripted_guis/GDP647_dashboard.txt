@@ -1,0 +1,342 @@
+scripted_gui = {
+    GDP647_launcher_gui = {
+        context_type = player_context
+        parent_window_token = top_bar
+        window_name = "GDP647_launcher"
+        dirty = global.GDP647_ui_revision
+        ai_enabled = { always = no }
+        visible = { exists = yes }
+        effects = {
+            GDP647_toggle_click = {
+                if = { limit = { has_country_flag = GDP647_open } GDP647_close_dashboard = yes }
+                else = {
+                    set_country_flag = GDP647_open
+                    clr_country_flag = GDP647_state_manual_detail
+                    GDP647_refresh_order = yes
+                }
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+        }
+    }
+
+    GDP647_country_gui = {
+        context_type = player_context
+        window_name = "GDP647_dashboard_country"
+        dirty = global.GDP647_ui_revision
+        ai_enabled = { always = no }
+        visible = { has_country_flag = GDP647_open NOT = { check_variable = { GDP647_view > 0 } } }
+        effects = {
+            GDP647_previous_page_click = {
+                set_temp_variable = { GDP647_page_direction = -1 }
+                GDP647_change_page = yes
+            }
+            GDP647_next_page_click = {
+                set_temp_variable = { GDP647_page_direction = 1 }
+                GDP647_change_page = yes
+            }
+            GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
+            GDP647_tab_country_click = {
+                set_variable = { GDP647_view = 0 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_faction_click = {
+                set_variable = { GDP647_view = 1 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_state_click = {
+                set_variable = { GDP647_view = 2 }
+                clr_country_flag = GDP647_state_manual_detail
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_country_flag_click = {
+                ROOT = {
+                    clear_array = GDP647_inspected_country
+                    add_to_array = { array = GDP647_inspected_country value = PREV }
+                    GDP647_refresh_country_summary = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+            GDP647_sort_tag_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 3 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_population_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 4 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_gdp_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 1 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_core_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 2 }
+                GDP647_change_sort = yes
+            }
+            GDP647_country_population_filter_click = {
+                if = {
+                    limit = { has_country_flag = GDP647_per_capita_order }
+                    if = {
+                        limit = { has_country_flag = GDP647_country_show_small_population }
+                        clr_country_flag = GDP647_country_show_small_population
+                    }
+                    else = { set_country_flag = GDP647_country_show_small_population }
+                    GDP647_reset_list_page = yes
+                    GDP647_refresh_order = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+        }
+        triggers = {
+            GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
+            GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
+            GDP647_country_population_filter_click_enabled = { has_country_flag = GDP647_per_capita_order }
+            GDP647_country_breakdown_agriculture_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_civilian_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_military_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_services_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_resources_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_reinvestment_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_pending_visible = { NOT = { has_variable = GDP647_country_sector_agriculture } }
+        }
+        dynamic_lists = {
+            GDP647_country_grid = { array = GDP647_page_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_country_row" }
+            GDP647_profile_grid = { array = GDP647_inspected_country change_scope = yes entry_container = "GDP647_profile_row" }
+        }
+        properties = {
+            GDP647_country_population_filter = { frame = GDP647_population_filter_frame }
+            GDP647_sort_gdp = { frame = GDP647_rank_total_frame }
+            GDP647_sort_tag = { frame = GDP647_name_sort_frame }
+            GDP647_sort_population = { frame = GDP647_population_sort_frame }
+            GDP647_sort_core = { frame = GDP647_rank_per_capita_frame }
+            GDP647_country_flag = { image = "[THIS.GetFlag]" }
+            GDP647_profile_flag = { image = "[THIS.GetFlag]" }
+        }
+    }
+
+    GDP647_faction_gui = {
+        context_type = player_context
+        window_name = "GDP647_dashboard_faction"
+        dirty = global.GDP647_ui_revision
+        ai_enabled = { always = no }
+        visible = { has_country_flag = GDP647_open check_variable = { GDP647_view = 1 } }
+        effects = {
+            GDP647_previous_page_click = {
+                set_temp_variable = { GDP647_page_direction = -1 }
+                GDP647_change_page = yes
+            }
+            GDP647_next_page_click = {
+                set_temp_variable = { GDP647_page_direction = 1 }
+                GDP647_change_page = yes
+            }
+            GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
+            GDP647_tab_country_click = {
+                set_variable = { GDP647_view = 0 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_faction_click = {
+                set_variable = { GDP647_view = 1 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_state_click = {
+                set_variable = { GDP647_view = 2 }
+                clr_country_flag = GDP647_state_manual_detail
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_faction_flag_click = {
+                ROOT = {
+                    clear_array = GDP647_inspected_faction
+                    add_to_array = { array = GDP647_inspected_faction value = PREV }
+                    set_country_flag = GDP647_faction_manually_selected
+                    GDP647_refresh_faction_detail_rank = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+            GDP647_sort_tag_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 3 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_population_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 4 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_faction_gdp_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 1 }
+                GDP647_change_sort = yes
+            }
+        }
+        triggers = {
+            GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
+            GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
+            GDP647_faction_detail_empty_visible = { NOT = { check_variable = { GDP647_inspected_faction^num > 0 } } }
+        }
+        dynamic_lists = {
+            GDP647_faction_grid = { array = GDP647_page_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_faction_row" }
+            GDP647_faction_detail_grid = { array = GDP647_inspected_faction change_scope = yes entry_container = "GDP647_faction_detail_row" }
+        }
+        properties = {
+            GDP647_sort_faction_gdp = { frame = GDP647_rank_total_frame }
+            GDP647_sort_tag = { frame = GDP647_name_sort_frame }
+            GDP647_sort_population = { frame = GDP647_population_sort_frame }
+            GDP647_faction_flag = { image = "[THIS.GetFlag]" }
+            GDP647_faction_detail_flag = { image = "[THIS.GetFlag]" }
+        }
+    }
+
+    GDP647_state_gui = {
+        context_type = player_context
+        window_name = "GDP647_dashboard_state"
+        dirty = global.GDP647_ui_revision
+        ai_enabled = { always = no }
+        visible = { has_country_flag = GDP647_open check_variable = { GDP647_view = 2 } }
+        effects = {
+            GDP647_state_previous_ten_pages_click = {
+                set_temp_variable = { GDP647_page_direction = -10 }
+                GDP647_change_page = yes
+            }
+            GDP647_state_next_ten_pages_click = {
+                set_temp_variable = { GDP647_page_direction = 10 }
+                GDP647_change_page = yes
+            }
+            GDP647_previous_page_click = {
+                set_temp_variable = { GDP647_page_direction = -1 }
+                GDP647_change_page = yes
+            }
+            GDP647_next_page_click = {
+                set_temp_variable = { GDP647_page_direction = 1 }
+                GDP647_change_page = yes
+            }
+            GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
+            GDP647_tab_country_click = {
+                set_variable = { GDP647_view = 0 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_faction_click = {
+                set_variable = { GDP647_view = 1 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_state_click = {
+                set_variable = { GDP647_view = 2 }
+                clr_country_flag = GDP647_state_manual_detail
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_state_flag_click = {
+                ROOT = {
+                    clear_array = GDP647_inspected_state
+                    add_to_array = { array = GDP647_inspected_state value = PREV }
+                    set_country_flag = GDP647_state_manual_detail
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+            GDP647_sort_tag_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 3 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_population_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 4 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_state_gdp_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 1 }
+                GDP647_change_sort = yes
+            }
+            GDP647_sort_state_pc_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 2 }
+                GDP647_change_sort = yes
+            }
+            GDP647_state_control_filter_click = {
+                if = {
+                    limit = { has_country_flag = GDP647_state_own_only }
+                    clr_country_flag = GDP647_state_own_only
+                }
+                else = { set_country_flag = GDP647_state_own_only }
+                GDP647_reset_list_page = yes
+                GDP647_load_list_page = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_state_population_filter_click = {
+                if = {
+                    limit = { has_country_flag = GDP647_per_capita_order }
+                    if = {
+                        limit = { has_country_flag = GDP647_state_show_small_population }
+                        clr_country_flag = GDP647_state_show_small_population
+                    }
+                    else = { set_country_flag = GDP647_state_show_small_population }
+                    GDP647_reset_list_page = yes
+                    GDP647_refresh_order = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+        }
+        triggers = {
+            GDP647_state_previous_ten_pages_click_enabled = { check_variable = { GDP647_page_number > 1 } }
+            GDP647_state_next_ten_pages_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
+            GDP647_state_detail_grid_visible = { has_country_flag = GDP647_state_manual_detail }
+            GDP647_state_gdp_ratio_visible = {
+                has_variable = GDP647_state_gdp_ratio_pct
+                check_variable = { GDP647_published_state_is_core = 0 }
+            }
+            GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
+            GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
+            GDP647_state_detail_empty_visible = { NOT = { has_country_flag = GDP647_state_manual_detail } }
+            GDP647_state_breakdown_agriculture_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_civilian_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_military_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_services_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_resources_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_reinvestment_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_pending_visible = { NOT = { has_variable = GDP647_state_sector_agriculture } }
+            GDP647_state_population_filter_click_enabled = { has_country_flag = GDP647_per_capita_order }
+        }
+        dynamic_lists = {
+            GDP647_state_grid = { array = GDP647_page_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_state_row" }
+            GDP647_state_detail_grid = { array = GDP647_inspected_state change_scope = yes entry_container = "GDP647_state_detail_row" }
+        }
+        properties = {
+            GDP647_state_population_filter = { frame = GDP647_population_filter_frame }
+            GDP647_state_control_filter = { frame = GDP647_state_control_filter_frame }
+            GDP647_sort_state_gdp = { frame = GDP647_rank_total_frame }
+            GDP647_sort_tag = { frame = GDP647_name_sort_frame }
+            GDP647_sort_population = { frame = GDP647_population_sort_frame }
+            GDP647_sort_state_pc = { frame = GDP647_rank_per_capita_frame }
+            GDP647_state_flag = { image = "[THIS.controller.GetFlag]" }
+            GDP647_state_detail_flag = { image = "[THIS.controller.GetFlag]" }
+        }
+    }
+
+    GDP647_map_state_detail_gui = {
+        context_type = selected_state_context
+        window_name = "GDP647_state_detail_row"
+        parent_window_name = "GDP647_state_detail_panel"
+        ai_enabled = { always = no }
+        visible = {
+            has_variable = GDP647_state_gdp
+            ROOT = {
+                exists = yes
+                has_country_flag = GDP647_open
+                check_variable = { GDP647_view = 2 }
+                NOT = { has_country_flag = GDP647_state_manual_detail }
+            }
+        }
+        triggers = {
+            GDP647_state_breakdown_agriculture_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_civilian_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_military_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_services_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_resources_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_reinvestment_visible = { has_variable = GDP647_state_sector_agriculture }
+            GDP647_state_breakdown_pending_visible = { NOT = { has_variable = GDP647_state_sector_agriculture } }
+        }
+        properties = {
+            GDP647_state_detail_flag = { image = "[THIS.controller.GetFlag]" }
+        }
+    }
+}

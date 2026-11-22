@@ -1,0 +1,66 @@
+on_actions = {
+    on_startup = {
+        effect = {
+            if = {
+                limit = { NOT = { has_global_flag = GDP647_ready_v2 } }
+                random_country = { limit = { exists = yes } GDP647_initialize = yes }
+            }
+        }
+    }
+    on_monthly = {
+        effect = {
+            if = {
+                limit = {
+                    has_global_flag = GDP647_ready_v2
+                    NOT = { check_variable = { global.GDP647_last_monthly_day = global.num_days } }
+                }
+                set_variable = { global.GDP647_last_monthly_day = global.num_days }
+                random_country = {
+                    limit = { exists = yes }
+                    if = { limit = { has_global_flag = GDP647_sampling } GDP647_finish_pending = yes }
+                    GDP647_begin = yes
+                }
+            }
+        }
+    }
+    on_state_control_changed = {
+        effect = {
+            GDP647_invalidate_own_state_order = yes
+            if = {
+                limit = { FROM = { exists = yes } }
+                FROM = { GDP647_invalidate_own_state_order = yes }
+            }
+        }
+    }
+    on_daily = {
+        effect = {
+            if = {
+                limit = { NOT = { has_global_flag = GDP647_ready_v2 } }
+                random_country = { limit = { exists = yes } GDP647_initialize = yes }
+            }
+            else_if = {
+                limit = {
+                    has_global_flag = GDP647_sampling
+                    check_variable = { var = global.num_days value = global.GDP647_due compare = greater_than_or_equals }
+                }
+                random_country = { limit = { exists = yes } GDP647_tick = yes }
+            }
+            if = {
+                limit = { has_global_flag = GDP647_own_state_page_pending }
+                clr_global_flag = GDP647_own_state_page_pending
+                every_country = {
+                    limit = {
+                        exists = yes
+                        is_ai = no
+                        has_country_flag = GDP647_open
+                        has_country_flag = GDP647_state_own_only
+                        check_variable = { GDP647_view = 2 }
+                        NOT = { has_country_flag = GDP647_own_state_order_cached }
+                    }
+                    GDP647_load_list_page = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+        }
+    }
+}

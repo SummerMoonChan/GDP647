@@ -1,0 +1,69 @@
+defined_text = {
+    name = GetGDP647InspectedRank
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_inspected_rank > 0 } } }
+        localization_key = GDP647_PROFILE_RANK_NUMBER
+    }
+    text = { localization_key = GDP647_PROFILE_RANK_NONE }
+}
+
+defined_text = {
+    name = GetGDP647StateDetailRank
+    text = {
+        trigger = {
+            ROOT = { check_variable = { GDP647_state_detail_rank_mode = 1 } }
+            check_variable = { GDP647_state_detail_rank_gdp_desc > 0 }
+            check_variable = { GDP647_state_detail_revision_gdp_desc = global.GDP647_published_revision }
+        }
+        localization_key = GDP647_STATE_DETAIL_RANK_GDP_DESC
+    }
+    text = {
+        trigger = {
+            ROOT = { check_variable = { GDP647_state_detail_rank_mode = 2 } }
+            check_variable = { GDP647_state_detail_rank_gdp_asc > 0 }
+            check_variable = { GDP647_state_detail_revision_gdp_asc = global.GDP647_published_revision }
+        }
+        localization_key = GDP647_STATE_DETAIL_RANK_GDP_ASC
+    }
+    text = {
+        trigger = {
+            ROOT = { check_variable = { GDP647_state_detail_rank_mode = 3 } }
+            check_variable = { GDP647_state_detail_rank_pc_filtered_desc > 0 }
+            check_variable = { GDP647_state_detail_revision_pc_filtered_desc = global.GDP647_published_revision }
+            OR = {
+                NOT = { has_variable = GDP647_published_state_population }
+                check_variable = { var = GDP647_published_state_population value = 0.01 compare = greater_than_or_equals }
+            }
+        }
+        localization_key = GDP647_STATE_DETAIL_RANK_PC_FILTERED_DESC
+    }
+    text = {
+        trigger = {
+            ROOT = { check_variable = { GDP647_state_detail_rank_mode = 4 } }
+            check_variable = { GDP647_state_detail_rank_pc_filtered_asc > 0 }
+            check_variable = { GDP647_state_detail_revision_pc_filtered_asc = global.GDP647_published_revision }
+            OR = {
+                NOT = { has_variable = GDP647_published_state_population }
+                check_variable = { var = GDP647_published_state_population value = 0.01 compare = greater_than_or_equals }
+            }
+        }
+        localization_key = GDP647_STATE_DETAIL_RANK_PC_FILTERED_ASC
+    }
+    text = {
+        trigger = {
+            ROOT = { check_variable = { GDP647_state_detail_rank_mode = 5 } }
+            check_variable = { GDP647_state_detail_rank_pc_all_desc > 0 }
+            check_variable = { GDP647_state_detail_revision_pc_all_desc = global.GDP647_published_revision }
+        }
+        localization_key = GDP647_STATE_DETAIL_RANK_PC_ALL_DESC
+    }
+    text = {
+        trigger = {
+            ROOT = { check_variable = { GDP647_state_detail_rank_mode = 6 } }
+            check_variable = { GDP647_state_detail_rank_pc_all_asc > 0 }
+            check_variable = { GDP647_state_detail_revision_pc_all_asc = global.GDP647_published_revision }
+        }
+        localization_key = GDP647_STATE_DETAIL_RANK_PC_ALL_ASC
+    }
+    text = { localization_key = GDP647_PROFILE_RANK_NONE }
+}
