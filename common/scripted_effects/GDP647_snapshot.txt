@@ -83,6 +83,7 @@ GDP647_compute_state = {
 
 GDP647_publish = {
     GDP647_prepare_growth_sample = yes
+    GDP647_prepare_chart_archive = yes
     clear_array = global.GDP647_countries
     clear_array = global.GDP647_factions
     clear_array = global.GDP647_states
@@ -100,6 +101,7 @@ GDP647_publish = {
         set_variable = { GDP647_country_sector_services = 0 }
         set_variable = { GDP647_country_sector_resources = 0 }
         set_variable = { GDP647_country_sector_reinvestment = 0 }
+        set_temp_variable = { GDP647_prior_country_pc = GDP647_core_gdp_per_capita }
         set_variable = { GDP647_core_gdp_per_capita = 0 }
         if = {
             limit = { check_variable = { GDP647_next_core_population > 0 } }
@@ -154,6 +156,7 @@ GDP647_publish = {
             add_to_variable = { PREV.GDP647_country_sector_services = GDP647_state_sector_services }
             add_to_variable = { PREV.GDP647_country_sector_resources = GDP647_state_sector_resources }
             add_to_variable = { PREV.GDP647_country_sector_reinvestment = GDP647_state_sector_reinvestment }
+            set_temp_variable = { GDP647_pc_prior = GDP647_state_gdp_per_capita }
             set_variable = { GDP647_state_gdp_per_capita = GDP647_geo_P5_next_GDP_state_per_capita_v41 }
             add_to_array = { array = global.GDP647_states }
             if = {
@@ -164,6 +167,8 @@ GDP647_publish = {
             }
             set_variable = { GDP647_growth_controller = GDP647_capture_controller }
             set_temp_variable = { GDP647_growth_sample = GDP647_state_gdp }
+            set_temp_variable = { GDP647_pc_current = GDP647_state_gdp_per_capita }
+            GDP647_record_gdp_pc_growth = yes
             GDP647_record_gdp_growth = yes
             GDP647_format_state_amounts = yes
             GDP647_invest = yes
@@ -173,7 +178,11 @@ GDP647_publish = {
         GDP647_format_country_population = yes
         set_temp_variable = { GDP647_growth_prior_published = GDP647_prior_country_gdp }
         set_temp_variable = { GDP647_growth_sample = GDP647_country_gdp }
+        set_temp_variable = { GDP647_pc_prior = GDP647_prior_country_pc }
+        set_temp_variable = { GDP647_pc_current = GDP647_core_gdp_per_capita }
+        GDP647_record_gdp_pc_growth = yes
         GDP647_record_gdp_growth = yes
+        GDP647_archive_country_chart = yes
         GDP647_format_country_amounts = yes
         if = { limit = { exists = yes } add_to_array = { array = global.GDP647_countries } }
     }
@@ -184,6 +193,10 @@ GDP647_publish = {
             add_to_array = { array = global.GDP647_factions }
             set_temp_variable = { GDP647_growth_prior_published = GDP647_faction_gdp }
             set_variable = { GDP647_faction_gdp = GDP647_country_gdp }
+            set_temp_variable = { GDP647_pc_prior = GDP647_faction_core_gdp_per_capita }
+            set_variable = { GDP647_faction_core_population = GDP647_published_core_population }
+            set_variable = { GDP647_faction_core_gdp = GDP647_core_gdp_per_capita }
+            multiply_variable = { GDP647_faction_core_gdp = GDP647_published_core_population }
             set_variable = { GDP647_faction_member_count = 1 }
             set_variable = { GDP647_faction_population_10k = GDP647_country_population_10k }
             set_variable = { GDP647_faction_people_k = GDP647_country_people_k }
@@ -191,21 +204,34 @@ GDP647_publish = {
                 limit = { exists = yes is_in_faction_with = PREV }
                 add_to_variable = { PREV.GDP647_faction_gdp = GDP647_country_gdp }
                 add_to_variable = { PREV.GDP647_faction_member_count = 1 }
+                add_to_variable = { PREV.GDP647_faction_core_population = GDP647_published_core_population }
+                set_temp_variable = { GDP647_member_core_gdp = GDP647_core_gdp_per_capita }
+                multiply_temp_variable = { GDP647_member_core_gdp = GDP647_published_core_population }
+                add_to_variable = { PREV.GDP647_faction_core_gdp = GDP647_member_core_gdp }
                 add_to_variable = { PREV.GDP647_faction_population_10k = GDP647_country_population_10k }
                 add_to_variable = { PREV.GDP647_faction_people_k = GDP647_country_people_k }
             }
             set_temp_variable = { GDP647_growth_sample = GDP647_faction_gdp }
+            set_variable = { GDP647_faction_core_gdp_per_capita = 0 }
+            if = {
+                limit = { check_variable = { GDP647_faction_core_population > 0 } }
+                set_variable = { GDP647_faction_core_gdp_per_capita = GDP647_faction_core_gdp }
+                divide_variable = { GDP647_faction_core_gdp_per_capita = GDP647_faction_core_population }
+            }
+            set_temp_variable = { GDP647_pc_current = GDP647_faction_core_gdp_per_capita }
+            GDP647_record_faction_pc_growth = yes
             GDP647_record_faction_growth = yes
             GDP647_format_faction_amounts = yes
             GDP647_format_faction_population = yes
         }
     }
+    GDP647_publish_economic_benchmarks = yes
     every_country = {
         limit = { exists = yes is_ai = no }
         GDP647_update_launcher_rank = yes
         if = {
             limit = { has_country_flag = GDP647_open }
-            GDP647_refresh_order = yes
+            GDP647_refresh_open_view = yes
         }
     }
     set_global_flag = GDP647_population_display_v2
@@ -400,6 +426,18 @@ GDP647_load_rank_basis = {
 }
 
 GDP647_refresh_order = {
+    set_variable = { GDP647_faction_filter_frame = 1 }
+    if = {
+        limit = { is_in_faction = yes has_country_flag = GDP647_country_own_faction }
+        set_variable = { GDP647_faction_filter_frame = 2 }
+    }
+    if = {
+        limit = {
+            NOT = { check_variable = { GDP647_view > 0 } }
+            NOT = { has_global_flag = GDP647_world_totals_ready }
+        }
+        GDP647_publish_economic_benchmarks = yes
+    }
     GDP647_load_sort_key = yes
     set_temp_variable = { GDP647_order_metric = GDP647_order_key }
     if = {
@@ -584,6 +622,12 @@ GDP647_build_order = {
             if = {
                 limit = {
                     OR = {
+                        PREV = { NOT = { has_country_flag = GDP647_country_own_faction } }
+                        PREV = { is_in_faction = no }
+                        check_variable = { id = PREV.id }
+                        is_in_faction_with = PREV
+                    }
+                    OR = {
                         NOT = { has_variable = GDP647_published_core_population }
                         check_variable = {
                             var = GDP647_published_core_population
@@ -665,6 +709,16 @@ GDP647_tag_sort_score = {
     }
     set_temp_variable = { GDP647_rank_score = GDP647_tag_alphabetic_index }
     multiply_temp_variable = { GDP647_rank_score = -1 }
+}
+
+# Both the flag and the name are scoped to the same row country.
+GDP647_select_country_row = {
+    ROOT = {
+        clear_array = GDP647_inspected_country
+        add_to_array = { array = GDP647_inspected_country value = PREV }
+        GDP647_refresh_country_summary = yes
+        add_to_variable = { global.GDP647_ui_revision = 1 }
+    }
 }
 
 # Find the selected country in the ranking for the active economic metric.

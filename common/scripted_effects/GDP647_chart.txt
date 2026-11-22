@@ -1,0 +1,489 @@
+GDP647_refresh_open_view = {
+    if = {
+        limit = { check_variable = { GDP647_view = 3 } }
+        GDP647_refresh_chart = yes
+    }
+    else = { GDP647_refresh_order = yes }
+}
+
+GDP647_refresh_chart = {
+    if = {
+        limit = { NOT = { has_global_flag = GDP647_world_totals_ready } }
+        GDP647_publish_economic_benchmarks = yes
+    }
+    if = {
+        limit = {
+            OR = {
+                NOT = { check_variable = { GDP647_inspected_country^num > 0 } }
+                NOT = { var:GDP647_inspected_country^0 = { exists = yes } }
+            }
+        }
+        clear_array = GDP647_inspected_country
+        add_to_array = { array = GDP647_inspected_country }
+    }
+    set_variable = { GDP647_chart_count = 0 }
+    clear_array = GDP647_chart_plot_points
+    clear_array = GDP647_chart_display_samples
+    var:GDP647_inspected_country^0 = {
+        set_temp_variable = { GDP647_chart_available = GDP647_chart_total_archive^num }
+        if = {
+            limit = { check_variable = { GDP647_chart_available > 1 } }
+            set_temp_variable = { GDP647_chart_last_index = GDP647_chart_available }
+            subtract_from_temp_variable = { GDP647_chart_last_index = 1 }
+            set_temp_variable = { GDP647_chart_span = GDP647_chart_last_index }
+            clamp_temp_variable = { var = GDP647_chart_span max = 23 }
+            set_temp_variable = { GDP647_chart_index = 0 }
+            while_loop_effect = {
+                limit = {
+                    check_variable = { var = GDP647_chart_index value = GDP647_chart_span compare = less_than_or_equals }
+                }
+                set_temp_variable = { GDP647_chart_source_index = GDP647_chart_index }
+                multiply_temp_variable = { GDP647_chart_source_index = GDP647_chart_last_index }
+                divide_temp_variable = { GDP647_chart_source_index = GDP647_chart_span }
+                round_temp_variable = GDP647_chart_source_index
+                set_temp_variable = { GDP647_chart_reverse_index = GDP647_chart_last_index }
+                subtract_from_temp_variable = { GDP647_chart_reverse_index = GDP647_chart_source_index }
+                set_temp_variable = { GDP647_chart_value = GDP647_chart_total_archive^GDP647_chart_reverse_index }
+                if = {
+                    limit = { check_variable = { PREV.GDP647_chart_metric = 2 } }
+                    set_temp_variable = { GDP647_chart_value = GDP647_chart_pc_archive^GDP647_chart_reverse_index }
+                }
+                add_to_array = { array = PREV.GDP647_chart_display_samples value = GDP647_chart_value }
+                add_to_temp_variable = { GDP647_chart_index = 1 }
+            }
+        }
+    }
+    set_variable = { GDP647_chart_count = GDP647_chart_display_samples^num }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 1 } }
+        GDP647_scale_chart_samples = yes
+    }
+    set_variable = { GDP647_chart_total_frame = 2 }
+    set_variable = { GDP647_chart_pc_frame = 1 }
+    if = {
+        limit = { check_variable = { GDP647_chart_metric = 2 } }
+        set_variable = { GDP647_chart_total_frame = 1 }
+        set_variable = { GDP647_chart_pc_frame = 2 }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 1 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^1 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^0 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_0 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_0 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 2 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^2 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^1 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_1 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_1 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 3 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^3 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^2 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_2 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_2 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 4 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^4 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^3 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_3 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_3 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 5 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^5 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^4 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_4 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_4 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 6 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^6 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^5 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_5 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_5 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 7 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^7 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^6 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_6 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_6 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 8 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^8 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^7 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_7 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_7 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 9 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^9 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^8 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_8 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_8 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 10 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^10 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^9 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_9 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_9 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 11 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^11 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^10 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_10 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_10 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 12 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^12 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^11 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_11 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_11 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 13 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^13 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^12 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_12 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_12 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 14 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^14 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^13 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_13 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_13 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 15 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^15 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^14 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_14 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_14 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 16 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^16 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^15 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_15 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_15 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 17 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^17 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^16 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_16 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_16 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 18 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^18 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^17 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_17 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_17 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 19 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^19 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^18 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_18 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_18 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 20 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^20 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^19 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_19 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_19 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 21 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^21 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^20 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_20 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_20 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 22 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^22 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^21 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_21 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_21 = GDP647_chart_segment_frame }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_count > 23 } }
+        set_temp_variable = { GDP647_chart_left = GDP647_chart_plot_points^23 }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_plot_points^22 }
+        GDP647_chart_segment_geometry = yes
+        set_variable = { GDP647_chart_y_22 = GDP647_chart_segment_y }
+        set_variable = { GDP647_chart_frame_22 = GDP647_chart_segment_frame }
+    }
+}
+
+GDP647_scale_chart_samples = {
+    set_temp_variable = { GDP647_chart_low = GDP647_chart_display_samples^0 }
+    set_temp_variable = { GDP647_chart_high = GDP647_chart_low }
+    set_temp_variable = { GDP647_chart_index = 1 }
+    while_loop_effect = {
+        limit = { check_variable = { GDP647_chart_index < GDP647_chart_count } }
+        set_temp_variable = { GDP647_chart_value = GDP647_chart_display_samples^GDP647_chart_index }
+        clamp_temp_variable = { var = GDP647_chart_low max = GDP647_chart_value }
+        clamp_temp_variable = { var = GDP647_chart_high min = GDP647_chart_value }
+        add_to_temp_variable = { GDP647_chart_index = 1 }
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_high = GDP647_chart_low } }
+        set_temp_variable = { GDP647_chart_padding = GDP647_chart_high }
+        multiply_temp_variable = { GDP647_chart_padding = 0.05 }
+        clamp_temp_variable = { var = GDP647_chart_padding min = 0.001 }
+        subtract_from_temp_variable = { GDP647_chart_low = GDP647_chart_padding }
+        clamp_temp_variable = { var = GDP647_chart_low min = 0 }
+        add_to_temp_variable = { GDP647_chart_high = GDP647_chart_padding }
+    }
+    set_temp_variable = { GDP647_chart_range = GDP647_chart_high }
+    subtract_from_temp_variable = { GDP647_chart_range = GDP647_chart_low }
+    set_temp_variable = { GDP647_chart_axis = GDP647_chart_high }
+    GDP647_format_chart_axis = yes
+    set_variable = { GDP647_chart_max_compact = GDP647_chart_axis }
+    set_variable = { GDP647_chart_max_unit = GDP647_chart_axis_unit }
+    set_temp_variable = { GDP647_chart_axis = GDP647_chart_low }
+    GDP647_format_chart_axis = yes
+    set_variable = { GDP647_chart_min_compact = GDP647_chart_axis }
+    set_variable = { GDP647_chart_min_unit = GDP647_chart_axis_unit }
+    set_temp_variable = { GDP647_chart_index = 0 }
+    while_loop_effect = {
+        limit = { check_variable = { GDP647_chart_index < GDP647_chart_count } }
+        set_temp_variable = { GDP647_chart_value = GDP647_chart_display_samples^GDP647_chart_index }
+        set_temp_variable = { GDP647_chart_y = GDP647_chart_high }
+        subtract_from_temp_variable = { GDP647_chart_y = GDP647_chart_value }
+        divide_temp_variable = { GDP647_chart_y = GDP647_chart_range }
+        multiply_temp_variable = { GDP647_chart_y = 40 }
+        round_temp_variable = GDP647_chart_y
+        clamp_temp_variable = { var = GDP647_chart_y min = 0 max = 40 }
+        add_to_array = { array = GDP647_chart_plot_points value = GDP647_chart_y }
+        add_to_temp_variable = { GDP647_chart_index = 1 }
+    }
+}
+
+GDP647_chart_segment_geometry = {
+    set_temp_variable = { GDP647_chart_segment_frame = GDP647_chart_right }
+    subtract_from_temp_variable = { GDP647_chart_segment_frame = GDP647_chart_left }
+    add_to_temp_variable = { GDP647_chart_segment_frame = 41 }
+    set_temp_variable = { GDP647_chart_segment_y = GDP647_chart_left }
+    clamp_temp_variable = { var = GDP647_chart_segment_y max = GDP647_chart_right }
+    multiply_temp_variable = { GDP647_chart_segment_y = 4 }
+    add_to_temp_variable = { GDP647_chart_segment_y = 157 }
+}
+
+# Match the GDP-scaled descriptions to a common monthly world snapshot.
+GDP647_publish_economic_benchmarks = {
+    set_temp_variable = { GDP647_chart_world_gdp = 0 }
+    set_temp_variable = { GDP647_chart_world_core_gdp = 0 }
+    set_temp_variable = { GDP647_chart_world_core_population = 0 }
+    set_temp_variable = { GDP647_chart_world_population = 0 }
+    for_each_scope_loop = {
+        array = global.GDP647_countries
+        set_temp_variable = { GDP647_chart_country_billions = GDP647_country_gdp }
+        divide_temp_variable = { GDP647_chart_country_billions = 1000 }
+        add_to_temp_variable = { GDP647_chart_world_gdp = GDP647_chart_country_billions }
+        add_to_temp_variable = { GDP647_chart_world_population = GDP647_published_country_population }
+        if = {
+            limit = { check_variable = { GDP647_published_core_population > 0 } }
+            set_temp_variable = { GDP647_chart_core_gdp = GDP647_core_gdp_per_capita }
+            multiply_temp_variable = { GDP647_chart_core_gdp = GDP647_published_core_population }
+            clamp_temp_variable = { var = GDP647_chart_core_gdp min = 0 }
+            divide_temp_variable = { GDP647_chart_core_gdp = 1000 }
+            add_to_temp_variable = { GDP647_chart_world_core_gdp = GDP647_chart_core_gdp }
+            add_to_temp_variable = { GDP647_chart_world_core_population = GDP647_published_core_population }
+        }
+    }
+    set_variable = { global.GDP647_world_gdp_b = GDP647_chart_world_gdp }
+    set_variable = { global.GDP647_world_gdp_pc = 0 }
+    if = {
+        limit = { check_variable = { GDP647_chart_world_population > 0 } }
+        set_variable = { global.GDP647_world_gdp_pc = GDP647_chart_world_gdp }
+        divide_variable = { global.GDP647_world_gdp_pc = GDP647_chart_world_population }
+        multiply_variable = { global.GDP647_world_gdp_pc = 1000 }
+        set_global_flag = GDP647_world_totals_ready
+    }
+    if = {
+        limit = { check_variable = { GDP647_chart_world_gdp > 0 } check_variable = { GDP647_chart_world_core_population > 0 } }
+        set_global_flag = GDP647_economic_benchmarks_ready
+        divide_temp_variable = { GDP647_chart_world_core_gdp = GDP647_chart_world_core_population }
+        multiply_temp_variable = { GDP647_chart_world_core_gdp = 1000 }
+        set_variable = { global.GDP647_threshold_size_15 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_15 = 500 }
+        clamp_variable = { var = global.GDP647_threshold_size_15 min = 700000 }
+        set_variable = { global.GDP647_threshold_size_14 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_14 = 350 }
+        clamp_variable = { var = global.GDP647_threshold_size_14 min = 400000 }
+        set_variable = { global.GDP647_threshold_size_13 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_13 = 240 }
+        clamp_variable = { var = global.GDP647_threshold_size_13 min = 220000 }
+        set_variable = { global.GDP647_threshold_size_12 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_12 = 180 }
+        clamp_variable = { var = global.GDP647_threshold_size_12 min = 140000 }
+        set_variable = { global.GDP647_threshold_size_11 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_11 = 130 }
+        clamp_variable = { var = global.GDP647_threshold_size_11 min = 90000 }
+        set_variable = { global.GDP647_threshold_size_10 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_10 = 90 }
+        clamp_variable = { var = global.GDP647_threshold_size_10 min = 50000 }
+        set_variable = { global.GDP647_threshold_size_9 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_9 = 60 }
+        clamp_variable = { var = global.GDP647_threshold_size_9 min = 25000 }
+        set_variable = { global.GDP647_threshold_size_8 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_8 = 35 }
+        clamp_variable = { var = global.GDP647_threshold_size_8 min = 12000 }
+        set_variable = { global.GDP647_threshold_size_7 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_7 = 20 }
+        clamp_variable = { var = global.GDP647_threshold_size_7 min = 5000 }
+        set_variable = { global.GDP647_threshold_size_6 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_6 = 10 }
+        clamp_variable = { var = global.GDP647_threshold_size_6 min = 2000 }
+        set_variable = { global.GDP647_threshold_size_5 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_5 = 5 }
+        clamp_variable = { var = global.GDP647_threshold_size_5 min = 900 }
+        set_variable = { global.GDP647_threshold_size_4 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_4 = 2 }
+        clamp_variable = { var = global.GDP647_threshold_size_4 min = 400 }
+        set_variable = { global.GDP647_threshold_size_3 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_3 = 0.8 }
+        clamp_variable = { var = global.GDP647_threshold_size_3 min = 150 }
+        set_variable = { global.GDP647_threshold_size_2 = GDP647_chart_world_gdp }
+        multiply_variable = { global.GDP647_threshold_size_2 = 0.3 }
+        clamp_variable = { var = global.GDP647_threshold_size_2 min = 50 }
+        set_variable = { global.GDP647_threshold_development_15 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_15 = 9.0 }
+        clamp_variable = { var = global.GDP647_threshold_development_15 min = 8200 }
+        set_variable = { global.GDP647_threshold_development_14 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_14 = 7.5 }
+        clamp_variable = { var = global.GDP647_threshold_development_14 min = 6500 }
+        set_variable = { global.GDP647_threshold_development_13 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_13 = 6.0 }
+        clamp_variable = { var = global.GDP647_threshold_development_13 min = 5000 }
+        set_variable = { global.GDP647_threshold_development_12 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_12 = 4.5 }
+        clamp_variable = { var = global.GDP647_threshold_development_12 min = 3600 }
+        set_variable = { global.GDP647_threshold_development_11 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_11 = 3.4 }
+        clamp_variable = { var = global.GDP647_threshold_development_11 min = 2500 }
+        set_variable = { global.GDP647_threshold_development_10 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_10 = 2.5 }
+        clamp_variable = { var = global.GDP647_threshold_development_10 min = 1800 }
+        set_variable = { global.GDP647_threshold_development_9 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_9 = 1.85 }
+        clamp_variable = { var = global.GDP647_threshold_development_9 min = 1200 }
+        set_variable = { global.GDP647_threshold_development_8 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_8 = 1.4 }
+        clamp_variable = { var = global.GDP647_threshold_development_8 min = 800 }
+        set_variable = { global.GDP647_threshold_development_7 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_7 = 1.05 }
+        clamp_variable = { var = global.GDP647_threshold_development_7 min = 500 }
+        set_variable = { global.GDP647_threshold_development_6 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_6 = 0.75 }
+        clamp_variable = { var = global.GDP647_threshold_development_6 min = 300 }
+        set_variable = { global.GDP647_threshold_development_5 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_5 = 0.52 }
+        clamp_variable = { var = global.GDP647_threshold_development_5 min = 150 }
+        set_variable = { global.GDP647_threshold_development_4 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_4 = 0.35 }
+        clamp_variable = { var = global.GDP647_threshold_development_4 min = 80 }
+        set_variable = { global.GDP647_threshold_development_3 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_3 = 0.22 }
+        clamp_variable = { var = global.GDP647_threshold_development_3 min = 35 }
+        set_variable = { global.GDP647_threshold_development_2 = GDP647_chart_world_core_gdp }
+        multiply_variable = { global.GDP647_threshold_development_2 = 0.12 }
+        clamp_variable = { var = global.GDP647_threshold_development_2 min = 15 }
+    }
+}
+
+
+GDP647_format_chart_axis = {
+    set_temp_variable = { GDP647_chart_axis_unit = 0 }
+    if = {
+        limit = { check_variable = { GDP647_chart_metric = 2 } }
+        if = {
+            limit = { check_variable = { var = GDP647_chart_axis value = 1000 compare = greater_than_or_equals } }
+            divide_temp_variable = { GDP647_chart_axis = 1000 }
+            set_temp_variable = { GDP647_chart_axis_unit = 1 }
+        }
+    }
+    else_if = {
+        limit = { check_variable = { var = GDP647_chart_axis value = 1000 compare = greater_than_or_equals } }
+        divide_temp_variable = { GDP647_chart_axis = 1000 }
+        set_temp_variable = { GDP647_chart_axis_unit = 3 }
+    }
+    else_if = {
+        limit = { check_variable = { var = GDP647_chart_axis value = 1 compare = greater_than_or_equals } }
+        set_temp_variable = { GDP647_chart_axis_unit = 2 }
+    }
+    else_if = {
+        limit = { check_variable = { var = GDP647_chart_axis value = 0.001 compare = greater_than_or_equals } }
+        multiply_temp_variable = { GDP647_chart_axis = 1000 }
+        set_temp_variable = { GDP647_chart_axis_unit = 1 }
+    }
+    else = { multiply_temp_variable = { GDP647_chart_axis = 1000000 } }
+}
+
+# Any two consecutive month starts are at most 62 days apart.
+# Starting from the first snapshot, 80 days selects the third monthly capture.
+GDP647_prepare_chart_archive = {
+    set_variable = { global.GDP647_chart_archive_due = 0 }
+    set_temp_variable = { GDP647_chart_archive_elapsed = global.GDP647_capture_day }
+    subtract_from_temp_variable = { GDP647_chart_archive_elapsed = global.GDP647_chart_last_archive_day }
+    if = {
+        limit = {
+            OR = {
+                NOT = { has_variable = global.GDP647_chart_last_archive_day }
+                check_variable = { var = GDP647_chart_archive_elapsed value = 80 compare = greater_than_or_equals }
+            }
+        }
+        set_variable = { global.GDP647_chart_archive_due = 1 }
+        set_variable = { global.GDP647_chart_last_archive_day = global.GDP647_capture_day }
+    }
+}
+
+GDP647_archive_country_chart = {
+    if = {
+        limit = {
+            OR = {
+                check_variable = { global.GDP647_chart_archive_due = 1 }
+                check_variable = { GDP647_chart_total_archive^num = 0 }
+            }
+        }
+        add_to_array = { array = GDP647_chart_total_archive value = GDP647_country_gdp }
+        add_to_array = { array = GDP647_chart_pc_archive value = GDP647_core_gdp_per_capita }
+    }
+}

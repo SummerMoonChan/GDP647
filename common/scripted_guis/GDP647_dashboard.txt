@@ -18,7 +18,7 @@ scripted_gui = {
                     GDP647_backfill_population_display = yes
                     set_country_flag = GDP647_open
                     clr_country_flag = GDP647_state_manual_detail
-                    GDP647_refresh_order = yes
+                    GDP647_refresh_open_view = yes
                 }
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
@@ -46,6 +46,11 @@ scripted_gui = {
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
+            GDP647_tab_chart_click = {
+                set_variable = { GDP647_view = 3 }
+                GDP647_refresh_chart = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
             GDP647_tab_faction_click = {
                 set_variable = { GDP647_view = 1 }
                 GDP647_refresh_order = yes
@@ -57,14 +62,8 @@ scripted_gui = {
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
-            GDP647_country_flag_click = {
-                ROOT = {
-                    clear_array = GDP647_inspected_country
-                    add_to_array = { array = GDP647_inspected_country value = PREV }
-                    GDP647_refresh_country_summary = yes
-                    add_to_variable = { global.GDP647_ui_revision = 1 }
-                }
-            }
+            GDP647_country_flag_click = { GDP647_select_country_row = yes }
+            GDP647_country_name_button_click = { GDP647_select_country_row = yes }
             GDP647_sort_tag_click = {
                 set_temp_variable = { GDP647_requested_sort_key = 3 }
                 GDP647_change_sort = yes
@@ -80,6 +79,16 @@ scripted_gui = {
             GDP647_sort_core_click = {
                 set_temp_variable = { GDP647_requested_sort_key = 2 }
                 GDP647_change_sort = yes
+            }
+            GDP647_country_faction_filter_click = {
+                if = {
+                    limit = { has_country_flag = GDP647_country_own_faction }
+                    clr_country_flag = GDP647_country_own_faction
+                }
+                else = { set_country_flag = GDP647_country_own_faction }
+                GDP647_reset_list_page = yes
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_country_population_filter_click = {
                 if = {
@@ -98,6 +107,7 @@ scripted_gui = {
         triggers = {
             GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
             GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
+            GDP647_country_faction_filter_click_enabled = { is_in_faction = yes }
             GDP647_country_population_filter_click_enabled = { has_country_flag = GDP647_per_capita_order }
             GDP647_country_breakdown_agriculture_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_agriculture_icon_visible = { has_variable = GDP647_country_sector_agriculture }
@@ -118,6 +128,7 @@ scripted_gui = {
             GDP647_profile_grid = { array = GDP647_inspected_country change_scope = yes entry_container = "GDP647_profile_row" }
         }
         properties = {
+            GDP647_country_faction_filter = { frame = GDP647_faction_filter_frame }
             GDP647_country_population_filter = { frame = GDP647_population_filter_frame }
             GDP647_sort_gdp = { frame = GDP647_rank_total_frame }
             GDP647_sort_tag = { frame = GDP647_name_sort_frame }
@@ -147,6 +158,11 @@ scripted_gui = {
             GDP647_tab_country_click = {
                 set_variable = { GDP647_view = 0 }
                 GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_chart_click = {
+                set_variable = { GDP647_view = 3 }
+                GDP647_refresh_chart = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_faction_click = {
@@ -227,6 +243,11 @@ scripted_gui = {
             GDP647_tab_country_click = {
                 set_variable = { GDP647_view = 0 }
                 GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_chart_click = {
+                set_variable = { GDP647_view = 3 }
+                GDP647_refresh_chart = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_faction_click = {
@@ -361,6 +382,105 @@ scripted_gui = {
         }
         properties = {
             GDP647_state_detail_flag = { image = "[THIS.controller.GetFlag]" }
+        }
+    }
+
+    GDP647_chart_gui = {
+        context_type = player_context
+        window_name = "GDP647_dashboard_chart"
+        dirty = global.GDP647_ui_revision
+        ai_enabled = { always = no }
+        visible = { has_country_flag = GDP647_open check_variable = { GDP647_view = 3 } }
+        effects = {
+            GDP647_chart_metric_total_click = {
+                set_variable = { GDP647_chart_metric = 1 }
+                GDP647_refresh_chart = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_chart_metric_pc_click = {
+                set_variable = { GDP647_chart_metric = 2 }
+                GDP647_refresh_chart = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
+            GDP647_tab_country_click = {
+                set_variable = { GDP647_view = 0 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_faction_click = {
+                set_variable = { GDP647_view = 1 }
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_tab_state_click = {
+                set_variable = { GDP647_view = 2 }
+                clr_country_flag = GDP647_state_manual_detail
+                GDP647_refresh_order = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+        }
+        triggers = {
+            GDP647_chart_axis_pending_visible = { check_variable = { GDP647_chart_count < 2 } }
+            GDP647_chart_grid_visible = { check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_axis_top_visible = { check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_axis_bottom_visible = { check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_axis_oldest_visible = { check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_axis_latest_visible = { check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_segment_0_visible = { check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_segment_1_visible = { check_variable = { GDP647_chart_count > 2 } }
+            GDP647_chart_segment_2_visible = { check_variable = { GDP647_chart_count > 3 } }
+            GDP647_chart_segment_3_visible = { check_variable = { GDP647_chart_count > 4 } }
+            GDP647_chart_segment_4_visible = { check_variable = { GDP647_chart_count > 5 } }
+            GDP647_chart_segment_5_visible = { check_variable = { GDP647_chart_count > 6 } }
+            GDP647_chart_segment_6_visible = { check_variable = { GDP647_chart_count > 7 } }
+            GDP647_chart_segment_7_visible = { check_variable = { GDP647_chart_count > 8 } }
+            GDP647_chart_segment_8_visible = { check_variable = { GDP647_chart_count > 9 } }
+            GDP647_chart_segment_9_visible = { check_variable = { GDP647_chart_count > 10 } }
+            GDP647_chart_segment_10_visible = { check_variable = { GDP647_chart_count > 11 } }
+            GDP647_chart_segment_11_visible = { check_variable = { GDP647_chart_count > 12 } }
+            GDP647_chart_segment_12_visible = { check_variable = { GDP647_chart_count > 13 } }
+            GDP647_chart_segment_13_visible = { check_variable = { GDP647_chart_count > 14 } }
+            GDP647_chart_segment_14_visible = { check_variable = { GDP647_chart_count > 15 } }
+            GDP647_chart_segment_15_visible = { check_variable = { GDP647_chart_count > 16 } }
+            GDP647_chart_segment_16_visible = { check_variable = { GDP647_chart_count > 17 } }
+            GDP647_chart_segment_17_visible = { check_variable = { GDP647_chart_count > 18 } }
+            GDP647_chart_segment_18_visible = { check_variable = { GDP647_chart_count > 19 } }
+            GDP647_chart_segment_19_visible = { check_variable = { GDP647_chart_count > 20 } }
+            GDP647_chart_segment_20_visible = { check_variable = { GDP647_chart_count > 21 } }
+            GDP647_chart_segment_21_visible = { check_variable = { GDP647_chart_count > 22 } }
+            GDP647_chart_segment_22_visible = { check_variable = { GDP647_chart_count > 23 } }
+        }
+        dynamic_lists = {
+            GDP647_chart_profile = { array = GDP647_inspected_country change_scope = yes entry_container = "GDP647_chart_profile_row" }
+        }
+        properties = {
+            GDP647_chart_metric_total = { frame = GDP647_chart_total_frame }
+            GDP647_chart_metric_pc = { frame = GDP647_chart_pc_frame }
+            GDP647_chart_country_flag = { image = "[THIS.GetFlag]" }
+            GDP647_chart_segment_0 = { y = GDP647_chart_y_0 frame = GDP647_chart_frame_0 }
+            GDP647_chart_segment_1 = { y = GDP647_chart_y_1 frame = GDP647_chart_frame_1 }
+            GDP647_chart_segment_2 = { y = GDP647_chart_y_2 frame = GDP647_chart_frame_2 }
+            GDP647_chart_segment_3 = { y = GDP647_chart_y_3 frame = GDP647_chart_frame_3 }
+            GDP647_chart_segment_4 = { y = GDP647_chart_y_4 frame = GDP647_chart_frame_4 }
+            GDP647_chart_segment_5 = { y = GDP647_chart_y_5 frame = GDP647_chart_frame_5 }
+            GDP647_chart_segment_6 = { y = GDP647_chart_y_6 frame = GDP647_chart_frame_6 }
+            GDP647_chart_segment_7 = { y = GDP647_chart_y_7 frame = GDP647_chart_frame_7 }
+            GDP647_chart_segment_8 = { y = GDP647_chart_y_8 frame = GDP647_chart_frame_8 }
+            GDP647_chart_segment_9 = { y = GDP647_chart_y_9 frame = GDP647_chart_frame_9 }
+            GDP647_chart_segment_10 = { y = GDP647_chart_y_10 frame = GDP647_chart_frame_10 }
+            GDP647_chart_segment_11 = { y = GDP647_chart_y_11 frame = GDP647_chart_frame_11 }
+            GDP647_chart_segment_12 = { y = GDP647_chart_y_12 frame = GDP647_chart_frame_12 }
+            GDP647_chart_segment_13 = { y = GDP647_chart_y_13 frame = GDP647_chart_frame_13 }
+            GDP647_chart_segment_14 = { y = GDP647_chart_y_14 frame = GDP647_chart_frame_14 }
+            GDP647_chart_segment_15 = { y = GDP647_chart_y_15 frame = GDP647_chart_frame_15 }
+            GDP647_chart_segment_16 = { y = GDP647_chart_y_16 frame = GDP647_chart_frame_16 }
+            GDP647_chart_segment_17 = { y = GDP647_chart_y_17 frame = GDP647_chart_frame_17 }
+            GDP647_chart_segment_18 = { y = GDP647_chart_y_18 frame = GDP647_chart_frame_18 }
+            GDP647_chart_segment_19 = { y = GDP647_chart_y_19 frame = GDP647_chart_frame_19 }
+            GDP647_chart_segment_20 = { y = GDP647_chart_y_20 frame = GDP647_chart_frame_20 }
+            GDP647_chart_segment_21 = { y = GDP647_chart_y_21 frame = GDP647_chart_frame_21 }
+            GDP647_chart_segment_22 = { y = GDP647_chart_y_22 frame = GDP647_chart_frame_22 }
         }
     }
 }

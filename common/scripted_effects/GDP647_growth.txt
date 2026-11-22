@@ -16,7 +16,7 @@ GDP647_prepare_growth_sample = {
     add_to_variable = { global.GDP647_published_revision = 1 }
 }
 
-# Newest first: index 0 is last month, and index 11 is this month last year.
+# Newest first: index 2 is three months before the incoming snapshot.
 GDP647_record_gdp_growth = {
     if = {
         limit = {
@@ -35,29 +35,17 @@ GDP647_record_gdp_growth = {
         # Seed one known-good monthly value when upgrading an existing save.
         add_to_array = { array = GDP647_gdp_growth_monthly_gdp value = GDP647_growth_prior_published }
     }
-    set_variable = { GDP647_gdp_growth_mom_valid = 0 }
+    set_variable = { GDP647_gdp_growth_qoq_valid = 0 }
     if = {
         limit = {
-            check_variable = { var = GDP647_gdp_growth_monthly_gdp^num value = 1 compare = greater_than_or_equals }
-            check_variable = { GDP647_gdp_growth_monthly_gdp^0 > 0 }
+            check_variable = { var = GDP647_gdp_growth_monthly_gdp^num value = 3 compare = greater_than_or_equals }
+            check_variable = { GDP647_gdp_growth_monthly_gdp^2 > 0 }
         }
-        set_variable = { GDP647_gdp_growth_mom = GDP647_growth_sample }
-        divide_variable = { GDP647_gdp_growth_mom = GDP647_gdp_growth_monthly_gdp^0 }
-        subtract_from_variable = { GDP647_gdp_growth_mom = 1 }
-        multiply_variable = { GDP647_gdp_growth_mom = 100 }
-        set_variable = { GDP647_gdp_growth_mom_valid = 1 }
-    }
-    set_variable = { GDP647_gdp_growth_yoy_valid = 0 }
-    if = {
-        limit = {
-            check_variable = { var = GDP647_gdp_growth_monthly_gdp^num value = 12 compare = greater_than_or_equals }
-            check_variable = { GDP647_gdp_growth_monthly_gdp^11 > 0 }
-        }
-        set_variable = { GDP647_gdp_growth_yoy = GDP647_growth_sample }
-        divide_variable = { GDP647_gdp_growth_yoy = GDP647_gdp_growth_monthly_gdp^11 }
-        subtract_from_variable = { GDP647_gdp_growth_yoy = 1 }
-        multiply_variable = { GDP647_gdp_growth_yoy = 100 }
-        set_variable = { GDP647_gdp_growth_yoy_valid = 1 }
+        set_variable = { GDP647_gdp_growth_qoq = GDP647_growth_sample }
+        divide_variable = { GDP647_gdp_growth_qoq = GDP647_gdp_growth_monthly_gdp^2 }
+        subtract_from_variable = { GDP647_gdp_growth_qoq = 1 }
+        multiply_variable = { GDP647_gdp_growth_qoq = 100 }
+        set_variable = { GDP647_gdp_growth_qoq_valid = 1 }
     }
     add_to_array = { array = GDP647_gdp_growth_monthly_gdp value = GDP647_growth_sample index = 0 }
     if = {
@@ -67,7 +55,7 @@ GDP647_record_gdp_growth = {
     set_variable = { GDP647_gdp_growth_last_revision = global.GDP647_published_revision }
 }
 
-# Newest first: index 0 is last month, and index 11 is this month last year.
+# Newest first: index 2 is three months before the incoming snapshot.
 GDP647_record_faction_growth = {
     if = {
         limit = {
@@ -86,29 +74,17 @@ GDP647_record_faction_growth = {
         # Seed one known-good monthly value when upgrading an existing save.
         add_to_array = { array = GDP647_faction_growth_monthly_gdp value = GDP647_growth_prior_published }
     }
-    set_variable = { GDP647_faction_growth_mom_valid = 0 }
+    set_variable = { GDP647_faction_growth_qoq_valid = 0 }
     if = {
         limit = {
-            check_variable = { var = GDP647_faction_growth_monthly_gdp^num value = 1 compare = greater_than_or_equals }
-            check_variable = { GDP647_faction_growth_monthly_gdp^0 > 0 }
+            check_variable = { var = GDP647_faction_growth_monthly_gdp^num value = 3 compare = greater_than_or_equals }
+            check_variable = { GDP647_faction_growth_monthly_gdp^2 > 0 }
         }
-        set_variable = { GDP647_faction_growth_mom = GDP647_growth_sample }
-        divide_variable = { GDP647_faction_growth_mom = GDP647_faction_growth_monthly_gdp^0 }
-        subtract_from_variable = { GDP647_faction_growth_mom = 1 }
-        multiply_variable = { GDP647_faction_growth_mom = 100 }
-        set_variable = { GDP647_faction_growth_mom_valid = 1 }
-    }
-    set_variable = { GDP647_faction_growth_yoy_valid = 0 }
-    if = {
-        limit = {
-            check_variable = { var = GDP647_faction_growth_monthly_gdp^num value = 12 compare = greater_than_or_equals }
-            check_variable = { GDP647_faction_growth_monthly_gdp^11 > 0 }
-        }
-        set_variable = { GDP647_faction_growth_yoy = GDP647_growth_sample }
-        divide_variable = { GDP647_faction_growth_yoy = GDP647_faction_growth_monthly_gdp^11 }
-        subtract_from_variable = { GDP647_faction_growth_yoy = 1 }
-        multiply_variable = { GDP647_faction_growth_yoy = 100 }
-        set_variable = { GDP647_faction_growth_yoy_valid = 1 }
+        set_variable = { GDP647_faction_growth_qoq = GDP647_growth_sample }
+        divide_variable = { GDP647_faction_growth_qoq = GDP647_faction_growth_monthly_gdp^2 }
+        subtract_from_variable = { GDP647_faction_growth_qoq = 1 }
+        multiply_variable = { GDP647_faction_growth_qoq = 100 }
+        set_variable = { GDP647_faction_growth_qoq_valid = 1 }
     }
     add_to_array = { array = GDP647_faction_growth_monthly_gdp value = GDP647_growth_sample index = 0 }
     if = {
@@ -117,3 +93,76 @@ GDP647_record_faction_growth = {
     }
     set_variable = { GDP647_faction_growth_last_revision = global.GDP647_published_revision }
 }
+
+GDP647_record_gdp_pc_growth = {
+    if = {
+        limit = {
+            OR = {
+                NOT = { has_variable = GDP647_gdp_growth_last_revision }
+                NOT = { check_variable = { GDP647_gdp_growth_last_revision = global.GDP647_growth_previous_revision } }
+            }
+        }
+        clear_array = GDP647_gdp_growth_monthly_pc
+    }
+    else_if = {
+        limit = {
+            check_variable = { GDP647_gdp_growth_monthly_pc^num = 0 }
+            check_variable = { GDP647_pc_prior > 0 }
+        }
+        add_to_array = { array = GDP647_gdp_growth_monthly_pc value = GDP647_pc_prior }
+    }
+    set_variable = { GDP647_gdp_growth_pc_qoq_valid = 0 }
+    if = {
+        limit = {
+            check_variable = { GDP647_gdp_growth_monthly_pc^num > 2 }
+            check_variable = { GDP647_gdp_growth_monthly_pc^2 > 0 }
+        }
+        set_variable = { GDP647_gdp_growth_pc_qoq = GDP647_pc_current }
+        divide_variable = { GDP647_gdp_growth_pc_qoq = GDP647_gdp_growth_monthly_pc^2 }
+        subtract_from_variable = { GDP647_gdp_growth_pc_qoq = 1 }
+        multiply_variable = { GDP647_gdp_growth_pc_qoq = 100 }
+        set_variable = { GDP647_gdp_growth_pc_qoq_valid = 1 }
+    }
+    add_to_array = { array = GDP647_gdp_growth_monthly_pc value = GDP647_pc_current index = 0 }
+    if = {
+        limit = { check_variable = { GDP647_gdp_growth_monthly_pc^num > 3 } }
+        remove_from_array = { array = GDP647_gdp_growth_monthly_pc index = 3 }
+    }
+}
+
+GDP647_record_faction_pc_growth = {
+    if = {
+        limit = {
+            OR = {
+                NOT = { has_variable = GDP647_faction_growth_last_revision }
+                NOT = { check_variable = { GDP647_faction_growth_last_revision = global.GDP647_growth_previous_revision } }
+            }
+        }
+        clear_array = GDP647_faction_growth_monthly_pc
+    }
+    else_if = {
+        limit = {
+            check_variable = { GDP647_faction_growth_monthly_pc^num = 0 }
+            check_variable = { GDP647_pc_prior > 0 }
+        }
+        add_to_array = { array = GDP647_faction_growth_monthly_pc value = GDP647_pc_prior }
+    }
+    set_variable = { GDP647_faction_growth_pc_qoq_valid = 0 }
+    if = {
+        limit = {
+            check_variable = { GDP647_faction_growth_monthly_pc^num > 2 }
+            check_variable = { GDP647_faction_growth_monthly_pc^2 > 0 }
+        }
+        set_variable = { GDP647_faction_growth_pc_qoq = GDP647_pc_current }
+        divide_variable = { GDP647_faction_growth_pc_qoq = GDP647_faction_growth_monthly_pc^2 }
+        subtract_from_variable = { GDP647_faction_growth_pc_qoq = 1 }
+        multiply_variable = { GDP647_faction_growth_pc_qoq = 100 }
+        set_variable = { GDP647_faction_growth_pc_qoq_valid = 1 }
+    }
+    add_to_array = { array = GDP647_faction_growth_monthly_pc value = GDP647_pc_current index = 0 }
+    if = {
+        limit = { check_variable = { GDP647_faction_growth_monthly_pc^num > 3 } }
+        remove_from_array = { array = GDP647_faction_growth_monthly_pc index = 3 }
+    }
+}
+
