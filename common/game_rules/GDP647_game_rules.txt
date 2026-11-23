@@ -5,15 +5,18 @@ GDP647_state_category_table = {
         name = VANILLA
         text = GDP647_RULE_CATEGORY_VANILLA
         desc = GDP647_RULE_CATEGORY_VANILLA_DESC
+        allow_achievements = yes
     }
     default = {
         name = NUMBERED
         text = GDP647_RULE_CATEGORY_NUMBERED
         desc = GDP647_RULE_CATEGORY_NUMBERED_DESC
+        allow_achievements = yes
     }
     option = {
         name = ROAD_TO_56
         text = GDP647_RULE_CATEGORY_56
         desc = GDP647_RULE_CATEGORY_56_DESC
+        allow_achievements = yes
     }
 }
