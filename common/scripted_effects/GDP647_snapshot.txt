@@ -688,7 +688,6 @@ GDP647_update_ranked_cards = {
 # Selecting a country explicitly also chooses a representative controlled state.
 GDP647_select_state_for_country = {
     clear_array = GDP647_inspected_state
-    clr_country_flag = GDP647_own_state_order_cached
     var:GDP647_inspected_country^0 = {
         capital_scope = {
             if = {
@@ -878,7 +877,6 @@ GDP647_refresh_state_ranking = {
             GDP647_reset_list_page = yes
         }
         GDP647_rebuild_current_order = yes
-        clr_country_flag = GDP647_own_state_order_cached
         clear_array = GDP647_state_cached_order
         clear_array = GDP647_state_cached_ranks
         set_temp_variable = { GDP647_cache_index = 0 }
@@ -894,7 +892,6 @@ GDP647_refresh_state_ranking = {
         set_variable = { GDP647_state_cached_sort = GDP647_order_key }
         set_variable = { GDP647_state_cached_rank_basis = GDP647_rank_basis }
         set_variable = { GDP647_state_cached_minimum = GDP647_minimum_population }
-        clr_country_flag = GDP647_locked_state_orders_ready
         GDP647_publish_state_detail_ranks = yes
         set_country_flag = GDP647_state_order_cached
     }
@@ -904,10 +901,6 @@ GDP647_reset_list_page = {
     GDP647_load_sort_key = yes
     resize_array = { array = GDP647_page_offsets size = 3 value = 0 }
     set_variable = { GDP647_page_offsets^GDP647_page_index = 0 }
-    if = {
-        limit = { check_variable = { GDP647_page_index = 2 } }
-        clear_array = GDP647_locked_page_offsets
-    }
 }
 
 GDP647_change_page = {
@@ -927,30 +920,30 @@ GDP647_load_list_page = {
     GDP647_load_sort_key = yes
     resize_array = { array = GDP647_page_offsets size = 3 value = 0 }
     set_temp_variable = { GDP647_page_row_count = GDP647_display_order^num }
-    set_temp_variable = { GDP647_use_own_state_order = 0 }
+    set_temp_variable = { GDP647_use_pinned_state_rows = 0 }
     set_variable = { GDP647_faction_filter_frame = 1 }
+    set_temp_variable = { GDP647_use_pinned_faction_rows = 0 }
+    set_temp_variable = { GDP647_use_native_faction_rows = 0 }
     if = {
-        limit = {
-            check_variable = { GDP647_page_index = 0 }
-            has_country_flag = GDP647_country_own_faction
-            is_in_faction = yes
-        }
+        limit = { check_variable = { GDP647_page_index = 0 } has_country_flag = GDP647_country_own_faction }
         set_variable = { GDP647_faction_filter_frame = 2 }
-        clear_temp_array = GDP647_same_faction_rows
-        clear_temp_array = GDP647_same_faction_ranks
-        set_temp_variable = { GDP647_country_world_index = 0 }
-        for_each_scope_loop = {
-            array = GDP647_display_order
-            if = {
-                limit = { OR = { tag = PREV is_in_faction_with = PREV } }
-                add_to_temp_array = { array = GDP647_same_faction_rows value = THIS }
-                PREV = {
-                    add_to_temp_array = { array = GDP647_same_faction_ranks value = GDP647_row_ranks^GDP647_country_world_index }
+        GDP647_prepare_faction_country_rows = yes
+        if = {
+            limit = { has_country_flag = GDP647_manual_selection }
+            set_temp_variable = { GDP647_filter_faction_slot = 0 }
+            var:GDP647_inspected_country^0 = {
+                if = {
+                    limit = { is_in_faction = yes }
+                    set_temp_variable = { GDP647_filter_faction_slot = GDP647_faction_member_slot }
                 }
             }
-            add_to_temp_variable = { GDP647_country_world_index = 1 }
+            set_temp_variable = { GDP647_use_pinned_faction_rows = 1 }
+            set_temp_variable = { GDP647_page_row_count = GDP647_faction_row_counts^GDP647_filter_faction_slot }
+            set_temp_variable = { GDP647_pinned_faction_start = GDP647_faction_row_starts^GDP647_filter_faction_slot }
         }
-        set_temp_variable = { GDP647_page_row_count = GDP647_same_faction_rows^num }
+        else = {
+            set_temp_variable = { GDP647_use_native_faction_rows = 1 }
+        }
     }
     if = {
         limit = { check_variable = { GDP647_page_index = 2 } }
@@ -959,32 +952,18 @@ GDP647_load_list_page = {
         if = {
             limit = { has_country_flag = GDP647_state_own_only }
             set_variable = { GDP647_state_control_filter_frame = 2 }
-            set_variable = { GDP647_state_filter_target_id = id }
             if = {
                 limit = {
-                    check_variable = { GDP647_inspected_country^num > 0 }
+                    has_country_flag = GDP647_manual_selection
                     var:GDP647_inspected_country^0 = { exists = yes }
                 }
-                var:GDP647_inspected_country^0 = { set_variable = { PREV.GDP647_state_filter_target_id = id } }
-            }
-            if = {
-                limit = {
-                    GDP647_locked_state_filter_active = yes
-                    NOT = { has_country_flag = GDP647_locked_state_orders_ready }
+                GDP647_select_controlled_state_rows = yes
+                if = {
+                    limit = { check_variable = { GDP647_controlled_state_rows^num > 0 } }
+                    set_temp_variable = { GDP647_use_pinned_state_rows = 1 }
+                    set_temp_variable = { GDP647_page_row_count = GDP647_controlled_state_rows^num }
                 }
-                GDP647_build_locked_state_orders = yes
             }
-            if = {
-                limit = {
-                    OR = {
-                        NOT = { has_country_flag = GDP647_own_state_order_cached }
-                        NOT = { check_variable = { GDP647_state_filter_target_id = GDP647_own_state_cache_target_id } }
-                    }
-                }
-                GDP647_build_own_state_order = yes
-            }
-            set_temp_variable = { GDP647_use_own_state_order = 1 }
-            set_temp_variable = { GDP647_page_row_count = GDP647_own_state_order^num }
         }
     }
     set_temp_variable = { GDP647_last_page_offset = GDP647_page_row_count }
@@ -1015,11 +994,14 @@ GDP647_load_list_page = {
     add_to_temp_variable = { GDP647_page_end = @GDP647_page_size }
     clamp_temp_variable = { var = GDP647_page_end max = GDP647_page_row_count }
     while_loop_effect = {
-        limit = { check_variable = { GDP647_page_cursor < GDP647_page_end } }
+        limit = {
+            check_variable = { GDP647_use_native_faction_rows = 0 }
+            check_variable = { GDP647_page_cursor < GDP647_page_end }
+        }
         if = {
-            limit = { check_variable = { GDP647_use_own_state_order = 1 } }
-            add_to_array = { array = GDP647_page_rows value = GDP647_own_state_order^GDP647_page_cursor }
-            add_to_array = { array = GDP647_page_ranks value = GDP647_own_state_ranks^GDP647_page_cursor }
+            limit = { check_variable = { GDP647_use_pinned_state_rows = 1 } }
+            add_to_array = { array = GDP647_page_rows value = GDP647_controlled_state_rows^GDP647_page_cursor }
+            add_to_array = { array = GDP647_page_ranks value = GDP647_controlled_state_ranks^GDP647_page_cursor }
         }
         else_if = {
             limit = { check_variable = { GDP647_page_index = 2 } }
@@ -1027,9 +1009,11 @@ GDP647_load_list_page = {
             add_to_array = { array = GDP647_page_ranks value = GDP647_state_cached_ranks^GDP647_page_cursor }
         }
         else_if = {
-            limit = { check_variable = { GDP647_faction_filter_frame = 2 } }
-            add_to_array = { array = GDP647_page_rows value = GDP647_same_faction_rows^GDP647_page_cursor }
-            add_to_array = { array = GDP647_page_ranks value = GDP647_same_faction_ranks^GDP647_page_cursor }
+            limit = { check_variable = { GDP647_use_pinned_faction_rows = 1 } }
+            set_temp_variable = { GDP647_faction_row_index = GDP647_pinned_faction_start }
+            add_to_temp_variable = { GDP647_faction_row_index = GDP647_page_cursor }
+            add_to_array = { array = GDP647_page_rows value = GDP647_faction_sorted_rows^GDP647_faction_row_index }
+            add_to_array = { array = GDP647_page_ranks value = GDP647_faction_sorted_ranks^GDP647_faction_row_index }
         }
         else = {
             add_to_array = { array = GDP647_page_rows value = GDP647_display_order^GDP647_page_cursor }
@@ -1081,37 +1065,24 @@ GDP647_publish_state_detail_ranks = {
     set_country_flag = GDP647_state_scope_rank_ready
 }
 
-# Reuse the world order and its rank array; control is evaluated when filtering.
-GDP647_build_own_state_order = {
-    clear_array = GDP647_own_state_order
-    clear_array = GDP647_own_state_ranks
-    set_temp_variable = { GDP647_own_state_index = 0 }
+# Keep the exact world row and rank while filtering by the pinned controller.
+GDP647_select_controlled_state_rows = {
+    clear_temp_array = GDP647_controlled_state_rows
+    clear_temp_array = GDP647_controlled_state_ranks
+    var:GDP647_inspected_country^0 = {
+        set_temp_variable = { GDP647_controlled_target_id = id }
+    }
+    set_temp_variable = { GDP647_state_world_index = 0 }
     for_each_scope_loop = {
         array = GDP647_state_cached_order
         if = {
-            limit = { controller = { check_variable = { id = PREV.PREV.GDP647_state_filter_target_id } } }
-            add_to_array = { array = PREV.GDP647_own_state_order }
+            limit = { controller = { check_variable = { id = GDP647_controlled_target_id } } }
+            add_to_temp_array = { array = GDP647_controlled_state_rows }
             PREV = {
-                add_to_array = { array = GDP647_own_state_ranks value = GDP647_state_cached_ranks^GDP647_own_state_index }
+                add_to_temp_array = { array = GDP647_controlled_state_ranks value = GDP647_state_cached_ranks^GDP647_state_world_index }
             }
         }
-        add_to_temp_variable = { GDP647_own_state_index = 1 }
-    }
-    set_variable = { GDP647_own_state_cache_target_id = GDP647_state_filter_target_id }
-    set_country_flag = GDP647_own_state_order_cached
-}
-
-# Batch multiple state transfers into one filtered-page refresh on the daily pulse.
-GDP647_invalidate_own_state_order = {
-    clr_country_flag = GDP647_own_state_order_cached
-    clr_country_flag = GDP647_locked_state_orders_ready
-    if = {
-        limit = {
-            has_country_flag = GDP647_open
-            has_country_flag = GDP647_state_own_only
-            check_variable = { GDP647_view = 2 }
-        }
-        set_global_flag = GDP647_own_state_page_pending
+        add_to_temp_variable = { GDP647_state_world_index = 1 }
     }
 }
 
@@ -1120,12 +1091,9 @@ GDP647_pin_ranked_state = {
             set_country_flag = GDP647_manual_selection
             clear_array = GDP647_inspected_state
             add_to_array = { array = GDP647_inspected_state value = PREV }
-            PREV = {
-                if = {
-                    limit = { controller = { exists = yes } }
-                    PREV = { clear_array = GDP647_inspected_country }
-                    controller = { add_to_array = { array = PREV.PREV.GDP647_inspected_country } }
-                }
+            clear_array = GDP647_inspected_country
+            var:GDP647_inspected_state^0 = {
+                controller = { add_to_array = { array = ROOT.GDP647_inspected_country } }
             }
             if = {
                 limit = { has_country_flag = GDP647_state_own_only }

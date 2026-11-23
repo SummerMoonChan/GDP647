@@ -112,32 +112,6 @@ defined_text = {
 }
 
 defined_text = {
-    name = GetGDP647StateRowRank
-    text = {
-        trigger = {
-            ROOT = { GDP647_locked_state_filter_active = yes }
-            set_temp_variable = { GDP647_locked_row_id = id }
-        }
-        localization_key = GDP647_LOCKED_STATE_ROW_RANK
-    }
-    text = { localization_key = GDP647_ROW_RANK }
-}
-
-defined_text = {
-    name = GetGDP647LockedStatePage
-    text = {
-        trigger = {
-            GDP647_get_locked_state_page = yes
-            divide_temp_variable = { GDP647_locked_offset = 10 }
-            add_to_temp_variable = { GDP647_locked_offset = 1 }
-            divide_temp_variable = { GDP647_locked_last_offset = 10 }
-            add_to_temp_variable = { GDP647_locked_last_offset = 1 }
-        }
-        localization_key = GDP647_LOCKED_STATE_PAGE_NUMBERS
-    }
-}
-
-defined_text = {
     name = GetGDP647SelectionMode
     text = {
         trigger = { has_country_flag = GDP647_manual_selection }

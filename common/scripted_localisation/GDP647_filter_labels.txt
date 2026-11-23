@@ -1,13 +1,4 @@
 defined_text = {
-    name = GetGDP647CountryFactionFilterLabel
-    text = {
-        trigger = { is_in_faction = yes }
-        localization_key = GDP647_COUNTRY_FACTION_FILTER
-    }
-    text = { localization_key = GDP647_COUNTRY_FACTION_FILTER_DISABLED }
-}
-
-defined_text = {
     name = GetGDP647CountryPopulationFilterLabel
     text = {
         trigger = { has_country_flag = GDP647_per_capita_order }

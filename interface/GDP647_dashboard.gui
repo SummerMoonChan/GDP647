@@ -150,7 +150,7 @@ guiTypes = {
         }
         instantTextBoxType = {
             name = "GDP647_country_faction_filter_label" position = { x = 620 y = 50 }
-            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_FILTER_LABEL" format = left
+            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_FILTER" format = left
             maxWidth = 88 maxHeight = 22 fixedsize = yes
             pdx_tooltip = "GDP647_COUNTRY_FACTION_FILTER_TT"
         }
@@ -225,6 +225,16 @@ guiTypes = {
                 format = "UPPER_LEFT"
                 add_horizontal = no
             }
+        }
+        containerWindowType = {
+            name = "GDP647_map_faction_rows_anchor"
+            position = { x = 264 y = 119 }
+            size = { width = 596 height = 440 }
+        }
+        containerWindowType = {
+            name = "GDP647_diplomacy_faction_rows_anchor"
+            position = { x = 264 y = 119 }
+            size = { width = 596 height = 440 }
         }
         containerWindowType = {
             name = "GDP647_map_country_anchor"
@@ -553,54 +563,93 @@ guiTypes = {
             }
         }
         containerWindowType = {
-            name = "GDP647_locked_state_list_anchor"
-            position = { x = 264 y = 119 }
-            size = { width = 596 height = 440 }
-        }
-        containerWindowType = {
             name = "GDP647_state_follow_anchor"
             position = { x = 20 y = 119 }
             size = { width = 222 height = 410 }
         }
     }
 
+
+
+
     containerWindowType = {
-        name = "GDP647_locked_state_list"
+        name = "GDP647_map_faction_ranking"
+        position = { x = 0 y = 0 }
+        orientation = UPPER_LEFT
         size = { width = 596 height = 440 }
-        gridboxtype = {
-            name = "GDP647_locked_state_grid"
-            position = { x = 14 y = 2 }
-            size = { width = 568 height = 390 }
-            slotsize = { width = 564 height = 39 }
-            max_slots_horizontal = 1
-            max_slots_vertical = 10
-            format = "UPPER_LEFT"
-            add_horizontal = no
+        containerWindowType = {
+            name = "GDP647_faction_filter_list_content"
+            position = { x = 0 y = 0 }
+            size = { width = 596 height = 394 }
+            
+            gridboxtype = {
+                name = "GDP647_faction_filter_grid" position = { x = 14 y = 2 }
+                size = { width = 568 height = 390 }
+                slotsize = { width = 564 height = 39 }
+                max_slots_horizontal = 1 max_slots_vertical = 10
+                format = "UPPER_LEFT" add_horizontal = no
+            }
         }
         buttonType = {
-            name = "GDP647_locked_previous_ten_page" position = { x = 6 y = 404 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_TEN_PAGES"
-        }
-        buttonType = {
-            name = "GDP647_locked_next_ten_page" position = { x = 457 y = 404 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_TEN_PAGES"
-        }
-        buttonType = {
-            name = "GDP647_locked_previous_page" position = { x = 115 y = 404 }
+            name = "GDP647_faction_filter_prev" position = { x = 6 y = 404 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_PAGE"
         }
         buttonType = {
-            name = "GDP647_locked_next_page" position = { x = 348 y = 404 }
+            name = "GDP647_faction_filter_next" position = { x = 248 y = 404 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_PAGE"
         }
         instantTextBoxType = {
-            name = "GDP647_locked_page_label" position = { x = 225 y = 408 }
-            font = "hoi_16mbs" text = "GDP647_LOCKED_STATE_PAGE_INDICATOR" format = centre
+            name = "GDP647_faction_filter_page_label" position = { x = 118 y = 408 }
+            font = "hoi_16mbs" text = "GDP647_MAP_FACTION_FILTER_PAGE" format = centre
             maxWidth = 118 maxHeight = 22 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_filter_empty" position = { x = 16 y = 20 }
+            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_ROWS_EMPTY" format = centre
+            maxWidth = 560 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+    }
+
+    containerWindowType = {
+        name = "GDP647_diplomacy_faction_ranking"
+        position = { x = 0 y = 0 }
+        orientation = UPPER_LEFT
+        size = { width = 596 height = 440 }
+        containerWindowType = {
+            name = "GDP647_faction_filter_list_content"
+            position = { x = 0 y = 0 }
+            size = { width = 596 height = 394 }
+            gridboxtype = {
+                name = "GDP647_faction_filter_grid" position = { x = 14 y = 2 }
+                size = { width = 568 height = 390 }
+                slotsize = { width = 564 height = 39 }
+                max_slots_horizontal = 1 max_slots_vertical = 10
+                format = "UPPER_LEFT" add_horizontal = no
+            }
+        }
+        buttonType = {
+            name = "GDP647_faction_filter_prev" position = { x = 6 y = 404 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_PAGE"
+        }
+        buttonType = {
+            name = "GDP647_faction_filter_next" position = { x = 248 y = 404 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_PAGE"
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_filter_page_label" position = { x = 118 y = 408 }
+            font = "hoi_16mbs" text = "GDP647_DIPLOMACY_FACTION_FILTER_PAGE" format = centre
+            maxWidth = 118 maxHeight = 22 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_filter_empty" position = { x = 16 y = 20 }
+            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_ROWS_EMPTY" format = centre
+            maxWidth = 560 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
         }
     }
 
@@ -626,7 +675,7 @@ guiTypes = {
         }
         instantTextBoxType = {
             name = "GDP647_country_row_rank" position = { x = 52 y = 19 }
-            font = "hoi_16mbs" text = "GDP647_ROW_RANK" format = left
+            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_RANK" format = left
             maxWidth = 212 maxHeight = 19 fixedsize = yes
             alwaystransparent = yes
         }
@@ -704,7 +753,7 @@ guiTypes = {
         }
         instantTextBoxType = {
             name = "GDP647_state_row_rank" position = { x = 52 y = 19 }
-            font = "hoi_16mbs" text = "GDP647_STATE_ROW_RANK" format = left
+            font = "hoi_16mbs" text = "GDP647_ROW_RANK" format = left
             maxWidth = 212 maxHeight = 19 fixedsize = yes
         }
         instantTextBoxType = {

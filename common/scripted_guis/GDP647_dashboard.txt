@@ -74,7 +74,6 @@ scripted_gui = {
             GDP647_tab_state_click = {
                 GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
@@ -119,10 +118,14 @@ scripted_gui = {
             }
         }
         triggers = {
+            GDP647_country_grid_visible = { NOT = { GDP647_native_faction_filter_active = yes } }
+            GDP647_previous_page_visible = { NOT = { GDP647_native_faction_filter_active = yes } }
+            GDP647_next_page_visible = { NOT = { GDP647_native_faction_filter_active = yes } }
+            GDP647_page_label_visible = { NOT = { GDP647_native_faction_filter_active = yes } }
             GDP647_profile_grid_visible = { has_country_flag = GDP647_manual_selection }
             GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
             GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
-            GDP647_country_faction_filter_click_enabled = { is_in_faction = yes }
+            GDP647_country_faction_filter_click_enabled = { always = yes }
             GDP647_country_population_filter_click_enabled = { has_country_flag = GDP647_per_capita_order }
             GDP647_country_breakdown_agriculture_visible = { has_variable = GDP647_country_sector_agriculture }
             GDP647_country_breakdown_agriculture_icon_visible = { has_variable = GDP647_country_sector_agriculture }
@@ -183,7 +186,6 @@ scripted_gui = {
             }
             GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
             GDP647_tab_country_click = {
-                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 0 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -202,7 +204,6 @@ scripted_gui = {
             GDP647_tab_state_click = {
                 GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
@@ -282,7 +283,6 @@ scripted_gui = {
             GDP647_tab_state_click = {
                 GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
@@ -328,12 +328,6 @@ scripted_gui = {
             }
         }
         triggers = {
-            GDP647_state_grid_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
-            GDP647_state_previous_ten_pages_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
-            GDP647_state_next_ten_pages_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
-            GDP647_previous_page_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
-            GDP647_next_page_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
-            GDP647_page_label_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
             GDP647_state_previous_ten_pages_click_enabled = { check_variable = { GDP647_page_number > 1 } }
             GDP647_state_next_ten_pages_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
             GDP647_state_detail_grid_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_ranked_state_card^num > 0 } }
@@ -378,75 +372,6 @@ scripted_gui = {
         }
     }
 
-
-    # The selected-state context follows map clicks even when the game is paused.
-    GDP647_locked_state_list_gui = {
-        context_type = selected_state_context
-        window_name = "GDP647_locked_state_list"
-        parent_window_name = "GDP647_locked_state_list_anchor"
-        ai_enabled = { always = no }
-        visible = {
-            controller = { exists = yes }
-            ROOT = {
-                has_country_flag = GDP647_open
-                check_variable = { GDP647_view = 2 }
-                GDP647_locked_state_filter_active = yes
-            }
-        }
-        effects = {
-            GDP647_state_flag_click = { GDP647_pin_ranked_state = yes }
-            GDP647_locked_previous_ten_page_click = {
-                set_temp_variable = { GDP647_locked_page_delta = -10 }
-                GDP647_change_locked_state_page = yes
-            }
-            GDP647_locked_previous_page_click = {
-                set_temp_variable = { GDP647_locked_page_delta = -1 }
-                GDP647_change_locked_state_page = yes
-            }
-            GDP647_locked_next_page_click = {
-                set_temp_variable = { GDP647_locked_page_delta = 1 }
-                GDP647_change_locked_state_page = yes
-            }
-            GDP647_locked_next_ten_page_click = {
-                set_temp_variable = { GDP647_locked_page_delta = 10 }
-                GDP647_change_locked_state_page = yes
-            }
-        }
-        triggers = {
-            GDP647_locked_state_grid_visible = {
-                GDP647_get_locked_state_page = yes
-                clear_temp_array = GDP647_locked_visible_rows
-                set_temp_variable = { GDP647_locked_cursor = ROOT.GDP647_locked_state_starts^GDP647_locked_controller_id }
-                set_temp_variable = { GDP647_locked_end = GDP647_locked_cursor }
-                add_to_temp_variable = { GDP647_locked_end = GDP647_locked_count }
-                add_to_temp_variable = { GDP647_locked_cursor = GDP647_locked_offset }
-                set_temp_variable = { GDP647_locked_page_end = GDP647_locked_cursor }
-                add_to_temp_variable = { GDP647_locked_page_end = 10 }
-                clamp_temp_variable = { var = GDP647_locked_end max = GDP647_locked_page_end }
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                GDP647_add_locked_state_row = yes
-                always = yes
-            }
-            GDP647_locked_previous_page_click_enabled = { GDP647_locked_state_previous_page_enabled = yes }
-            GDP647_locked_previous_ten_page_click_enabled = { GDP647_locked_state_previous_page_enabled = yes }
-            GDP647_locked_next_page_click_enabled = { GDP647_locked_state_next_page_enabled = yes }
-            GDP647_locked_next_ten_page_click_enabled = { GDP647_locked_state_next_page_enabled = yes }
-        }
-        dynamic_lists = {
-            GDP647_locked_state_grid = { array = GDP647_locked_visible_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_state_row" }
-        }
-        properties = {
-            GDP647_state_flag = { image = "[THIS.controller.GetFlag]" }
-        }
-    }
 
     GDP647_map_state_detail_gui = {
         context_type = selected_state_context
@@ -519,7 +444,6 @@ scripted_gui = {
             GDP647_tab_state_click = {
                 GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
@@ -1324,5 +1248,110 @@ scripted_gui = {
             GDP647_follow_chart_pc_21 = { y = GDP647_map_pc_y_21 frame = GDP647_map_pc_frame_21 }
             GDP647_follow_chart_pc_22 = { y = GDP647_map_pc_y_22 frame = GDP647_map_pc_frame_22 }
         }
+    }
+
+    GDP647_map_faction_ranking_gui = {
+        context_type = selected_state_context
+        window_name = "GDP647_map_faction_ranking"
+        parent_window_name = "GDP647_map_faction_rows_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            controller = { exists = yes has_variable = GDP647_country_gdp }
+            check_variable = { GDP647_state_follow_country_scope^num > 0 }
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { check_variable = { GDP647_view > 0 } }
+                GDP647_native_faction_filter_active = yes
+            }
+        }
+        effects = {
+            GDP647_country_flag_click = { GDP647_pin_country_row = yes }
+            GDP647_country_name_button_click = { GDP647_pin_country_row = yes }
+            GDP647_faction_filter_prev_click = {
+                set_temp_variable = { GDP647_faction_page_step = -1 }
+                controller = { GDP647_step_faction_country_rows = yes }
+            }
+            GDP647_faction_filter_next_click = {
+                set_temp_variable = { GDP647_faction_page_step = 1 }
+                controller = { GDP647_step_faction_country_rows = yes }
+            }
+        }
+        triggers = {
+            GDP647_faction_filter_page_label_visible = {
+                controller = {
+                    GDP647_read_native_faction_page = yes
+                    GDP647_fill_native_faction_page = yes
+                }
+                always = yes
+            }
+            GDP647_faction_filter_prev_click_enabled = {
+                controller = { GDP647_read_native_faction_page = yes }
+                check_variable = { GDP647_faction_native_offset > 0 }
+            }
+            GDP647_faction_filter_next_click_enabled = {
+                controller = { GDP647_read_native_faction_page = yes }
+                check_variable = { GDP647_faction_native_offset < GDP647_faction_native_last }
+            }
+            GDP647_faction_filter_empty_visible = {
+                controller = { GDP647_read_native_faction_page = yes }
+                check_variable = { GDP647_faction_native_count = 0 }
+            }
+        }
+        dynamic_lists = {
+            GDP647_faction_filter_grid = { array = GDP647_native_faction_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_country_row" }
+        }
+        properties = { GDP647_country_flag = { image = "[THIS.GetFlag]" } }
+    }
+
+    GDP647_diplomacy_faction_ranking_gui = {
+        context_type = diplomacy_target_context
+        window_name = "GDP647_diplomacy_faction_ranking"
+        parent_window_name = "GDP647_diplomacy_faction_rows_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            exists = yes
+            has_variable = GDP647_country_gdp
+            check_variable = { GDP647_diplomacy_country^num > 0 }
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { check_variable = { GDP647_view > 0 } }
+                GDP647_native_faction_filter_active = yes
+            }
+        }
+        effects = {
+            GDP647_country_flag_click = { GDP647_pin_country_row = yes }
+            GDP647_country_name_button_click = { GDP647_pin_country_row = yes }
+            GDP647_faction_filter_prev_click = {
+                set_temp_variable = { GDP647_faction_page_step = -1 }
+                GDP647_step_faction_country_rows = yes
+            }
+            GDP647_faction_filter_next_click = {
+                set_temp_variable = { GDP647_faction_page_step = 1 }
+                GDP647_step_faction_country_rows = yes
+            }
+        }
+        triggers = {
+            GDP647_faction_filter_page_label_visible = {
+                GDP647_read_native_faction_page = yes
+                GDP647_fill_native_faction_page = yes
+                always = yes
+            }
+            GDP647_faction_filter_prev_click_enabled = {
+                GDP647_read_native_faction_page = yes
+                check_variable = { GDP647_faction_native_offset > 0 }
+            }
+            GDP647_faction_filter_next_click_enabled = {
+                GDP647_read_native_faction_page = yes
+                check_variable = { GDP647_faction_native_offset < GDP647_faction_native_last }
+            }
+            GDP647_faction_filter_empty_visible = {
+                GDP647_read_native_faction_page = yes
+                check_variable = { GDP647_faction_native_count = 0 }
+            }
+        }
+        dynamic_lists = {
+            GDP647_faction_filter_grid = { array = GDP647_native_faction_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_country_row" }
+        }
+        properties = { GDP647_country_flag = { image = "[THIS.GetFlag]" } }
     }
 }

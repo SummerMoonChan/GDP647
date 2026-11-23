@@ -19,11 +19,6 @@ on_actions = {
         effect = {
             FROM.FROM = { GDP647_refresh_state_follow_scope = yes }
             set_global_flag = GDP647_own_state_page_pending
-            GDP647_invalidate_own_state_order = yes
-            if = {
-                limit = { FROM = { exists = yes } }
-                FROM = { GDP647_invalidate_own_state_order = yes }
-            }
         }
     }
     on_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
@@ -80,10 +75,9 @@ on_actions = {
                         is_ai = no
                         has_country_flag = GDP647_open
                         has_country_flag = GDP647_state_own_only
+                        has_country_flag = GDP647_manual_selection
                         check_variable = { GDP647_view = 2 }
                     }
-                    clr_country_flag = GDP647_own_state_order_cached
-                    clr_country_flag = GDP647_locked_state_orders_ready
                     GDP647_load_list_page = yes
                     add_to_variable = { global.GDP647_ui_revision = 1 }
                 }

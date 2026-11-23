@@ -1,0 +1,45 @@
+
+defined_text = {
+    name = GetGDP647CountryFactionRank
+    text = {
+        trigger = {
+            ROOT = { GDP647_native_faction_filter_active = yes }
+            any_of = {
+                array = ROOT.GDP647_display_order
+                value = GDP647_faction_rank_match
+                index = GDP647_faction_rank_index
+                var:GDP647_faction_rank_match = { tag = PREV }
+            }
+        }
+        localization_key = GDP647_COUNTRY_NATIVE_FACTION_RANK
+    }
+    text = { localization_key = GDP647_ROW_RANK }
+}
+
+defined_text = {
+    name = GetGDP647MapFactionFilterPage
+    text = {
+        trigger = {
+            controller = { GDP647_read_native_faction_page = yes }
+            divide_temp_variable = { GDP647_faction_native_offset = 10 }
+            add_to_temp_variable = { GDP647_faction_native_offset = 1 }
+            divide_temp_variable = { GDP647_faction_native_last = 10 }
+            add_to_temp_variable = { GDP647_faction_native_last = 1 }
+        }
+        localization_key = GDP647_NATIVE_FACTION_PAGES
+    }
+}
+
+defined_text = {
+    name = GetGDP647DiplomacyFactionFilterPage
+    text = {
+        trigger = {
+            GDP647_read_native_faction_page = yes
+            divide_temp_variable = { GDP647_faction_native_offset = 10 }
+            add_to_temp_variable = { GDP647_faction_native_offset = 1 }
+            divide_temp_variable = { GDP647_faction_native_last = 10 }
+            add_to_temp_variable = { GDP647_faction_native_last = 1 }
+        }
+        localization_key = GDP647_NATIVE_FACTION_PAGES
+    }
+}

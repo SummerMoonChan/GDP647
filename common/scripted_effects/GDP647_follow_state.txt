@@ -607,6 +607,22 @@ GDP647_refresh_faction_directory = {
         }
     }
     GDP647_rank_follow_factions = yes
+    # Give every current faction one compact slot, and share it with its members.
+    for_each_scope_loop = {
+        array = global.GDP647_countries
+        set_variable = { GDP647_faction_member_slot = 0 }
+    }
+    set_temp_variable = { GDP647_next_faction_slot = 0 }
+    for_each_scope_loop = {
+        array = global.GDP647_factions
+        add_to_temp_variable = { GDP647_next_faction_slot = 1 }
+        set_variable = { GDP647_faction_member_slot = GDP647_next_faction_slot }
+        every_faction_member = {
+            limit = { exists = yes }
+            set_variable = { GDP647_faction_member_slot = PREV.GDP647_faction_member_slot }
+        }
+    }
+    set_global_flag = GDP647_faction_slots_ready
     for_each_scope_loop = {
         array = global.GDP647_countries
         GDP647_refresh_diplomacy_scope = yes
