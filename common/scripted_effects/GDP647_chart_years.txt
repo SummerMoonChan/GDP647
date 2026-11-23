@@ -1,0 +1,142 @@
+# Get the calendar month from the game date when the trend view refreshes.
+GDP647_refresh_chart_calendar_ticks = {
+    if = {
+        limit = {
+            OR = {
+                NOT = { has_variable = global.GDP647_chart_calendar_checked_day }
+                NOT = { check_variable = { global.GDP647_chart_calendar_checked_day = global.num_days } }
+            }
+        }
+        set_variable = { global.GDP647_chart_calendar_checked_day = global.num_days }
+        set_temp_variable = { GDP647_current_chart_month = 0 }
+        meta_effect = {
+            text = {
+                if = {
+                    limit = { NOT = { date < [YEAR].12.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 11 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].11.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 10 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].10.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 9 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].9.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 8 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].8.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 7 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].7.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 6 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].6.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 5 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].5.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 4 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].4.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 3 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].3.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 2 }
+                }
+                else_if = {
+                    limit = { NOT = { date < [YEAR].2.1 } }
+                    set_temp_variable = { GDP647_current_chart_month = 1 }
+                }
+            }
+            YEAR = "[GetYear]"
+        }
+        set_variable = { global.GDP647_chart_calendar_month = global.year }
+        multiply_variable = { global.GDP647_chart_calendar_month = 12 }
+        add_to_variable = { global.GDP647_chart_calendar_month = GDP647_current_chart_month }
+    }
+
+    # The latest quarterly point can be one or two monthly snapshots behind.
+    set_temp_variable = { GDP647_chart_axis_latest_month = global.GDP647_chart_calendar_month }
+    if = {
+        limit = {
+            has_variable = global.GDP647_chart_last_archive_day
+            has_variable = global.GDP647_capture_day
+        }
+        set_temp_variable = { GDP647_chart_months_since_archive = global.GDP647_capture_day }
+        subtract_from_temp_variable = { GDP647_chart_months_since_archive = global.GDP647_chart_last_archive_day }
+        divide_temp_variable = { GDP647_chart_months_since_archive = 30 }
+        round_temp_variable = GDP647_chart_months_since_archive
+        subtract_from_temp_variable = { GDP647_chart_axis_latest_month = GDP647_chart_months_since_archive }
+    }
+
+    if = {
+        limit = {
+            NOT = { check_variable = { global.GDP647_chart_ticks_month = GDP647_chart_axis_latest_month } }
+        }
+        set_variable = { global.GDP647_chart_ticks_month = GDP647_chart_axis_latest_month }
+        for_each_scope_loop = {
+            array = global.GDP647_countries
+            GDP647_prepare_chart_year_labels = yes
+        }
+    }
+}
+
+GDP647_prepare_chart_year_labels = {
+    clear_array = GDP647_chart_year_labels
+    if = {
+        limit = { check_variable = { GDP647_map_chart_count > 1 } }
+        set_temp_variable = { GDP647_year_plot_last = GDP647_chart_total_archive^num }
+        subtract_from_temp_variable = { GDP647_year_plot_last = 1 }
+        set_temp_variable = { GDP647_year_plot_span = GDP647_map_chart_count }
+        subtract_from_temp_variable = { GDP647_year_plot_span = 1 }
+        clear_temp_array = GDP647_chart_sample_years
+        set_temp_variable = { GDP647_year_plot_i = 0 }
+        while_loop_effect = {
+            limit = { check_variable = { GDP647_year_plot_i < GDP647_map_chart_count } }
+            set_temp_variable = { GDP647_year_plot_offset = GDP647_year_plot_i }
+            multiply_temp_variable = { GDP647_year_plot_offset = GDP647_year_plot_last }
+            divide_temp_variable = { GDP647_year_plot_offset = GDP647_year_plot_span }
+            round_temp_variable = GDP647_year_plot_offset
+            # The same original sample offsets as the GDP line, at three months per sample.
+            multiply_temp_variable = { GDP647_year_plot_offset = 3 }
+            set_temp_variable = { GDP647_plot_year = global.GDP647_chart_ticks_month }
+            subtract_from_temp_variable = { GDP647_plot_year = GDP647_year_plot_offset }
+            set_temp_variable = { GDP647_plot_month = GDP647_plot_year }
+            modulo_temp_variable = { var = GDP647_plot_month value = 12 }
+            subtract_from_temp_variable = { GDP647_plot_year = GDP647_plot_month }
+            divide_temp_variable = { GDP647_plot_year = 12 }
+            add_to_temp_array = { array = GDP647_chart_sample_years value = GDP647_plot_year }
+            add_to_temp_variable = { GDP647_year_plot_i = 1 }
+        }
+        set_temp_variable = { GDP647_year_plot_i = 0 }
+        set_temp_variable = { GDP647_year_label_spacing = 3 }
+        while_loop_effect = {
+            limit = { check_variable = { GDP647_year_plot_i < GDP647_map_chart_count } }
+            set_temp_variable = { GDP647_plot_year = GDP647_chart_sample_years^GDP647_year_plot_i }
+            set_temp_variable = { GDP647_chart_label_year = 0 }
+            add_to_temp_variable = { GDP647_year_plot_i = 1 }
+            add_to_temp_variable = { GDP647_year_label_spacing = 1 }
+            if = {
+                limit = {
+                    check_variable = { GDP647_plot_year > 0 }
+                    check_variable = { GDP647_year_label_spacing > 2 }
+                    OR = {
+                        check_variable = { GDP647_year_plot_i = GDP647_map_chart_count }
+                        check_variable = { GDP647_plot_year > GDP647_chart_sample_years^GDP647_year_plot_i }
+                    }
+                }
+                set_temp_variable = { GDP647_chart_label_year = GDP647_plot_year }
+                set_temp_variable = { GDP647_year_label_spacing = 0 }
+            }
+            add_to_array = { array = GDP647_chart_year_labels value = GDP647_chart_label_year }
+        }
+    }
+}

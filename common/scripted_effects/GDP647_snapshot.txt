@@ -114,6 +114,7 @@ GDP647_publish = {
             array = GDP647_geo_P5_states
             set_temp_variable = { GDP647_growth_prior_published = GDP647_state_gdp }
             set_variable = { GDP647_state_gdp = GDP647_geo_P5_next_state_total }
+            GDP647_refresh_state_follow_scope = yes
             set_variable = { GDP647_state_sector_agriculture = GDP647_geo_agri }
             set_variable = { GDP647_state_sector_civilian = GDP647_geo_civ }
             set_variable = { GDP647_state_sector_military = GDP647_geo_mil }
@@ -183,6 +184,7 @@ GDP647_publish = {
         GDP647_record_gdp_pc_growth = yes
         GDP647_record_gdp_growth = yes
         GDP647_archive_country_chart = yes
+        GDP647_refresh_diplomacy_scope = yes
         GDP647_format_country_amounts = yes
         if = { limit = { exists = yes } add_to_array = { array = global.GDP647_countries } }
     }
@@ -226,9 +228,10 @@ GDP647_publish = {
         }
     }
     GDP647_publish_economic_benchmarks = yes
+    GDP647_rank_follow_countries = yes
+    GDP647_rank_follow_factions = yes
     every_country = {
         limit = { exists = yes is_ai = no }
-        GDP647_update_launcher_rank = yes
         if = {
             limit = { has_country_flag = GDP647_open }
             GDP647_refresh_open_view = yes
@@ -237,36 +240,6 @@ GDP647_publish = {
     set_global_flag = GDP647_population_display_v2
     clr_global_flag = GDP647_sampling
     add_to_variable = { global.GDP647_ui_revision = 1 }
-}
-
-# Match the descending total GDP sort, which keeps snapshot order for ties.
-GDP647_update_launcher_rank = {
-    clear_variable = GDP647_launcher_rank
-    set_temp_variable = { GDP647_launcher_rank_found = 0 }
-    set_temp_variable = { GDP647_launcher_rank_count = 0 }
-    for_each_scope_loop = {
-        array = global.GDP647_countries
-        if = {
-            limit = {
-                OR = {
-                    check_variable = { var = GDP647_country_gdp value = PREV.GDP647_country_gdp compare = greater_than }
-                    AND = {
-                        check_variable = { GDP647_launcher_rank_found = 0 }
-                        check_variable = { GDP647_country_gdp = PREV.GDP647_country_gdp }
-                    }
-                }
-            }
-            add_to_temp_variable = { GDP647_launcher_rank_count = 1 }
-        }
-        if = {
-            limit = { check_variable = { id = PREV.id } }
-            set_temp_variable = { GDP647_launcher_rank_found = 1 }
-        }
-    }
-    if = {
-        limit = { check_variable = { GDP647_launcher_rank_found = 1 } }
-        set_variable = { GDP647_launcher_rank = GDP647_launcher_rank_count }
-    }
 }
 
 GDP647_finish_pending = {
@@ -711,13 +684,54 @@ GDP647_tag_sort_score = {
     multiply_temp_variable = { GDP647_rank_score = -1 }
 }
 
-# Both the flag and the name are scoped to the same row country.
-GDP647_select_country_row = {
-    ROOT = {
-        clear_array = GDP647_inspected_country
-        add_to_array = { array = GDP647_inspected_country value = PREV }
-        GDP647_refresh_country_summary = yes
-        add_to_variable = { global.GDP647_ui_revision = 1 }
+# The target selected in the ranking is retained separately from the visible card.
+GDP647_update_ranked_cards = {
+    clear_array = GDP647_ranked_country_card
+    clear_array = GDP647_ranked_faction_card
+    clear_array = GDP647_ranked_state_card
+    if = {
+        limit = { has_country_flag = GDP647_manual_selection }
+        if = {
+            limit = { var:GDP647_inspected_country^0 = { exists = yes } }
+            add_to_array = { array = GDP647_ranked_country_card value = GDP647_inspected_country^0 }
+        }
+        if = {
+            limit = {
+                check_variable = { GDP647_inspected_faction^num > 0 }
+                var:GDP647_inspected_faction^0 = { exists = yes is_in_faction = yes is_faction_leader = yes }
+            }
+            add_to_array = { array = GDP647_ranked_faction_card value = GDP647_inspected_faction^0 }
+        }
+        if = {
+            limit = {
+                check_variable = { GDP647_inspected_state^num > 0 }
+                var:GDP647_inspected_state^0 = { has_variable = GDP647_state_gdp }
+            }
+            add_to_array = { array = GDP647_ranked_state_card value = GDP647_inspected_state^0 }
+        }
+    }
+}
+
+# Selecting a country explicitly also chooses a representative controlled state.
+GDP647_select_state_for_country = {
+    clear_array = GDP647_inspected_state
+    clr_country_flag = GDP647_own_state_order_cached
+    var:GDP647_inspected_country^0 = {
+        capital_scope = {
+            if = {
+                limit = { is_controlled_by = PREV }
+                add_to_array = { array = PREV.PREV.GDP647_inspected_state }
+            }
+        }
+        if = {
+            limit = { check_variable = { PREV.GDP647_inspected_state^num = 0 } }
+            every_controlled_state = {
+                if = {
+                    limit = { check_variable = { PREV.PREV.GDP647_inspected_state^num = 0 } }
+                    add_to_array = { array = PREV.PREV.GDP647_inspected_state }
+                }
+            }
+        }
     }
 }
 
@@ -733,6 +747,7 @@ GDP647_refresh_country_summary = {
         clear_array = GDP647_inspected_country
         add_to_array = { array = GDP647_inspected_country }
     }
+    GDP647_update_ranked_cards = yes
     set_variable = { GDP647_inspected_rank = 0 }
     GDP647_load_sort_key = yes
     clear_array = GDP647_sidebar_country_order
@@ -779,32 +794,50 @@ GDP647_refresh_country_summary = {
     }
 }
 
-# Until a leader is picked explicitly, the detail card follows the player's faction.
+# Resolve the selected country first; an unaffiliated country leaves the faction array empty.
 GDP647_sync_faction_detail = {
+    clear_array = GDP647_inspected_faction
     if = {
         limit = {
-            has_country_flag = GDP647_faction_manually_selected
-            NOT = { var:GDP647_inspected_faction^0 = { exists = yes is_faction_leader = yes } }
+            check_variable = { GDP647_inspected_country^num > 0 }
+            var:GDP647_inspected_country^0 = { exists = yes }
         }
-        clr_country_flag = GDP647_faction_manually_selected
+        var:GDP647_inspected_country^0 = {
+            if = {
+                limit = { is_in_faction = yes }
+                if = {
+                    limit = { is_faction_leader = yes }
+                    add_to_array = { array = PREV.GDP647_inspected_faction }
+                }
+                else = { faction_leader = { add_to_array = { array = PREV.PREV.GDP647_inspected_faction } } }
+            }
+        }
     }
-    if = {
-        limit = { NOT = { has_country_flag = GDP647_faction_manually_selected } }
-        clear_array = GDP647_inspected_faction
+    else_if = {
+        limit = { is_in_faction = yes }
         if = {
             limit = { is_faction_leader = yes }
             add_to_array = { array = GDP647_inspected_faction }
         }
-        else_if = {
-            limit = { is_in_faction = yes }
-            faction_leader = { add_to_array = { array = PREV.GDP647_inspected_faction } }
-        }
+        else = { faction_leader = { add_to_array = { array = PREV.GDP647_inspected_faction } } }
     }
+    GDP647_update_ranked_cards = yes
 }
 
 GDP647_close_dashboard = {
     clr_country_flag = GDP647_open
+    GDP647_release_manual_selection = yes
+}
+
+GDP647_release_manual_selection = {
+    clr_country_flag = GDP647_manual_selection
     clear_array = GDP647_inspected_country
+    clear_array = GDP647_inspected_faction
+    clear_array = GDP647_inspected_state
+    clear_array = GDP647_ranked_country_card
+    clear_array = GDP647_ranked_faction_card
+    clear_array = GDP647_ranked_state_card
+    clear_array = GDP647_chart_active_country
 }
 
 # Use the same rank as the selected row, including GDP ranks under TAG sorting.
@@ -888,6 +921,7 @@ GDP647_refresh_state_ranking = {
         set_variable = { GDP647_state_cached_sort = GDP647_order_key }
         set_variable = { GDP647_state_cached_rank_basis = GDP647_rank_basis }
         set_variable = { GDP647_state_cached_minimum = GDP647_minimum_population }
+        clr_country_flag = GDP647_locked_state_orders_ready
         GDP647_publish_state_detail_ranks = yes
         set_country_flag = GDP647_state_order_cached
     }
@@ -897,6 +931,10 @@ GDP647_reset_list_page = {
     GDP647_load_sort_key = yes
     resize_array = { array = GDP647_page_offsets size = 3 value = 0 }
     set_variable = { GDP647_page_offsets^GDP647_page_index = 0 }
+    if = {
+        limit = { check_variable = { GDP647_page_index = 2 } }
+        clear_array = GDP647_locked_page_offsets
+    }
 }
 
 GDP647_change_page = {
@@ -924,8 +962,28 @@ GDP647_load_list_page = {
         if = {
             limit = { has_country_flag = GDP647_state_own_only }
             set_variable = { GDP647_state_control_filter_frame = 2 }
+            set_variable = { GDP647_state_filter_target_id = id }
             if = {
-                limit = { NOT = { has_country_flag = GDP647_own_state_order_cached } }
+                limit = {
+                    check_variable = { GDP647_inspected_country^num > 0 }
+                    var:GDP647_inspected_country^0 = { exists = yes }
+                }
+                var:GDP647_inspected_country^0 = { set_variable = { PREV.GDP647_state_filter_target_id = id } }
+            }
+            if = {
+                limit = {
+                    GDP647_locked_state_filter_active = yes
+                    NOT = { has_country_flag = GDP647_locked_state_orders_ready }
+                }
+                GDP647_build_locked_state_orders = yes
+            }
+            if = {
+                limit = {
+                    OR = {
+                        NOT = { has_country_flag = GDP647_own_state_order_cached }
+                        NOT = { check_variable = { GDP647_state_filter_target_id = GDP647_own_state_cache_target_id } }
+                    }
+                }
                 GDP647_build_own_state_order = yes
             }
             set_temp_variable = { GDP647_use_own_state_order = 1 }
@@ -1029,7 +1087,7 @@ GDP647_build_own_state_order = {
     for_each_scope_loop = {
         array = GDP647_state_cached_order
         if = {
-            limit = { is_controlled_by = PREV }
+            limit = { controller = { check_variable = { id = PREV.PREV.GDP647_state_filter_target_id } } }
             add_to_array = { array = PREV.GDP647_own_state_order }
             PREV = {
                 add_to_array = { array = GDP647_own_state_ranks value = GDP647_state_cached_ranks^GDP647_own_state_index }
@@ -1037,12 +1095,14 @@ GDP647_build_own_state_order = {
         }
         add_to_temp_variable = { GDP647_own_state_index = 1 }
     }
+    set_variable = { GDP647_own_state_cache_target_id = GDP647_state_filter_target_id }
     set_country_flag = GDP647_own_state_order_cached
 }
 
 # Batch multiple state transfers into one filtered-page refresh on the daily pulse.
 GDP647_invalidate_own_state_order = {
     clr_country_flag = GDP647_own_state_order_cached
+    clr_country_flag = GDP647_locked_state_orders_ready
     if = {
         limit = {
             has_country_flag = GDP647_open
@@ -1051,4 +1111,27 @@ GDP647_invalidate_own_state_order = {
         }
         set_global_flag = GDP647_own_state_page_pending
     }
+}
+
+GDP647_pin_ranked_state = {
+        ROOT = {
+            set_country_flag = GDP647_manual_selection
+            clear_array = GDP647_inspected_state
+            add_to_array = { array = GDP647_inspected_state value = PREV }
+            PREV = {
+                if = {
+                    limit = { controller = { exists = yes } }
+                    PREV = { clear_array = GDP647_inspected_country }
+                    controller = { add_to_array = { array = PREV.PREV.GDP647_inspected_country } }
+                }
+            }
+            if = {
+                limit = { has_country_flag = GDP647_state_own_only }
+                GDP647_reset_list_page = yes
+                GDP647_load_list_page = yes
+            }
+            GDP647_update_ranked_cards = yes
+
+            add_to_variable = { global.GDP647_ui_revision = 1 }
+        }
 }

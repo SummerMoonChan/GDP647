@@ -37,7 +37,7 @@ defined_text = {
 defined_text = {
     name = GetGDP647LauncherRank
     text = {
-        trigger = { has_variable = GDP647_launcher_rank }
+        trigger = { check_variable = { GDP647_follow_country_rank > 0 } }
         localization_key = GDP647_LAUNCHER_RANK_VALUE
     }
     text = { localization_key = GDP647_GROWTH_UNAVAILABLE }

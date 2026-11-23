@@ -8,4 +8,11 @@ spriteTypes = {
         name = "GFX_GDP647_chart_grid"
         texturefile = "gfx/interface/GDP647_chart_grid.dds"
     }
+    corneredTileSpriteType = {
+        name = "GFX_GDP647_detail_surface"
+        textureFile = "gfx/interface/GDP647_detail_surface.dds"
+        size = { x = 16 y = 16 }
+        borderSize = { x = 2 y = 2 }
+        tilingCenter = yes
+    }
 }

@@ -1,0 +1,80 @@
+defined_text = {
+    name = GetGDP647MapChartTotalMin
+    text = {
+        trigger = { check_variable = { GDP647_map_total_min_unit = 3 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MIN_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_total_min_unit = 2 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MIN_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_total_min_unit = 1 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MIN_1
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_total_min_unit = 0 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MIN_0
+    }
+}
+
+defined_text = {
+    name = GetGDP647MapChartTotalMax
+    text = {
+        trigger = { check_variable = { GDP647_map_total_max_unit = 3 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MAX_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_total_max_unit = 2 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MAX_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_total_max_unit = 1 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MAX_1
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_total_max_unit = 0 } }
+        localization_key = GDP647_MAP_CHART_TOTAL_MAX_0
+    }
+}
+
+defined_text = {
+    name = GetGDP647MapChartPcMin
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_min_unit = 3 } }
+        localization_key = GDP647_MAP_CHART_PC_MIN_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_min_unit = 2 } }
+        localization_key = GDP647_MAP_CHART_PC_MIN_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_min_unit = 1 } }
+        localization_key = GDP647_MAP_CHART_PC_MIN_1
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_min_unit = 0 } }
+        localization_key = GDP647_MAP_CHART_PC_MIN_0
+    }
+}
+
+defined_text = {
+    name = GetGDP647MapChartPcMax
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_max_unit = 3 } }
+        localization_key = GDP647_MAP_CHART_PC_MAX_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_max_unit = 2 } }
+        localization_key = GDP647_MAP_CHART_PC_MAX_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_max_unit = 1 } }
+        localization_key = GDP647_MAP_CHART_PC_MAX_1
+    }
+    text = {
+        trigger = { check_variable = { GDP647_map_pc_max_unit = 0 } }
+        localization_key = GDP647_MAP_CHART_PC_MAX_0
+    }
+}
+

@@ -11,51 +11,55 @@ GDP647_refresh_chart = {
         limit = { NOT = { has_global_flag = GDP647_world_totals_ready } }
         GDP647_publish_economic_benchmarks = yes
     }
+    GDP647_refresh_chart_calendar_ticks = yes
+    clear_array = GDP647_chart_active_country
     if = {
-        limit = {
-            OR = {
-                NOT = { check_variable = { GDP647_inspected_country^num > 0 } }
-                NOT = { var:GDP647_inspected_country^0 = { exists = yes } }
-            }
+        limit = { has_country_flag = GDP647_manual_selection }
+        if = {
+            limit = { var:GDP647_inspected_country^0 = { exists = yes } }
+            add_to_array = { array = GDP647_chart_active_country value = GDP647_inspected_country^0 }
         }
-        clear_array = GDP647_inspected_country
-        add_to_array = { array = GDP647_inspected_country }
+        else = { add_to_array = { array = GDP647_chart_active_country } }
     }
     set_variable = { GDP647_chart_count = 0 }
     clear_array = GDP647_chart_plot_points
     clear_array = GDP647_chart_display_samples
-    var:GDP647_inspected_country^0 = {
-        set_temp_variable = { GDP647_chart_available = GDP647_chart_total_archive^num }
-        if = {
-            limit = { check_variable = { GDP647_chart_available > 1 } }
-            set_temp_variable = { GDP647_chart_last_index = GDP647_chart_available }
-            subtract_from_temp_variable = { GDP647_chart_last_index = 1 }
-            set_temp_variable = { GDP647_chart_span = GDP647_chart_last_index }
-            clamp_temp_variable = { var = GDP647_chart_span max = 23 }
-            set_temp_variable = { GDP647_chart_index = 0 }
-            while_loop_effect = {
-                limit = {
-                    check_variable = { var = GDP647_chart_index value = GDP647_chart_span compare = less_than_or_equals }
+    if = {
+        limit = { check_variable = { GDP647_chart_active_country^num > 0 } }
+        var:GDP647_chart_active_country^0 = {
+            set_temp_variable = { GDP647_chart_available = GDP647_chart_total_archive^num }
+            if = {
+                limit = { check_variable = { GDP647_chart_available > 1 } }
+                set_temp_variable = { GDP647_chart_last_index = GDP647_chart_available }
+                subtract_from_temp_variable = { GDP647_chart_last_index = 1 }
+                set_temp_variable = { GDP647_chart_span = GDP647_chart_last_index }
+                clamp_temp_variable = { var = GDP647_chart_span max = 23 }
+                set_temp_variable = { GDP647_chart_index = 0 }
+                while_loop_effect = {
+                    limit = {
+                        check_variable = { var = GDP647_chart_index value = GDP647_chart_span compare = less_than_or_equals }
+                    }
+                    set_temp_variable = { GDP647_chart_source_index = GDP647_chart_index }
+                    multiply_temp_variable = { GDP647_chart_source_index = GDP647_chart_last_index }
+                    divide_temp_variable = { GDP647_chart_source_index = GDP647_chart_span }
+                    round_temp_variable = GDP647_chart_source_index
+                    set_temp_variable = { GDP647_chart_reverse_index = GDP647_chart_last_index }
+                    subtract_from_temp_variable = { GDP647_chart_reverse_index = GDP647_chart_source_index }
+                    set_temp_variable = { GDP647_chart_value = GDP647_chart_total_archive^GDP647_chart_reverse_index }
+                    if = {
+                        limit = { check_variable = { PREV.GDP647_chart_metric = 2 } }
+                        set_temp_variable = { GDP647_chart_value = GDP647_chart_pc_archive^GDP647_chart_reverse_index }
+                    }
+                    add_to_array = { array = PREV.GDP647_chart_display_samples value = GDP647_chart_value }
+                    add_to_temp_variable = { GDP647_chart_index = 1 }
                 }
-                set_temp_variable = { GDP647_chart_source_index = GDP647_chart_index }
-                multiply_temp_variable = { GDP647_chart_source_index = GDP647_chart_last_index }
-                divide_temp_variable = { GDP647_chart_source_index = GDP647_chart_span }
-                round_temp_variable = GDP647_chart_source_index
-                set_temp_variable = { GDP647_chart_reverse_index = GDP647_chart_last_index }
-                subtract_from_temp_variable = { GDP647_chart_reverse_index = GDP647_chart_source_index }
-                set_temp_variable = { GDP647_chart_value = GDP647_chart_total_archive^GDP647_chart_reverse_index }
-                if = {
-                    limit = { check_variable = { PREV.GDP647_chart_metric = 2 } }
-                    set_temp_variable = { GDP647_chart_value = GDP647_chart_pc_archive^GDP647_chart_reverse_index }
-                }
-                add_to_array = { array = PREV.GDP647_chart_display_samples value = GDP647_chart_value }
-                add_to_temp_variable = { GDP647_chart_index = 1 }
             }
         }
     }
     set_variable = { GDP647_chart_count = GDP647_chart_display_samples^num }
     if = {
         limit = { check_variable = { GDP647_chart_count > 1 } }
+        set_temp_variable = { GDP647_chart_scaler_metric = GDP647_chart_metric }
         GDP647_scale_chart_samples = yes
     }
     set_variable = { GDP647_chart_total_frame = 2 }
@@ -303,7 +307,7 @@ GDP647_chart_segment_geometry = {
     set_temp_variable = { GDP647_chart_segment_y = GDP647_chart_left }
     clamp_temp_variable = { var = GDP647_chart_segment_y max = GDP647_chart_right }
     multiply_temp_variable = { GDP647_chart_segment_y = 4 }
-    add_to_temp_variable = { GDP647_chart_segment_y = 157 }
+    add_to_temp_variable = { GDP647_chart_segment_y = 196 }
 }
 
 # Match the GDP-scaled descriptions to a common monthly world snapshot.
@@ -433,7 +437,7 @@ GDP647_publish_economic_benchmarks = {
 GDP647_format_chart_axis = {
     set_temp_variable = { GDP647_chart_axis_unit = 0 }
     if = {
-        limit = { check_variable = { GDP647_chart_metric = 2 } }
+        limit = { check_variable = { GDP647_chart_scaler_metric = 2 } }
         if = {
             limit = { check_variable = { var = GDP647_chart_axis value = 1000 compare = greater_than_or_equals } }
             divide_temp_variable = { GDP647_chart_axis = 1000 }
@@ -485,5 +489,6 @@ GDP647_archive_country_chart = {
         }
         add_to_array = { array = GDP647_chart_total_archive value = GDP647_country_gdp }
         add_to_array = { array = GDP647_chart_pc_archive value = GDP647_core_gdp_per_capita }
+        GDP647_prepare_map_chart = yes
     }
 }

@@ -16,8 +16,19 @@ scripted_gui = {
                     }
                     GDP647_repair_population_update_snapshot = yes
                     GDP647_backfill_population_display = yes
+                    clr_country_flag = GDP647_manual_selection
+                    if = {
+                        limit = { NOT = { has_global_flag = GDP647_world_totals_ready } }
+                        GDP647_publish_economic_benchmarks = yes
+                    }
+                    GDP647_initialize_follow_cache = yes
+                    if = {
+                        limit = { NOT = { has_global_flag = GDP647_faction_card_ranks_ready } }
+                        GDP647_rank_follow_factions = yes
+                    }
+                    GDP647_initialize_state_follow = yes
                     set_country_flag = GDP647_open
-                    clr_country_flag = GDP647_state_manual_detail
+
                     GDP647_refresh_open_view = yes
                 }
                 add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -32,6 +43,28 @@ scripted_gui = {
         ai_enabled = { always = no }
         visible = { has_country_flag = GDP647_open NOT = { check_variable = { GDP647_view > 0 } } }
         effects = {
+            GDP647_country_flag_click = {
+                ROOT = {
+                    set_country_flag = GDP647_manual_selection
+                    clear_array = GDP647_inspected_country
+                    add_to_array = { array = GDP647_inspected_country value = PREV }
+                    GDP647_select_state_for_country = yes
+
+                    GDP647_refresh_country_summary = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+            GDP647_country_name_button_click = {
+                ROOT = {
+                    set_country_flag = GDP647_manual_selection
+                    clear_array = GDP647_inspected_country
+                    add_to_array = { array = GDP647_inspected_country value = PREV }
+                    GDP647_select_state_for_country = yes
+
+                    GDP647_refresh_country_summary = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
             GDP647_previous_page_click = {
                 set_temp_variable = { GDP647_page_direction = -1 }
                 GDP647_change_page = yes
@@ -42,6 +75,7 @@ scripted_gui = {
             }
             GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
             GDP647_tab_country_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 0 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -52,18 +86,18 @@ scripted_gui = {
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_faction_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 1 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_state_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-                clr_country_flag = GDP647_state_manual_detail
+
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
-            GDP647_country_flag_click = { GDP647_select_country_row = yes }
-            GDP647_country_name_button_click = { GDP647_select_country_row = yes }
             GDP647_sort_tag_click = {
                 set_temp_variable = { GDP647_requested_sort_key = 3 }
                 GDP647_change_sort = yes
@@ -105,6 +139,7 @@ scripted_gui = {
             }
         }
         triggers = {
+            GDP647_profile_grid_visible = { has_country_flag = GDP647_manual_selection }
             GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
             GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
             GDP647_country_faction_filter_click_enabled = { is_in_faction = yes }
@@ -125,7 +160,7 @@ scripted_gui = {
         }
         dynamic_lists = {
             GDP647_country_grid = { array = GDP647_page_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_country_row" }
-            GDP647_profile_grid = { array = GDP647_inspected_country change_scope = yes entry_container = "GDP647_profile_row" }
+            GDP647_profile_grid = { array = GDP647_ranked_country_card change_scope = yes entry_container = "GDP647_profile_row" }
         }
         properties = {
             GDP647_country_faction_filter = { frame = GDP647_faction_filter_frame }
@@ -146,6 +181,18 @@ scripted_gui = {
         ai_enabled = { always = no }
         visible = { has_country_flag = GDP647_open check_variable = { GDP647_view = 1 } }
         effects = {
+            GDP647_faction_flag_click = {
+                ROOT = {
+                    set_country_flag = GDP647_manual_selection
+                    clear_array = GDP647_inspected_country
+                    add_to_array = { array = GDP647_inspected_country value = PREV }
+                    GDP647_select_state_for_country = yes
+
+                    GDP647_sync_faction_detail = yes
+                    GDP647_refresh_faction_detail_rank = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
             GDP647_previous_page_click = {
                 set_temp_variable = { GDP647_page_direction = -1 }
                 GDP647_change_page = yes
@@ -156,6 +203,7 @@ scripted_gui = {
             }
             GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
             GDP647_tab_country_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 0 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -166,24 +214,17 @@ scripted_gui = {
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_faction_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 1 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_state_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-                clr_country_flag = GDP647_state_manual_detail
+
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
-            }
-            GDP647_faction_flag_click = {
-                ROOT = {
-                    clear_array = GDP647_inspected_faction
-                    add_to_array = { array = GDP647_inspected_faction value = PREV }
-                    set_country_flag = GDP647_faction_manually_selected
-                    GDP647_refresh_faction_detail_rank = yes
-                    add_to_variable = { global.GDP647_ui_revision = 1 }
-                }
             }
             GDP647_sort_tag_click = {
                 set_temp_variable = { GDP647_requested_sort_key = 3 }
@@ -199,13 +240,14 @@ scripted_gui = {
             }
         }
         triggers = {
+            GDP647_faction_detail_grid_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_ranked_faction_card^num > 0 } }
             GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
             GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
-            GDP647_faction_detail_empty_visible = { NOT = { check_variable = { GDP647_inspected_faction^num > 0 } } }
+            GDP647_faction_detail_empty_visible = { has_country_flag = GDP647_manual_selection NOT = { check_variable = { GDP647_ranked_faction_card^num > 0 } } }
         }
         dynamic_lists = {
             GDP647_faction_grid = { array = GDP647_page_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_faction_row" }
-            GDP647_faction_detail_grid = { array = GDP647_inspected_faction change_scope = yes entry_container = "GDP647_faction_detail_row" }
+            GDP647_faction_detail_grid = { array = GDP647_ranked_faction_card change_scope = yes entry_container = "GDP647_faction_detail_row" }
         }
         properties = {
             GDP647_sort_faction_gdp = { frame = GDP647_rank_total_frame }
@@ -241,6 +283,7 @@ scripted_gui = {
             }
             GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
             GDP647_tab_country_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 0 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -251,24 +294,19 @@ scripted_gui = {
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_faction_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 1 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_state_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-                clr_country_flag = GDP647_state_manual_detail
+
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
-            GDP647_state_flag_click = {
-                ROOT = {
-                    clear_array = GDP647_inspected_state
-                    add_to_array = { array = GDP647_inspected_state value = PREV }
-                    set_country_flag = GDP647_state_manual_detail
-                    add_to_variable = { global.GDP647_ui_revision = 1 }
-                }
-            }
+            GDP647_state_flag_click = { GDP647_pin_ranked_state = yes }
             GDP647_sort_tag_click = {
                 set_temp_variable = { GDP647_requested_sort_key = 3 }
                 GDP647_change_sort = yes
@@ -310,16 +348,25 @@ scripted_gui = {
             }
         }
         triggers = {
+            GDP647_state_grid_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
+            GDP647_state_previous_ten_pages_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
+            GDP647_state_next_ten_pages_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
+            GDP647_previous_page_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
+            GDP647_next_page_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
+            GDP647_page_label_visible = { NOT = { GDP647_locked_state_filter_active = yes } }
             GDP647_state_previous_ten_pages_click_enabled = { check_variable = { GDP647_page_number > 1 } }
             GDP647_state_next_ten_pages_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
-            GDP647_state_detail_grid_visible = { has_country_flag = GDP647_state_manual_detail }
+            GDP647_state_detail_grid_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_ranked_state_card^num > 0 } }
             GDP647_state_gdp_ratio_visible = {
                 has_variable = GDP647_state_gdp_ratio_pct
                 check_variable = { GDP647_published_state_is_core = 0 }
             }
             GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
             GDP647_next_page_click_enabled = { check_variable = { GDP647_page_number < GDP647_page_count } }
-            GDP647_state_detail_empty_visible = { NOT = { has_country_flag = GDP647_state_manual_detail } }
+            GDP647_state_detail_empty_visible = {
+                has_country_flag = GDP647_manual_selection
+                NOT = { check_variable = { GDP647_ranked_state_card^num > 0 } }
+            }
             GDP647_state_breakdown_agriculture_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_agriculture_icon_visible = { has_variable = GDP647_state_sector_agriculture }
             GDP647_state_breakdown_civilian_visible = { has_variable = GDP647_state_sector_agriculture }
@@ -337,7 +384,7 @@ scripted_gui = {
         }
         dynamic_lists = {
             GDP647_state_grid = { array = GDP647_page_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_state_row" }
-            GDP647_state_detail_grid = { array = GDP647_inspected_state change_scope = yes entry_container = "GDP647_state_detail_row" }
+            GDP647_state_detail_grid = { array = GDP647_ranked_state_card change_scope = yes entry_container = "GDP647_state_detail_row" }
         }
         properties = {
             GDP647_state_population_filter = { frame = GDP647_population_filter_frame }
@@ -351,10 +398,80 @@ scripted_gui = {
         }
     }
 
+
+    # The selected-state context follows map clicks even when the game is paused.
+    GDP647_locked_state_list_gui = {
+        context_type = selected_state_context
+        window_name = "GDP647_locked_state_list"
+        parent_window_name = "GDP647_locked_state_list_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            controller = { exists = yes }
+            ROOT = {
+                has_country_flag = GDP647_open
+                check_variable = { GDP647_view = 2 }
+                GDP647_locked_state_filter_active = yes
+            }
+        }
+        effects = {
+            GDP647_state_flag_click = { GDP647_pin_ranked_state = yes }
+            GDP647_locked_previous_ten_page_click = {
+                set_temp_variable = { GDP647_locked_page_delta = -10 }
+                GDP647_change_locked_state_page = yes
+            }
+            GDP647_locked_previous_page_click = {
+                set_temp_variable = { GDP647_locked_page_delta = -1 }
+                GDP647_change_locked_state_page = yes
+            }
+            GDP647_locked_next_page_click = {
+                set_temp_variable = { GDP647_locked_page_delta = 1 }
+                GDP647_change_locked_state_page = yes
+            }
+            GDP647_locked_next_ten_page_click = {
+                set_temp_variable = { GDP647_locked_page_delta = 10 }
+                GDP647_change_locked_state_page = yes
+            }
+        }
+        triggers = {
+            GDP647_locked_state_grid_visible = {
+                GDP647_get_locked_state_page = yes
+                clear_temp_array = GDP647_locked_visible_rows
+                set_temp_variable = { GDP647_locked_cursor = ROOT.GDP647_locked_state_starts^GDP647_locked_controller_id }
+                set_temp_variable = { GDP647_locked_end = GDP647_locked_cursor }
+                add_to_temp_variable = { GDP647_locked_end = GDP647_locked_count }
+                add_to_temp_variable = { GDP647_locked_cursor = GDP647_locked_offset }
+                set_temp_variable = { GDP647_locked_page_end = GDP647_locked_cursor }
+                add_to_temp_variable = { GDP647_locked_page_end = 10 }
+                clamp_temp_variable = { var = GDP647_locked_end max = GDP647_locked_page_end }
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                GDP647_add_locked_state_row = yes
+                always = yes
+            }
+            GDP647_locked_previous_page_click_enabled = { GDP647_locked_state_previous_page_enabled = yes }
+            GDP647_locked_previous_ten_page_click_enabled = { GDP647_locked_state_previous_page_enabled = yes }
+            GDP647_locked_next_page_click_enabled = { GDP647_locked_state_next_page_enabled = yes }
+            GDP647_locked_next_ten_page_click_enabled = { GDP647_locked_state_next_page_enabled = yes }
+        }
+        dynamic_lists = {
+            GDP647_locked_state_grid = { array = GDP647_locked_visible_rows index = GDP647_row_index change_scope = yes entry_container = "GDP647_state_row" }
+        }
+        properties = {
+            GDP647_state_flag = { image = "[THIS.controller.GetFlag]" }
+        }
+    }
+
     GDP647_map_state_detail_gui = {
         context_type = selected_state_context
         window_name = "GDP647_state_detail_row"
-        parent_window_name = "GDP647_state_detail_panel"
+        parent_window_name = "GDP647_state_follow_anchor"
         ai_enabled = { always = no }
         visible = {
             has_variable = GDP647_state_gdp
@@ -362,7 +479,7 @@ scripted_gui = {
                 exists = yes
                 has_country_flag = GDP647_open
                 check_variable = { GDP647_view = 2 }
-                NOT = { has_country_flag = GDP647_state_manual_detail }
+                NOT = { has_country_flag = GDP647_manual_selection }
             }
         }
         triggers = {
@@ -402,57 +519,87 @@ scripted_gui = {
                 GDP647_refresh_chart = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
+            GDP647_tab_chart_click = {
+                GDP647_refresh_chart = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
             GDP647_close_click = { GDP647_close_dashboard = yes add_to_variable = { global.GDP647_ui_revision = 1 } }
             GDP647_tab_country_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 0 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_faction_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 1 }
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_state_click = {
+                GDP647_release_manual_selection = yes
                 set_variable = { GDP647_view = 2 }
-                clr_country_flag = GDP647_state_manual_detail
+
                 GDP647_refresh_order = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
         }
         triggers = {
-            GDP647_chart_axis_pending_visible = { check_variable = { GDP647_chart_count < 2 } }
-            GDP647_chart_grid_visible = { check_variable = { GDP647_chart_count > 1 } }
-            GDP647_chart_axis_top_visible = { check_variable = { GDP647_chart_count > 1 } }
-            GDP647_chart_axis_bottom_visible = { check_variable = { GDP647_chart_count > 1 } }
-            GDP647_chart_axis_oldest_visible = { check_variable = { GDP647_chart_count > 1 } }
-            GDP647_chart_axis_latest_visible = { check_variable = { GDP647_chart_count > 1 } }
-            GDP647_chart_segment_0_visible = { check_variable = { GDP647_chart_count > 1 } }
-            GDP647_chart_segment_1_visible = { check_variable = { GDP647_chart_count > 2 } }
-            GDP647_chart_segment_2_visible = { check_variable = { GDP647_chart_count > 3 } }
-            GDP647_chart_segment_3_visible = { check_variable = { GDP647_chart_count > 4 } }
-            GDP647_chart_segment_4_visible = { check_variable = { GDP647_chart_count > 5 } }
-            GDP647_chart_segment_5_visible = { check_variable = { GDP647_chart_count > 6 } }
-            GDP647_chart_segment_6_visible = { check_variable = { GDP647_chart_count > 7 } }
-            GDP647_chart_segment_7_visible = { check_variable = { GDP647_chart_count > 8 } }
-            GDP647_chart_segment_8_visible = { check_variable = { GDP647_chart_count > 9 } }
-            GDP647_chart_segment_9_visible = { check_variable = { GDP647_chart_count > 10 } }
-            GDP647_chart_segment_10_visible = { check_variable = { GDP647_chart_count > 11 } }
-            GDP647_chart_segment_11_visible = { check_variable = { GDP647_chart_count > 12 } }
-            GDP647_chart_segment_12_visible = { check_variable = { GDP647_chart_count > 13 } }
-            GDP647_chart_segment_13_visible = { check_variable = { GDP647_chart_count > 14 } }
-            GDP647_chart_segment_14_visible = { check_variable = { GDP647_chart_count > 15 } }
-            GDP647_chart_segment_15_visible = { check_variable = { GDP647_chart_count > 16 } }
-            GDP647_chart_segment_16_visible = { check_variable = { GDP647_chart_count > 17 } }
-            GDP647_chart_segment_17_visible = { check_variable = { GDP647_chart_count > 18 } }
-            GDP647_chart_segment_18_visible = { check_variable = { GDP647_chart_count > 19 } }
-            GDP647_chart_segment_19_visible = { check_variable = { GDP647_chart_count > 20 } }
-            GDP647_chart_segment_20_visible = { check_variable = { GDP647_chart_count > 21 } }
-            GDP647_chart_segment_21_visible = { check_variable = { GDP647_chart_count > 22 } }
-            GDP647_chart_segment_22_visible = { check_variable = { GDP647_chart_count > 23 } }
+            GDP647_chart_year_0_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^0 > 0 } }
+            GDP647_chart_year_1_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^1 > 0 } }
+            GDP647_chart_year_2_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^2 > 0 } }
+            GDP647_chart_year_3_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^3 > 0 } }
+            GDP647_chart_year_4_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^4 > 0 } }
+            GDP647_chart_year_5_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^5 > 0 } }
+            GDP647_chart_year_6_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^6 > 0 } }
+            GDP647_chart_year_7_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^7 > 0 } }
+            GDP647_chart_year_8_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^8 > 0 } }
+            GDP647_chart_year_9_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^9 > 0 } }
+            GDP647_chart_year_10_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^10 > 0 } }
+            GDP647_chart_year_11_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^11 > 0 } }
+            GDP647_chart_year_12_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^12 > 0 } }
+            GDP647_chart_year_13_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^13 > 0 } }
+            GDP647_chart_year_14_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^14 > 0 } }
+            GDP647_chart_year_15_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^15 > 0 } }
+            GDP647_chart_year_16_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^16 > 0 } }
+            GDP647_chart_year_17_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^17 > 0 } }
+            GDP647_chart_year_18_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^18 > 0 } }
+            GDP647_chart_year_19_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^19 > 0 } }
+            GDP647_chart_year_20_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^20 > 0 } }
+            GDP647_chart_year_21_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^21 > 0 } }
+            GDP647_chart_year_22_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^22 > 0 } }
+            GDP647_chart_year_23_visible = { ROOT = { has_country_flag = GDP647_manual_selection } check_variable = { GDP647_chart_year_labels^23 > 0 } }
+            GDP647_chart_profile_visible = { has_country_flag = GDP647_manual_selection }
+            GDP647_chart_axis_pending_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count < 2 } }
+            GDP647_chart_grid_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_axis_top_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_axis_bottom_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_segment_0_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 1 } }
+            GDP647_chart_segment_1_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 2 } }
+            GDP647_chart_segment_2_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 3 } }
+            GDP647_chart_segment_3_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 4 } }
+            GDP647_chart_segment_4_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 5 } }
+            GDP647_chart_segment_5_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 6 } }
+            GDP647_chart_segment_6_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 7 } }
+            GDP647_chart_segment_7_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 8 } }
+            GDP647_chart_segment_8_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 9 } }
+            GDP647_chart_segment_9_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 10 } }
+            GDP647_chart_segment_10_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 11 } }
+            GDP647_chart_segment_11_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 12 } }
+            GDP647_chart_segment_12_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 13 } }
+            GDP647_chart_segment_13_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 14 } }
+            GDP647_chart_segment_14_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 15 } }
+            GDP647_chart_segment_15_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 16 } }
+            GDP647_chart_segment_16_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 17 } }
+            GDP647_chart_segment_17_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 18 } }
+            GDP647_chart_segment_18_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 19 } }
+            GDP647_chart_segment_19_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 20 } }
+            GDP647_chart_segment_20_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 21 } }
+            GDP647_chart_segment_21_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 22 } }
+            GDP647_chart_segment_22_visible = { has_country_flag = GDP647_manual_selection check_variable = { GDP647_chart_count > 23 } }
         }
         dynamic_lists = {
-            GDP647_chart_profile = { array = GDP647_inspected_country change_scope = yes entry_container = "GDP647_chart_profile_row" }
+            GDP647_chart_profile = { array = GDP647_chart_active_country change_scope = yes entry_container = "GDP647_chart_profile_row" }
         }
         properties = {
             GDP647_chart_metric_total = { frame = GDP647_chart_total_frame }
@@ -481,6 +628,415 @@ scripted_gui = {
             GDP647_chart_segment_20 = { y = GDP647_chart_y_20 frame = GDP647_chart_frame_20 }
             GDP647_chart_segment_21 = { y = GDP647_chart_y_21 frame = GDP647_chart_frame_21 }
             GDP647_chart_segment_22 = { y = GDP647_chart_y_22 frame = GDP647_chart_frame_22 }
+        }
+    }
+
+    GDP647_state_follow_country_gui = {
+        context_type = selected_state_context
+        window_name = "GDP647_state_follow_country_row"
+        parent_window_name = "GDP647_map_country_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            controller = { exists = yes has_variable = GDP647_country_gdp }
+            check_variable = { GDP647_state_follow_country_scope^num > 0 }
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { has_country_flag = GDP647_manual_selection }
+                NOT = { check_variable = { GDP647_view > 0 } }
+            }
+        }
+        dynamic_lists = {
+            GDP647_state_profile_grid = { array = GDP647_state_follow_country_scope change_scope = yes entry_container = "GDP647_profile_row" }
+        }
+        triggers = {
+            GDP647_country_breakdown_agriculture_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_agriculture_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_civilian_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_civilian_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_military_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_military_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_services_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_services_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_resources_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_resources_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_reinvestment_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_reinvestment_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_pending_visible = { NOT = { has_variable = GDP647_country_sector_agriculture } }
+        }
+        properties = { GDP647_profile_flag = { image = "[THIS.GetFlag]" } }
+    }
+
+    GDP647_state_follow_faction_gui = {
+        context_type = selected_state_context
+        window_name = "GDP647_state_follow_faction_panel"
+        parent_window_name = "GDP647_map_faction_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            controller = { exists = yes }
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { has_country_flag = GDP647_manual_selection }
+                check_variable = { GDP647_view = 1 }
+            }
+        }
+        dynamic_lists = {
+            GDP647_state_follow_faction_grid = { array = GDP647_state_follow_faction_scope change_scope = yes entry_container = "GDP647_faction_detail_row" }
+        }
+        triggers = {
+            GDP647_state_follow_faction_empty_visible = { NOT = { check_variable = { GDP647_state_follow_faction_scope^num > 0 } } }
+        }
+        properties = { GDP647_faction_detail_flag = { image = "[THIS.GetFlag]" } }
+    }
+
+    GDP647_state_follow_chart_gui = {
+        context_type = selected_state_context
+        window_name = "GDP647_state_follow_chart_panel"
+        parent_window_name = "GDP647_map_chart_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            controller = { exists = yes }
+            check_variable = { GDP647_state_follow_country_scope^num > 0 }
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { has_country_flag = GDP647_manual_selection }
+                check_variable = { GDP647_view = 3 }
+            }
+        }
+        dynamic_lists = {
+            GDP647_state_chart_summary = { array = GDP647_state_follow_country_scope change_scope = yes entry_container = "GDP647_chart_profile_row" }
+            GDP647_state_follow_chart_grid = { array = GDP647_state_follow_country_scope change_scope = yes entry_container = "GDP647_follow_chart_row" }
+        }
+        triggers = {
+            GDP647_chart_year_0_visible = { check_variable = { GDP647_chart_year_labels^0 > 0 } }
+            GDP647_chart_year_1_visible = { check_variable = { GDP647_chart_year_labels^1 > 0 } }
+            GDP647_chart_year_2_visible = { check_variable = { GDP647_chart_year_labels^2 > 0 } }
+            GDP647_chart_year_3_visible = { check_variable = { GDP647_chart_year_labels^3 > 0 } }
+            GDP647_chart_year_4_visible = { check_variable = { GDP647_chart_year_labels^4 > 0 } }
+            GDP647_chart_year_5_visible = { check_variable = { GDP647_chart_year_labels^5 > 0 } }
+            GDP647_chart_year_6_visible = { check_variable = { GDP647_chart_year_labels^6 > 0 } }
+            GDP647_chart_year_7_visible = { check_variable = { GDP647_chart_year_labels^7 > 0 } }
+            GDP647_chart_year_8_visible = { check_variable = { GDP647_chart_year_labels^8 > 0 } }
+            GDP647_chart_year_9_visible = { check_variable = { GDP647_chart_year_labels^9 > 0 } }
+            GDP647_chart_year_10_visible = { check_variable = { GDP647_chart_year_labels^10 > 0 } }
+            GDP647_chart_year_11_visible = { check_variable = { GDP647_chart_year_labels^11 > 0 } }
+            GDP647_chart_year_12_visible = { check_variable = { GDP647_chart_year_labels^12 > 0 } }
+            GDP647_chart_year_13_visible = { check_variable = { GDP647_chart_year_labels^13 > 0 } }
+            GDP647_chart_year_14_visible = { check_variable = { GDP647_chart_year_labels^14 > 0 } }
+            GDP647_chart_year_15_visible = { check_variable = { GDP647_chart_year_labels^15 > 0 } }
+            GDP647_chart_year_16_visible = { check_variable = { GDP647_chart_year_labels^16 > 0 } }
+            GDP647_chart_year_17_visible = { check_variable = { GDP647_chart_year_labels^17 > 0 } }
+            GDP647_chart_year_18_visible = { check_variable = { GDP647_chart_year_labels^18 > 0 } }
+            GDP647_chart_year_19_visible = { check_variable = { GDP647_chart_year_labels^19 > 0 } }
+            GDP647_chart_year_20_visible = { check_variable = { GDP647_chart_year_labels^20 > 0 } }
+            GDP647_chart_year_21_visible = { check_variable = { GDP647_chart_year_labels^21 > 0 } }
+            GDP647_chart_year_22_visible = { check_variable = { GDP647_chart_year_labels^22 > 0 } }
+            GDP647_chart_year_23_visible = { check_variable = { GDP647_chart_year_labels^23 > 0 } }
+            GDP647_follow_chart_pending_visible = { check_variable = { GDP647_map_chart_count < 2 } }
+            GDP647_follow_chart_lines_grid_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_follow_chart_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        }
+        properties = {
+            GDP647_chart_country_flag = { image = "[THIS.GetFlag]" }
+            GDP647_follow_chart_total_0 = { y = GDP647_map_total_y_0 frame = GDP647_map_total_frame_0 }
+            GDP647_follow_chart_total_1 = { y = GDP647_map_total_y_1 frame = GDP647_map_total_frame_1 }
+            GDP647_follow_chart_total_2 = { y = GDP647_map_total_y_2 frame = GDP647_map_total_frame_2 }
+            GDP647_follow_chart_total_3 = { y = GDP647_map_total_y_3 frame = GDP647_map_total_frame_3 }
+            GDP647_follow_chart_total_4 = { y = GDP647_map_total_y_4 frame = GDP647_map_total_frame_4 }
+            GDP647_follow_chart_total_5 = { y = GDP647_map_total_y_5 frame = GDP647_map_total_frame_5 }
+            GDP647_follow_chart_total_6 = { y = GDP647_map_total_y_6 frame = GDP647_map_total_frame_6 }
+            GDP647_follow_chart_total_7 = { y = GDP647_map_total_y_7 frame = GDP647_map_total_frame_7 }
+            GDP647_follow_chart_total_8 = { y = GDP647_map_total_y_8 frame = GDP647_map_total_frame_8 }
+            GDP647_follow_chart_total_9 = { y = GDP647_map_total_y_9 frame = GDP647_map_total_frame_9 }
+            GDP647_follow_chart_total_10 = { y = GDP647_map_total_y_10 frame = GDP647_map_total_frame_10 }
+            GDP647_follow_chart_total_11 = { y = GDP647_map_total_y_11 frame = GDP647_map_total_frame_11 }
+            GDP647_follow_chart_total_12 = { y = GDP647_map_total_y_12 frame = GDP647_map_total_frame_12 }
+            GDP647_follow_chart_total_13 = { y = GDP647_map_total_y_13 frame = GDP647_map_total_frame_13 }
+            GDP647_follow_chart_total_14 = { y = GDP647_map_total_y_14 frame = GDP647_map_total_frame_14 }
+            GDP647_follow_chart_total_15 = { y = GDP647_map_total_y_15 frame = GDP647_map_total_frame_15 }
+            GDP647_follow_chart_total_16 = { y = GDP647_map_total_y_16 frame = GDP647_map_total_frame_16 }
+            GDP647_follow_chart_total_17 = { y = GDP647_map_total_y_17 frame = GDP647_map_total_frame_17 }
+            GDP647_follow_chart_total_18 = { y = GDP647_map_total_y_18 frame = GDP647_map_total_frame_18 }
+            GDP647_follow_chart_total_19 = { y = GDP647_map_total_y_19 frame = GDP647_map_total_frame_19 }
+            GDP647_follow_chart_total_20 = { y = GDP647_map_total_y_20 frame = GDP647_map_total_frame_20 }
+            GDP647_follow_chart_total_21 = { y = GDP647_map_total_y_21 frame = GDP647_map_total_frame_21 }
+            GDP647_follow_chart_total_22 = { y = GDP647_map_total_y_22 frame = GDP647_map_total_frame_22 }
+            GDP647_follow_chart_pc_0 = { y = GDP647_map_pc_y_0 frame = GDP647_map_pc_frame_0 }
+            GDP647_follow_chart_pc_1 = { y = GDP647_map_pc_y_1 frame = GDP647_map_pc_frame_1 }
+            GDP647_follow_chart_pc_2 = { y = GDP647_map_pc_y_2 frame = GDP647_map_pc_frame_2 }
+            GDP647_follow_chart_pc_3 = { y = GDP647_map_pc_y_3 frame = GDP647_map_pc_frame_3 }
+            GDP647_follow_chart_pc_4 = { y = GDP647_map_pc_y_4 frame = GDP647_map_pc_frame_4 }
+            GDP647_follow_chart_pc_5 = { y = GDP647_map_pc_y_5 frame = GDP647_map_pc_frame_5 }
+            GDP647_follow_chart_pc_6 = { y = GDP647_map_pc_y_6 frame = GDP647_map_pc_frame_6 }
+            GDP647_follow_chart_pc_7 = { y = GDP647_map_pc_y_7 frame = GDP647_map_pc_frame_7 }
+            GDP647_follow_chart_pc_8 = { y = GDP647_map_pc_y_8 frame = GDP647_map_pc_frame_8 }
+            GDP647_follow_chart_pc_9 = { y = GDP647_map_pc_y_9 frame = GDP647_map_pc_frame_9 }
+            GDP647_follow_chart_pc_10 = { y = GDP647_map_pc_y_10 frame = GDP647_map_pc_frame_10 }
+            GDP647_follow_chart_pc_11 = { y = GDP647_map_pc_y_11 frame = GDP647_map_pc_frame_11 }
+            GDP647_follow_chart_pc_12 = { y = GDP647_map_pc_y_12 frame = GDP647_map_pc_frame_12 }
+            GDP647_follow_chart_pc_13 = { y = GDP647_map_pc_y_13 frame = GDP647_map_pc_frame_13 }
+            GDP647_follow_chart_pc_14 = { y = GDP647_map_pc_y_14 frame = GDP647_map_pc_frame_14 }
+            GDP647_follow_chart_pc_15 = { y = GDP647_map_pc_y_15 frame = GDP647_map_pc_frame_15 }
+            GDP647_follow_chart_pc_16 = { y = GDP647_map_pc_y_16 frame = GDP647_map_pc_frame_16 }
+            GDP647_follow_chart_pc_17 = { y = GDP647_map_pc_y_17 frame = GDP647_map_pc_frame_17 }
+            GDP647_follow_chart_pc_18 = { y = GDP647_map_pc_y_18 frame = GDP647_map_pc_frame_18 }
+            GDP647_follow_chart_pc_19 = { y = GDP647_map_pc_y_19 frame = GDP647_map_pc_frame_19 }
+            GDP647_follow_chart_pc_20 = { y = GDP647_map_pc_y_20 frame = GDP647_map_pc_frame_20 }
+            GDP647_follow_chart_pc_21 = { y = GDP647_map_pc_y_21 frame = GDP647_map_pc_frame_21 }
+            GDP647_follow_chart_pc_22 = { y = GDP647_map_pc_y_22 frame = GDP647_map_pc_frame_22 }
+        }
+    }
+
+    GDP647_follow_country_gui = {
+        context_type = diplomacy_target_context
+        window_name = "GDP647_follow_country_row"
+        parent_window_name = "GDP647_country_follow_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            exists = yes
+            has_variable = GDP647_country_gdp
+            check_variable = { GDP647_diplomacy_country^num > 0 }
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { has_country_flag = GDP647_manual_selection }
+                NOT = { check_variable = { GDP647_view > 0 } }
+            }
+        }
+        dynamic_lists = {
+            GDP647_diplomacy_profile_grid = { array = GDP647_diplomacy_country change_scope = yes entry_container = "GDP647_profile_row" }
+        }
+        triggers = {
+            GDP647_country_breakdown_agriculture_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_agriculture_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_civilian_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_civilian_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_military_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_military_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_services_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_services_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_resources_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_resources_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_reinvestment_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_reinvestment_icon_visible = { has_variable = GDP647_country_sector_agriculture }
+            GDP647_country_breakdown_pending_visible = { NOT = { has_variable = GDP647_country_sector_agriculture } }
+        }
+        properties = { GDP647_profile_flag = { image = "[THIS.GetFlag]" } }
+    }
+
+    GDP647_follow_faction_gui = {
+        context_type = diplomacy_target_context
+        window_name = "GDP647_follow_faction_panel"
+        parent_window_name = "GDP647_faction_follow_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            exists = yes
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { has_country_flag = GDP647_manual_selection }
+                check_variable = { GDP647_view = 1 }
+            }
+        }
+        dynamic_lists = {
+            GDP647_follow_faction_grid = { array = GDP647_diplomacy_faction change_scope = yes entry_container = "GDP647_faction_detail_row" }
+        }
+        triggers = {
+            GDP647_follow_faction_empty_visible = { NOT = { check_variable = { GDP647_diplomacy_faction^num > 0 } } }
+        }
+        properties = { GDP647_faction_detail_flag = { image = "[THIS.GetFlag]" } }
+    }
+
+    GDP647_follow_chart_gui = {
+        context_type = diplomacy_target_context
+        window_name = "GDP647_follow_chart_panel"
+        parent_window_name = "GDP647_diplomacy_chart_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            exists = yes
+            check_variable = { GDP647_diplomacy_country^num > 0 }
+            ROOT = {
+                has_country_flag = GDP647_open
+                NOT = { has_country_flag = GDP647_manual_selection }
+                check_variable = { GDP647_view = 3 }
+            }
+        }
+        dynamic_lists = {
+            GDP647_diplomacy_chart_summary = { array = GDP647_diplomacy_country change_scope = yes entry_container = "GDP647_chart_profile_row" }
+            GDP647_follow_chart_grid = { array = GDP647_diplomacy_country change_scope = yes entry_container = "GDP647_follow_chart_row" }
+        }
+        triggers = {
+            GDP647_chart_year_0_visible = { check_variable = { GDP647_chart_year_labels^0 > 0 } }
+            GDP647_chart_year_1_visible = { check_variable = { GDP647_chart_year_labels^1 > 0 } }
+            GDP647_chart_year_2_visible = { check_variable = { GDP647_chart_year_labels^2 > 0 } }
+            GDP647_chart_year_3_visible = { check_variable = { GDP647_chart_year_labels^3 > 0 } }
+            GDP647_chart_year_4_visible = { check_variable = { GDP647_chart_year_labels^4 > 0 } }
+            GDP647_chart_year_5_visible = { check_variable = { GDP647_chart_year_labels^5 > 0 } }
+            GDP647_chart_year_6_visible = { check_variable = { GDP647_chart_year_labels^6 > 0 } }
+            GDP647_chart_year_7_visible = { check_variable = { GDP647_chart_year_labels^7 > 0 } }
+            GDP647_chart_year_8_visible = { check_variable = { GDP647_chart_year_labels^8 > 0 } }
+            GDP647_chart_year_9_visible = { check_variable = { GDP647_chart_year_labels^9 > 0 } }
+            GDP647_chart_year_10_visible = { check_variable = { GDP647_chart_year_labels^10 > 0 } }
+            GDP647_chart_year_11_visible = { check_variable = { GDP647_chart_year_labels^11 > 0 } }
+            GDP647_chart_year_12_visible = { check_variable = { GDP647_chart_year_labels^12 > 0 } }
+            GDP647_chart_year_13_visible = { check_variable = { GDP647_chart_year_labels^13 > 0 } }
+            GDP647_chart_year_14_visible = { check_variable = { GDP647_chart_year_labels^14 > 0 } }
+            GDP647_chart_year_15_visible = { check_variable = { GDP647_chart_year_labels^15 > 0 } }
+            GDP647_chart_year_16_visible = { check_variable = { GDP647_chart_year_labels^16 > 0 } }
+            GDP647_chart_year_17_visible = { check_variable = { GDP647_chart_year_labels^17 > 0 } }
+            GDP647_chart_year_18_visible = { check_variable = { GDP647_chart_year_labels^18 > 0 } }
+            GDP647_chart_year_19_visible = { check_variable = { GDP647_chart_year_labels^19 > 0 } }
+            GDP647_chart_year_20_visible = { check_variable = { GDP647_chart_year_labels^20 > 0 } }
+            GDP647_chart_year_21_visible = { check_variable = { GDP647_chart_year_labels^21 > 0 } }
+            GDP647_chart_year_22_visible = { check_variable = { GDP647_chart_year_labels^22 > 0 } }
+            GDP647_chart_year_23_visible = { check_variable = { GDP647_chart_year_labels^23 > 0 } }
+            GDP647_follow_chart_pending_visible = { check_variable = { GDP647_map_chart_count < 2 } }
+            GDP647_follow_chart_lines_grid_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_follow_chart_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_total_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
+            GDP647_follow_chart_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_follow_chart_pc_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        }
+        properties = {
+            GDP647_chart_country_flag = { image = "[THIS.GetFlag]" }
+            GDP647_follow_chart_total_0 = { y = GDP647_map_total_y_0 frame = GDP647_map_total_frame_0 }
+            GDP647_follow_chart_total_1 = { y = GDP647_map_total_y_1 frame = GDP647_map_total_frame_1 }
+            GDP647_follow_chart_total_2 = { y = GDP647_map_total_y_2 frame = GDP647_map_total_frame_2 }
+            GDP647_follow_chart_total_3 = { y = GDP647_map_total_y_3 frame = GDP647_map_total_frame_3 }
+            GDP647_follow_chart_total_4 = { y = GDP647_map_total_y_4 frame = GDP647_map_total_frame_4 }
+            GDP647_follow_chart_total_5 = { y = GDP647_map_total_y_5 frame = GDP647_map_total_frame_5 }
+            GDP647_follow_chart_total_6 = { y = GDP647_map_total_y_6 frame = GDP647_map_total_frame_6 }
+            GDP647_follow_chart_total_7 = { y = GDP647_map_total_y_7 frame = GDP647_map_total_frame_7 }
+            GDP647_follow_chart_total_8 = { y = GDP647_map_total_y_8 frame = GDP647_map_total_frame_8 }
+            GDP647_follow_chart_total_9 = { y = GDP647_map_total_y_9 frame = GDP647_map_total_frame_9 }
+            GDP647_follow_chart_total_10 = { y = GDP647_map_total_y_10 frame = GDP647_map_total_frame_10 }
+            GDP647_follow_chart_total_11 = { y = GDP647_map_total_y_11 frame = GDP647_map_total_frame_11 }
+            GDP647_follow_chart_total_12 = { y = GDP647_map_total_y_12 frame = GDP647_map_total_frame_12 }
+            GDP647_follow_chart_total_13 = { y = GDP647_map_total_y_13 frame = GDP647_map_total_frame_13 }
+            GDP647_follow_chart_total_14 = { y = GDP647_map_total_y_14 frame = GDP647_map_total_frame_14 }
+            GDP647_follow_chart_total_15 = { y = GDP647_map_total_y_15 frame = GDP647_map_total_frame_15 }
+            GDP647_follow_chart_total_16 = { y = GDP647_map_total_y_16 frame = GDP647_map_total_frame_16 }
+            GDP647_follow_chart_total_17 = { y = GDP647_map_total_y_17 frame = GDP647_map_total_frame_17 }
+            GDP647_follow_chart_total_18 = { y = GDP647_map_total_y_18 frame = GDP647_map_total_frame_18 }
+            GDP647_follow_chart_total_19 = { y = GDP647_map_total_y_19 frame = GDP647_map_total_frame_19 }
+            GDP647_follow_chart_total_20 = { y = GDP647_map_total_y_20 frame = GDP647_map_total_frame_20 }
+            GDP647_follow_chart_total_21 = { y = GDP647_map_total_y_21 frame = GDP647_map_total_frame_21 }
+            GDP647_follow_chart_total_22 = { y = GDP647_map_total_y_22 frame = GDP647_map_total_frame_22 }
+            GDP647_follow_chart_pc_0 = { y = GDP647_map_pc_y_0 frame = GDP647_map_pc_frame_0 }
+            GDP647_follow_chart_pc_1 = { y = GDP647_map_pc_y_1 frame = GDP647_map_pc_frame_1 }
+            GDP647_follow_chart_pc_2 = { y = GDP647_map_pc_y_2 frame = GDP647_map_pc_frame_2 }
+            GDP647_follow_chart_pc_3 = { y = GDP647_map_pc_y_3 frame = GDP647_map_pc_frame_3 }
+            GDP647_follow_chart_pc_4 = { y = GDP647_map_pc_y_4 frame = GDP647_map_pc_frame_4 }
+            GDP647_follow_chart_pc_5 = { y = GDP647_map_pc_y_5 frame = GDP647_map_pc_frame_5 }
+            GDP647_follow_chart_pc_6 = { y = GDP647_map_pc_y_6 frame = GDP647_map_pc_frame_6 }
+            GDP647_follow_chart_pc_7 = { y = GDP647_map_pc_y_7 frame = GDP647_map_pc_frame_7 }
+            GDP647_follow_chart_pc_8 = { y = GDP647_map_pc_y_8 frame = GDP647_map_pc_frame_8 }
+            GDP647_follow_chart_pc_9 = { y = GDP647_map_pc_y_9 frame = GDP647_map_pc_frame_9 }
+            GDP647_follow_chart_pc_10 = { y = GDP647_map_pc_y_10 frame = GDP647_map_pc_frame_10 }
+            GDP647_follow_chart_pc_11 = { y = GDP647_map_pc_y_11 frame = GDP647_map_pc_frame_11 }
+            GDP647_follow_chart_pc_12 = { y = GDP647_map_pc_y_12 frame = GDP647_map_pc_frame_12 }
+            GDP647_follow_chart_pc_13 = { y = GDP647_map_pc_y_13 frame = GDP647_map_pc_frame_13 }
+            GDP647_follow_chart_pc_14 = { y = GDP647_map_pc_y_14 frame = GDP647_map_pc_frame_14 }
+            GDP647_follow_chart_pc_15 = { y = GDP647_map_pc_y_15 frame = GDP647_map_pc_frame_15 }
+            GDP647_follow_chart_pc_16 = { y = GDP647_map_pc_y_16 frame = GDP647_map_pc_frame_16 }
+            GDP647_follow_chart_pc_17 = { y = GDP647_map_pc_y_17 frame = GDP647_map_pc_frame_17 }
+            GDP647_follow_chart_pc_18 = { y = GDP647_map_pc_y_18 frame = GDP647_map_pc_frame_18 }
+            GDP647_follow_chart_pc_19 = { y = GDP647_map_pc_y_19 frame = GDP647_map_pc_frame_19 }
+            GDP647_follow_chart_pc_20 = { y = GDP647_map_pc_y_20 frame = GDP647_map_pc_frame_20 }
+            GDP647_follow_chart_pc_21 = { y = GDP647_map_pc_y_21 frame = GDP647_map_pc_frame_21 }
+            GDP647_follow_chart_pc_22 = { y = GDP647_map_pc_y_22 frame = GDP647_map_pc_frame_22 }
         }
     }
 }

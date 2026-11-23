@@ -1,13 +1,7 @@
-# Parse only the category table for the active map, once per monthly snapshot.
-# Kaiserreich and EOE share a replacement for the vanilla category registry.
+# Only parse category checks from the map table selected in Custom Game Rules.
 GDP647_capture_state_economy_categories = {
     if = {
-        limit = {
-            OR = {
-                has_global_flag = EOE_on_startup_completed
-                has_global_flag = on_startup_completed
-            }
-        }
+        limit = { has_game_rule = { rule = GDP647_state_category_table option = NUMBERED } }
         meta_effect = {
             text = {
                 every_state = {
@@ -137,6 +131,18 @@ GDP647_capture_state_economy_categories = {
                         limit = { has_state_category = megalopolis }
                         set_variable = { GDP647_geo_city = 3.2 }
                         set_variable = { GDP647_geo_urban = 0.95 }
+                    }
+                }
+            }
+        }
+        if = {
+            limit = { has_game_rule = { rule = GDP647_state_category_table option = ROAD_TO_56 } }
+            meta_effect = {
+                text = {
+                    every_state = {
+                        limit = { has_state_category = developed_rural }
+                        set_variable = { GDP647_geo_city = 0.85 }
+                        set_variable = { GDP647_geo_urban = 0.175 }
                     }
                 }
             }

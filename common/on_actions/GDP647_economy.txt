@@ -17,6 +17,8 @@ on_actions = {
     }
     on_state_control_changed = {
         effect = {
+            FROM.FROM = { GDP647_refresh_state_follow_scope = yes }
+            set_global_flag = GDP647_own_state_page_pending
             GDP647_invalidate_own_state_order = yes
             if = {
                 limit = { FROM = { exists = yes } }
@@ -24,9 +26,22 @@ on_actions = {
             }
         }
     }
+    on_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
+    on_leave_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
+    on_offer_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
+    on_create_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
     on_daily = {
         effect = {
             GDP647_repair_population_update_snapshot = yes
+            if = {
+                limit = { has_global_flag = GDP647_follow_factions_dirty }
+                clr_global_flag = GDP647_follow_factions_dirty
+                for_each_scope_loop = {
+                    array = global.GDP647_countries
+                    GDP647_refresh_diplomacy_scope = yes
+                }
+                every_state = { GDP647_refresh_state_follow_scope = yes }
+            }
             if = {
                 limit = { NOT = { has_global_flag = GDP647_ready_v2 } }
                 random_country = { limit = { exists = yes } GDP647_initialize = yes }
@@ -48,8 +63,9 @@ on_actions = {
                         has_country_flag = GDP647_open
                         has_country_flag = GDP647_state_own_only
                         check_variable = { GDP647_view = 2 }
-                        NOT = { has_country_flag = GDP647_own_state_order_cached }
                     }
+                    clr_country_flag = GDP647_own_state_order_cached
+                    clr_country_flag = GDP647_locked_state_orders_ready
                     GDP647_load_list_page = yes
                     add_to_variable = { global.GDP647_ui_revision = 1 }
                 }
