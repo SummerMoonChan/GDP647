@@ -1,0 +1,893 @@
+defined_text = {
+    name = GetGDP647ChartTickTotal0
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^0 = 3 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_0_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^0 = 2 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_0_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^0 = 1 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_0_1
+    }
+    text = { localization_key = GDP647_CHART_TICK_TOTAL_0_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartTickTotal1
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^1 = 3 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_1_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^1 = 2 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_1_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^1 = 1 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_1_1
+    }
+    text = { localization_key = GDP647_CHART_TICK_TOTAL_1_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartTickTotal2
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^2 = 3 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_2_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^2 = 2 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_2_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_tick_units^2 = 1 } }
+        localization_key = GDP647_CHART_TICK_TOTAL_2_1
+    }
+    text = { localization_key = GDP647_CHART_TICK_TOTAL_2_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartTickPc0
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_tick_units^0 = 1 } }
+        localization_key = GDP647_CHART_TICK_PC_0_1
+    }
+    text = { localization_key = GDP647_CHART_TICK_PC_0_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartTickPc1
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_tick_units^1 = 1 } }
+        localization_key = GDP647_CHART_TICK_PC_1_1
+    }
+    text = { localization_key = GDP647_CHART_TICK_PC_1_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartTickPc2
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_tick_units^2 = 1 } }
+        localization_key = GDP647_CHART_TICK_PC_2_1
+    }
+    text = { localization_key = GDP647_CHART_TICK_PC_2_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal0
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^0 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_0_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^0 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_0_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^0 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_0_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_0_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc0
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^0 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_0_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^0 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_0_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^0 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_0_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_0_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal1
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^1 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_1_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^1 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_1_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^1 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_1_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_1_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc1
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^1 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_1_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^1 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_1_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^1 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_1_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_1_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal2
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^2 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_2_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^2 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_2_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^2 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_2_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_2_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc2
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^2 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_2_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^2 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_2_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^2 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_2_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_2_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal3
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^3 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_3_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^3 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_3_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^3 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_3_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_3_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc3
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^3 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_3_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^3 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_3_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^3 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_3_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_3_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal4
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^4 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_4_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^4 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_4_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^4 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_4_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_4_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc4
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^4 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_4_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^4 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_4_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^4 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_4_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_4_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal5
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^5 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_5_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^5 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_5_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^5 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_5_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_5_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc5
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^5 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_5_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^5 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_5_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^5 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_5_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_5_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal6
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^6 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_6_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^6 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_6_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^6 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_6_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_6_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc6
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^6 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_6_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^6 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_6_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^6 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_6_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_6_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal7
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^7 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_7_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^7 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_7_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^7 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_7_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_7_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc7
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^7 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_7_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^7 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_7_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^7 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_7_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_7_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal8
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^8 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_8_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^8 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_8_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^8 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_8_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_8_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc8
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^8 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_8_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^8 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_8_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^8 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_8_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_8_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal9
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^9 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_9_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^9 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_9_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^9 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_9_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_9_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc9
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^9 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_9_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^9 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_9_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^9 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_9_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_9_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal10
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^10 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_10_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^10 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_10_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^10 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_10_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_10_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc10
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^10 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_10_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^10 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_10_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^10 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_10_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_10_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal11
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^11 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_11_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^11 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_11_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^11 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_11_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_11_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc11
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^11 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_11_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^11 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_11_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^11 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_11_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_11_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal12
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^12 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_12_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^12 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_12_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^12 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_12_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_12_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc12
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^12 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_12_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^12 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_12_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^12 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_12_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_12_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal13
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^13 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_13_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^13 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_13_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^13 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_13_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_13_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc13
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^13 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_13_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^13 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_13_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^13 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_13_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_13_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal14
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^14 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_14_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^14 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_14_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^14 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_14_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_14_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc14
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^14 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_14_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^14 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_14_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^14 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_14_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_14_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal15
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^15 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_15_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^15 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_15_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^15 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_15_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_15_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc15
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^15 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_15_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^15 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_15_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^15 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_15_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_15_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal16
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^16 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_16_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^16 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_16_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^16 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_16_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_16_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc16
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^16 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_16_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^16 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_16_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^16 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_16_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_16_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal17
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^17 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_17_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^17 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_17_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^17 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_17_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_17_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc17
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^17 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_17_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^17 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_17_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^17 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_17_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_17_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal18
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^18 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_18_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^18 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_18_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^18 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_18_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_18_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc18
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^18 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_18_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^18 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_18_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^18 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_18_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_18_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal19
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^19 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_19_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^19 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_19_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^19 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_19_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_19_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc19
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^19 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_19_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^19 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_19_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^19 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_19_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_19_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal20
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^20 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_20_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^20 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_20_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^20 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_20_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_20_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc20
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^20 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_20_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^20 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_20_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^20 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_20_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_20_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal21
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^21 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_21_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^21 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_21_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^21 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_21_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_21_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc21
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^21 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_21_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^21 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_21_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^21 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_21_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_21_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal22
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^22 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_22_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^22 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_22_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^22 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_22_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_22_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc22
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^22 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_22_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^22 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_22_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^22 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_22_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_22_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointTotal23
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^23 = 3 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_23_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^23 = 2 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_23_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_total_value_units^23 = 1 } }
+        localization_key = GDP647_CHART_POINT_TOTAL_23_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_TOTAL_23_AMOUNT_0 }
+}
+
+defined_text = {
+    name = GetGDP647ChartPointPc23
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^23 = 3 } }
+        localization_key = GDP647_CHART_POINT_PC_23_AMOUNT_3
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^23 = 2 } }
+        localization_key = GDP647_CHART_POINT_PC_23_AMOUNT_2
+    }
+    text = {
+        trigger = { check_variable = { GDP647_chart_pc_value_units^23 = 1 } }
+        localization_key = GDP647_CHART_POINT_PC_23_AMOUNT_1
+    }
+    text = { localization_key = GDP647_CHART_POINT_PC_23_AMOUNT_0 }
+}

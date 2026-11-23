@@ -85,7 +85,6 @@ GDP647_publish = {
     GDP647_prepare_growth_sample = yes
     GDP647_prepare_chart_archive = yes
     clear_array = global.GDP647_countries
-    clear_array = global.GDP647_factions
     clear_array = global.GDP647_states
     for_each_scope_loop = {
         array = global.GDP647_sampled_countries
@@ -188,48 +187,11 @@ GDP647_publish = {
         GDP647_format_country_amounts = yes
         if = { limit = { exists = yes } add_to_array = { array = global.GDP647_countries } }
     }
-    for_each_scope_loop = {
-        array = global.GDP647_countries
-        if = {
-            limit = { is_faction_leader = yes }
-            add_to_array = { array = global.GDP647_factions }
-            set_temp_variable = { GDP647_growth_prior_published = GDP647_faction_gdp }
-            set_variable = { GDP647_faction_gdp = GDP647_country_gdp }
-            set_temp_variable = { GDP647_pc_prior = GDP647_faction_core_gdp_per_capita }
-            set_variable = { GDP647_faction_core_population = GDP647_published_core_population }
-            set_variable = { GDP647_faction_core_gdp = GDP647_core_gdp_per_capita }
-            multiply_variable = { GDP647_faction_core_gdp = GDP647_published_core_population }
-            set_variable = { GDP647_faction_member_count = 1 }
-            set_variable = { GDP647_faction_population_10k = GDP647_country_population_10k }
-            set_variable = { GDP647_faction_people_k = GDP647_country_people_k }
-            every_other_country = {
-                limit = { exists = yes is_in_faction_with = PREV }
-                add_to_variable = { PREV.GDP647_faction_gdp = GDP647_country_gdp }
-                add_to_variable = { PREV.GDP647_faction_member_count = 1 }
-                add_to_variable = { PREV.GDP647_faction_core_population = GDP647_published_core_population }
-                set_temp_variable = { GDP647_member_core_gdp = GDP647_core_gdp_per_capita }
-                multiply_temp_variable = { GDP647_member_core_gdp = GDP647_published_core_population }
-                add_to_variable = { PREV.GDP647_faction_core_gdp = GDP647_member_core_gdp }
-                add_to_variable = { PREV.GDP647_faction_population_10k = GDP647_country_population_10k }
-                add_to_variable = { PREV.GDP647_faction_people_k = GDP647_country_people_k }
-            }
-            set_temp_variable = { GDP647_growth_sample = GDP647_faction_gdp }
-            set_variable = { GDP647_faction_core_gdp_per_capita = 0 }
-            if = {
-                limit = { check_variable = { GDP647_faction_core_population > 0 } }
-                set_variable = { GDP647_faction_core_gdp_per_capita = GDP647_faction_core_gdp }
-                divide_variable = { GDP647_faction_core_gdp_per_capita = GDP647_faction_core_population }
-            }
-            set_temp_variable = { GDP647_pc_current = GDP647_faction_core_gdp_per_capita }
-            GDP647_record_faction_pc_growth = yes
-            GDP647_record_faction_growth = yes
-            GDP647_format_faction_amounts = yes
-            GDP647_format_faction_population = yes
-        }
-    }
+    set_temp_variable = { GDP647_record_faction_snapshot = 1 }
+    GDP647_refresh_faction_directory = yes
+    set_temp_variable = { GDP647_record_faction_snapshot = 0 }
     GDP647_publish_economic_benchmarks = yes
     GDP647_rank_follow_countries = yes
-    GDP647_rank_follow_factions = yes
     every_country = {
         limit = { exists = yes is_ai = no }
         if = {
@@ -399,10 +361,27 @@ GDP647_load_rank_basis = {
 }
 
 GDP647_refresh_order = {
-    set_variable = { GDP647_faction_filter_frame = 1 }
     if = {
-        limit = { is_in_faction = yes has_country_flag = GDP647_country_own_faction }
-        set_variable = { GDP647_faction_filter_frame = 2 }
+        limit = {
+            check_variable = { GDP647_view = 1 }
+            OR = {
+                NOT = { has_global_flag = GDP647_live_faction_directory_ready }
+                has_global_flag = GDP647_faction_directory_dirty
+                any_of_scopes = {
+                    array = global.GDP647_factions
+                    OR = { exists = no is_in_faction = no is_faction_leader = no }
+                }
+                any_of_scopes = {
+                    array = global.GDP647_countries
+                    exists = yes
+                    is_in_faction = yes
+                    is_faction_leader = yes
+                    NOT = { is_in_array = { array = global.GDP647_factions value = THIS } }
+                }
+            }
+        }
+        set_temp_variable = { GDP647_record_faction_snapshot = 0 }
+        GDP647_refresh_faction_directory = yes
     }
     if = {
         limit = {
@@ -594,12 +573,6 @@ GDP647_build_order = {
             array = global.GDP647_countries
             if = {
                 limit = {
-                    OR = {
-                        PREV = { NOT = { has_country_flag = GDP647_country_own_faction } }
-                        PREV = { is_in_faction = no }
-                        check_variable = { id = PREV.id }
-                        is_in_faction_with = PREV
-                    }
                     OR = {
                         NOT = { has_variable = GDP647_published_core_population }
                         check_variable = {
@@ -955,6 +928,30 @@ GDP647_load_list_page = {
     resize_array = { array = GDP647_page_offsets size = 3 value = 0 }
     set_temp_variable = { GDP647_page_row_count = GDP647_display_order^num }
     set_temp_variable = { GDP647_use_own_state_order = 0 }
+    set_variable = { GDP647_faction_filter_frame = 1 }
+    if = {
+        limit = {
+            check_variable = { GDP647_page_index = 0 }
+            has_country_flag = GDP647_country_own_faction
+            is_in_faction = yes
+        }
+        set_variable = { GDP647_faction_filter_frame = 2 }
+        clear_temp_array = GDP647_same_faction_rows
+        clear_temp_array = GDP647_same_faction_ranks
+        set_temp_variable = { GDP647_country_world_index = 0 }
+        for_each_scope_loop = {
+            array = GDP647_display_order
+            if = {
+                limit = { OR = { tag = PREV is_in_faction_with = PREV } }
+                add_to_temp_array = { array = GDP647_same_faction_rows value = THIS }
+                PREV = {
+                    add_to_temp_array = { array = GDP647_same_faction_ranks value = GDP647_row_ranks^GDP647_country_world_index }
+                }
+            }
+            add_to_temp_variable = { GDP647_country_world_index = 1 }
+        }
+        set_temp_variable = { GDP647_page_row_count = GDP647_same_faction_rows^num }
+    }
     if = {
         limit = { check_variable = { GDP647_page_index = 2 } }
         set_variable = { GDP647_state_control_filter_frame = 1 }
@@ -1028,6 +1025,11 @@ GDP647_load_list_page = {
             limit = { check_variable = { GDP647_page_index = 2 } }
             add_to_array = { array = GDP647_page_rows value = GDP647_state_cached_order^GDP647_page_cursor }
             add_to_array = { array = GDP647_page_ranks value = GDP647_state_cached_ranks^GDP647_page_cursor }
+        }
+        else_if = {
+            limit = { check_variable = { GDP647_faction_filter_frame = 2 } }
+            add_to_array = { array = GDP647_page_rows value = GDP647_same_faction_rows^GDP647_page_cursor }
+            add_to_array = { array = GDP647_page_ranks value = GDP647_same_faction_ranks^GDP647_page_cursor }
         }
         else = {
             add_to_array = { array = GDP647_page_rows value = GDP647_display_order^GDP647_page_cursor }

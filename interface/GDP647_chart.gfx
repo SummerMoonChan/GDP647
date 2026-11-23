@@ -1,5 +1,9 @@
 spriteTypes = {
     spriteType = {
+        name = "GFX_GDP647_chart_dot"
+        texturefile = "gfx/interface/GDP647_chart_dot.dds"
+    }
+    spriteType = {
         name = "GFX_GDP647_chart_line"
         texturefile = "gfx/interface/GDP647_chart_line.dds"
         noOfFrames = 81

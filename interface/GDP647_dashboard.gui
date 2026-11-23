@@ -110,21 +110,25 @@ guiTypes = {
             name = "GDP647_tab_country" position = { x = 20 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
         }
         buttonType = {
             name = "GDP647_tab_chart" position = { x = 130 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
         }
         buttonType = {
             name = "GDP647_tab_faction" position = { x = 240 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
+            pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
             name = "GDP647_tab_state" position = { x = 350 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
+            pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
             name = "GDP647_sort_tag" position = { x = 278 y = 81 }
@@ -170,7 +174,7 @@ guiTypes = {
         }
         containerWindowType = {
             name = "GDP647_profile_panel"
-            position = { x = 19 y = 119 }
+            position = { x = 18 y = 119 }
             size = { width = 222 height = 410 }
             background = { name = "GDP647_profile_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
             gridboxtype = {
@@ -223,12 +227,12 @@ guiTypes = {
             }
         }
         containerWindowType = {
-            name = "GDP647_country_follow_anchor"
+            name = "GDP647_map_country_anchor"
             position = { x = 19 y = 119 }
             size = { width = 222 height = 410 }
         }
         containerWindowType = {
-            name = "GDP647_map_country_anchor"
+            name = "GDP647_country_follow_anchor"
             position = { x = 19 y = 119 }
             size = { width = 222 height = 410 }
         }
@@ -271,21 +275,25 @@ guiTypes = {
             name = "GDP647_tab_country" position = { x = 20 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
         }
         buttonType = {
             name = "GDP647_tab_chart" position = { x = 130 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
         }
         buttonType = {
             name = "GDP647_tab_faction" position = { x = 240 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
+            pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
             name = "GDP647_tab_state" position = { x = 350 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
+            pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
             name = "GDP647_sort_tag" position = { x = 278 y = 81 }
@@ -362,12 +370,12 @@ guiTypes = {
             }
         }
         containerWindowType = {
-            name = "GDP647_faction_follow_anchor"
+            name = "GDP647_map_faction_anchor"
             position = { x = 20 y = 119 }
             size = { width = 222 height = 236 }
         }
         containerWindowType = {
-            name = "GDP647_map_faction_anchor"
+            name = "GDP647_faction_follow_anchor"
             position = { x = 20 y = 119 }
             size = { width = 222 height = 236 }
         }
@@ -410,21 +418,25 @@ guiTypes = {
             name = "GDP647_tab_country" position = { x = 20 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
         }
         buttonType = {
             name = "GDP647_tab_chart" position = { x = 130 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
         }
         buttonType = {
             name = "GDP647_tab_faction" position = { x = 240 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
+            pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
             name = "GDP647_tab_state" position = { x = 350 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
+            pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
             name = "GDP647_sort_tag" position = { x = 278 y = 81 }
@@ -658,7 +670,7 @@ guiTypes = {
             name = "GDP647_faction_row_name" position = { x = 52 y = 0 }
             font = "hoi_18mbs" text = "GDP647_FACTION_NAME" format = left
             maxWidth = 166 maxHeight = 24 fixedsize = yes
-            pdx_tooltip = "GDP647_FACTION_NAME"
+            pdx_tooltip = "GDP647_FACTION_LEADER_TOOLTIP"
         }
         instantTextBoxType = {
             name = "GDP647_faction_row_rank" position = { x = 52 y = 19 }
@@ -1054,21 +1066,25 @@ guiTypes = {
             name = "GDP647_tab_country" position = { x = 20 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
         }
         buttonType = {
             name = "GDP647_tab_chart" position = { x = 130 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
         }
         buttonType = {
             name = "GDP647_tab_faction" position = { x = 240 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
+            pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
             name = "GDP647_tab_state" position = { x = 350 y = 44 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
+            pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
             name = "GDP647_chart_metric_total" position = { x = 130 y = 81 }
@@ -1093,12 +1109,12 @@ guiTypes = {
                 format = "UPPER_LEFT" add_horizontal = no
             }
             containerWindowType = {
-                name = "GDP647_diplomacy_chart_anchor"
+                name = "GDP647_map_chart_anchor"
                 position = { x = 0 y = 0 }
                 size = { width = 840 height = 425 }
             }
             containerWindowType = {
-                name = "GDP647_map_chart_anchor"
+                name = "GDP647_diplomacy_chart_anchor"
                 position = { x = 0 y = 0 }
                 size = { width = 840 height = 425 }
             }
@@ -1273,6 +1289,282 @@ guiTypes = {
             font = "hoi_16mbs" text = "GDP647_CHART_DEVELOPMENT" format = left
             maxWidth = 780 maxHeight = 50 fixedsize = yes
         }
+        iconType = {
+            name = "GDP647_chart_dot_total_0" position = { x = 690 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_0_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_0" position = { x = 690 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_0_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_1" position = { x = 664 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_1_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_1" position = { x = 664 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_1_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_2" position = { x = 638 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_2_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_2" position = { x = 638 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_2_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_3" position = { x = 612 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_3_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_3" position = { x = 612 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_3_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_4" position = { x = 586 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_4_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_4" position = { x = 586 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_4_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_5" position = { x = 560 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_5_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_5" position = { x = 560 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_5_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_6" position = { x = 534 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_6_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_6" position = { x = 534 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_6_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_7" position = { x = 508 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_7_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_7" position = { x = 508 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_7_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_8" position = { x = 482 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_8_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_8" position = { x = 482 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_8_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_9" position = { x = 456 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_9_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_9" position = { x = 456 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_9_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_10" position = { x = 430 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_10_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_10" position = { x = 430 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_10_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_11" position = { x = 404 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_11_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_11" position = { x = 404 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_11_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_12" position = { x = 378 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_12_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_12" position = { x = 378 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_12_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_13" position = { x = 352 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_13_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_13" position = { x = 352 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_13_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_14" position = { x = 326 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_14_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_14" position = { x = 326 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_14_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_15" position = { x = 300 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_15_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_15" position = { x = 300 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_15_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_16" position = { x = 274 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_16_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_16" position = { x = 274 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_16_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_17" position = { x = 248 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_17_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_17" position = { x = 248 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_17_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_18" position = { x = 222 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_18_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_18" position = { x = 222 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_18_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_19" position = { x = 196 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_19_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_19" position = { x = 196 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_19_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_20" position = { x = 170 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_20_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_20" position = { x = 170 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_20_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_21" position = { x = 144 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_21_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_21" position = { x = 144 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_21_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_22" position = { x = 118 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_22_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_22" position = { x = 118 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_22_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_total_23" position = { x = 92 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_23_TT"
+        }
+        iconType = {
+            name = "GDP647_chart_dot_pc_23" position = { x = 92 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_CHART_POINT_23_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_chart_tick_total_0" position = { x = -20 y = 111 }
+            font = "hoi_16mbs" text = "GDP647_CHART_TICK_TOTAL_0" format = right
+            maxWidth = 105 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_chart_tick_total_1" position = { x = -20 y = 151 }
+            font = "hoi_16mbs" text = "GDP647_CHART_TICK_TOTAL_1" format = right
+            maxWidth = 105 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_chart_tick_total_2" position = { x = -20 y = 191 }
+            font = "hoi_16mbs" text = "GDP647_CHART_TICK_TOTAL_2" format = right
+            maxWidth = 105 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_chart_tick_pc_0" position = { x = -20 y = 111 }
+            font = "hoi_16mbs" text = "GDP647_CHART_TICK_PC_0" format = right
+            maxWidth = 105 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_chart_tick_pc_1" position = { x = -20 y = 151 }
+            font = "hoi_16mbs" text = "GDP647_CHART_TICK_PC_1" format = right
+            maxWidth = 105 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_chart_tick_pc_2" position = { x = -20 y = 191 }
+            font = "hoi_16mbs" text = "GDP647_CHART_TICK_PC_2" format = right
+            maxWidth = 105 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
         instantTextBoxType = {
             name = "GDP647_chart_year_0" position = { x = 669 y = 247 }
             font = "hoi_16mbs" text = "GDP647_CHART_YEAR_0" format = centre
@@ -1424,6 +1716,7 @@ guiTypes = {
         position = { x = 0 y = 0 }
         orientation = UPPER_LEFT
         size = { width = 222 height = 410 }
+        background = { name = "GDP647_diplomacy_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
             name = "GDP647_diplomacy_profile_grid" position = { x = 0 y = 0 }
             size = { width = 222 height = 410 }
@@ -1438,6 +1731,7 @@ guiTypes = {
         position = { x = 0 y = 0 }
         orientation = UPPER_LEFT
         size = { width = 222 height = 236 }
+        background = { name = "GDP647_diplomacy_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
             name = "GDP647_follow_faction_grid" position = { x = 0 y = 0 }
             size = { width = 222 height = 236 }
@@ -1458,17 +1752,18 @@ guiTypes = {
         position = { x = 0 y = 0 }
         orientation = UPPER_LEFT
         size = { width = 840 height = 425 }
-        gridboxtype = {
-            name = "GDP647_diplomacy_chart_summary" position = { x = 30 y = 0 }
-            size = { width = 780 height = 425 }
-            slotsize = { width = 780 height = 425 }
-            max_slots_horizontal = 1 max_slots_vertical = 1
-            format = "UPPER_LEFT" add_horizontal = no
-        }
+        background = { name = "GDP647_diplomacy_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
             name = "GDP647_follow_chart_grid" position = { x = 0 y = 0 }
             size = { width = 840 height = 425 }
             slotsize = { width = 840 height = 425 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
+        gridboxtype = {
+            name = "GDP647_diplomacy_chart_summary" position = { x = 30 y = 0 }
+            size = { width = 780 height = 425 }
+            slotsize = { width = 780 height = 425 }
             max_slots_horizontal = 1 max_slots_vertical = 1
             format = "UPPER_LEFT" add_horizontal = no
         }
@@ -1748,12 +2043,12 @@ guiTypes = {
         name = "GDP647_state_follow_country_row"
         position = { x = 1 y = 0 }
         orientation = UPPER_LEFT
-        size = { width = 222 height = 410 }
+        size = { width = 221 height = 410 }
         background = { name = "GDP647_map_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
             name = "GDP647_state_profile_grid" position = { x = 0 y = 0 }
-            size = { width = 222 height = 410 }
-            slotsize = { width = 222 height = 410 }
+            size = { width = 221 height = 410 }
+            slotsize = { width = 221 height = 410 }
             max_slots_horizontal = 1 max_slots_vertical = 1
             format = "UPPER_LEFT" add_horizontal = no
         }
@@ -1766,16 +2061,16 @@ guiTypes = {
         size = { width = 840 height = 425 }
         background = { name = "GDP647_map_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
-            name = "GDP647_state_chart_summary" position = { x = 30 y = 0 }
-            size = { width = 780 height = 425 }
-            slotsize = { width = 780 height = 425 }
+            name = "GDP647_state_follow_chart_grid" position = { x = 0 y = 0 }
+            size = { width = 840 height = 425 }
+            slotsize = { width = 840 height = 425 }
             max_slots_horizontal = 1 max_slots_vertical = 1
             format = "UPPER_LEFT" add_horizontal = no
         }
         gridboxtype = {
-            name = "GDP647_state_follow_chart_grid" position = { x = 0 y = 0 }
-            size = { width = 840 height = 425 }
-            slotsize = { width = 840 height = 425 }
+            name = "GDP647_state_chart_summary" position = { x = 30 y = 0 }
+            size = { width = 780 height = 425 }
+            slotsize = { width = 780 height = 425 }
             max_slots_horizontal = 1 max_slots_vertical = 1
             format = "UPPER_LEFT" add_horizontal = no
         }

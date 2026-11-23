@@ -26,21 +26,39 @@ on_actions = {
             }
         }
     }
-    on_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
-    on_leave_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
-    on_offer_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
-    on_create_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty } }
+    on_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
+    on_leave_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
+    on_offer_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
+    on_create_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
+    on_assume_faction_leadership = {
+        effect = {
+            set_global_flag = GDP647_follow_factions_dirty
+            set_global_flag = GDP647_faction_directory_dirty
+        }
+    }
     on_daily = {
         effect = {
             GDP647_repair_population_update_snapshot = yes
             if = {
                 limit = { has_global_flag = GDP647_follow_factions_dirty }
                 clr_global_flag = GDP647_follow_factions_dirty
-                for_each_scope_loop = {
-                    array = global.GDP647_countries
-                    GDP647_refresh_diplomacy_scope = yes
+                set_temp_variable = { GDP647_record_faction_snapshot = 0 }
+                GDP647_refresh_faction_directory = yes
+                every_country = {
+                    limit = {
+                        is_ai = no
+                        has_country_flag = GDP647_open
+                        OR = {
+                            check_variable = { GDP647_view = 1 }
+                            AND = {
+                                has_country_flag = GDP647_country_own_faction
+                                NOT = { check_variable = { GDP647_view > 0 } }
+                            }
+                        }
+                    }
+                    GDP647_refresh_order = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
                 }
-                every_state = { GDP647_refresh_state_follow_scope = yes }
             }
             if = {
                 limit = { NOT = { has_global_flag = GDP647_ready_v2 } }

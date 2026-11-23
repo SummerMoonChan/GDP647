@@ -1,0 +1,70 @@
+# Cache the points and the three intermediate axis marks when the chart is scaled.
+GDP647_cache_chart_annotations = {
+    if = {
+        limit = { check_variable = { GDP647_chart_scaler_metric = 1 } }
+        clear_array = GDP647_chart_total_dots
+        clear_array = GDP647_chart_total_values
+        clear_array = GDP647_chart_total_value_units
+        clear_array = GDP647_chart_total_ticks
+        clear_array = GDP647_chart_total_tick_units
+    }
+    else = {
+        clear_array = GDP647_chart_pc_dots
+        clear_array = GDP647_chart_pc_values
+        clear_array = GDP647_chart_pc_value_units
+        clear_array = GDP647_chart_pc_ticks
+        clear_array = GDP647_chart_pc_tick_units
+    }
+    set_temp_variable = { GDP647_chart_annotation_i = 0 }
+    while_loop_effect = {
+        limit = { check_variable = { GDP647_chart_annotation_i < GDP647_map_chart_count } }
+        set_temp_variable = { GDP647_chart_dot_y = GDP647_chart_plot_points^GDP647_chart_annotation_i }
+        multiply_temp_variable = { GDP647_chart_dot_y = 4 }
+        add_to_temp_variable = { GDP647_chart_dot_y = 76 }
+        set_temp_variable = { GDP647_chart_axis = GDP647_chart_display_samples^GDP647_chart_annotation_i }
+        GDP647_format_chart_axis = yes
+        if = {
+            limit = { check_variable = { GDP647_chart_scaler_metric = 2 } }
+            while_loop_effect = {
+                limit = {
+                    check_variable = { var = GDP647_chart_axis value = 1000 compare = greater_than_or_equals }
+                    check_variable = { GDP647_chart_axis_unit < 3 }
+                }
+                divide_temp_variable = { GDP647_chart_axis = 1000 }
+                add_to_temp_variable = { GDP647_chart_axis_unit = 1 }
+            }
+        }
+        if = {
+            limit = { check_variable = { GDP647_chart_scaler_metric = 1 } }
+            add_to_array = { array = GDP647_chart_total_dots value = GDP647_chart_dot_y }
+            add_to_array = { array = GDP647_chart_total_values value = GDP647_chart_axis }
+            add_to_array = { array = GDP647_chart_total_value_units value = GDP647_chart_axis_unit }
+        }
+        else = {
+            add_to_array = { array = GDP647_chart_pc_dots value = GDP647_chart_dot_y }
+            add_to_array = { array = GDP647_chart_pc_values value = GDP647_chart_axis }
+            add_to_array = { array = GDP647_chart_pc_value_units value = GDP647_chart_axis_unit }
+        }
+        add_to_temp_variable = { GDP647_chart_annotation_i = 1 }
+    }
+    set_temp_variable = { GDP647_chart_tick_step = GDP647_chart_range }
+    divide_temp_variable = { GDP647_chart_tick_step = 4 }
+    set_temp_variable = { GDP647_chart_tick_value = GDP647_chart_high }
+    set_temp_variable = { GDP647_chart_annotation_i = 0 }
+    while_loop_effect = {
+        limit = { check_variable = { GDP647_chart_annotation_i < 3 } }
+        subtract_from_temp_variable = { GDP647_chart_tick_value = GDP647_chart_tick_step }
+        set_temp_variable = { GDP647_chart_axis = GDP647_chart_tick_value }
+        GDP647_format_chart_axis = yes
+        if = {
+            limit = { check_variable = { GDP647_chart_scaler_metric = 1 } }
+            add_to_array = { array = GDP647_chart_total_ticks value = GDP647_chart_axis }
+            add_to_array = { array = GDP647_chart_total_tick_units value = GDP647_chart_axis_unit }
+        }
+        else = {
+            add_to_array = { array = GDP647_chart_pc_ticks value = GDP647_chart_axis }
+            add_to_array = { array = GDP647_chart_pc_tick_units value = GDP647_chart_axis_unit }
+        }
+        add_to_temp_variable = { GDP647_chart_annotation_i = 1 }
+    }
+}

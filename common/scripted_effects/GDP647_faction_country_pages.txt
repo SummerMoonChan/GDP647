@@ -1,0 +1,11 @@
+GDP647_pin_country_row = {
+        ROOT = {
+            set_country_flag = GDP647_manual_selection
+            clear_array = GDP647_inspected_country
+            add_to_array = { array = GDP647_inspected_country value = PREV }
+            GDP647_select_state_for_country = yes
+
+            GDP647_refresh_country_summary = yes
+            add_to_variable = { global.GDP647_ui_revision = 1 }
+        }
+}

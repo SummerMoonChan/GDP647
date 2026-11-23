@@ -461,18 +461,29 @@ GDP647_format_chart_axis = {
     else = { multiply_temp_variable = { GDP647_chart_axis = 1000000 } }
 }
 
-# Any two consecutive month starts are at most 62 days apart.
-# Starting from the first snapshot, 80 days selects the third monthly capture.
+# Archive once per published monthly capture, including the initial snapshot.
 GDP647_prepare_chart_archive = {
     set_variable = { global.GDP647_chart_archive_due = 0 }
-    set_temp_variable = { GDP647_chart_archive_elapsed = global.GDP647_capture_day }
-    subtract_from_temp_variable = { GDP647_chart_archive_elapsed = global.GDP647_chart_last_archive_day }
     if = {
         limit = {
             OR = {
                 NOT = { has_variable = global.GDP647_chart_last_archive_day }
-                check_variable = { var = GDP647_chart_archive_elapsed value = 80 compare = greater_than_or_equals }
+                NOT = { check_variable = { global.GDP647_capture_day = global.GDP647_chart_last_archive_day } }
             }
+        }
+        if = {
+            limit = { NOT = { has_global_flag = GDP647_monthly_chart_started } }
+            # Preserve the gap to the final quarterly record in upgraded saves.
+            set_variable = { global.GDP647_chart_migration_gap = 1 }
+            if = {
+                limit = { has_variable = global.GDP647_chart_last_archive_day }
+                set_variable = { global.GDP647_chart_migration_gap = global.GDP647_capture_day }
+                subtract_from_variable = { global.GDP647_chart_migration_gap = global.GDP647_chart_last_archive_day }
+                divide_variable = { global.GDP647_chart_migration_gap = 30 }
+                round_variable = global.GDP647_chart_migration_gap
+                clamp_variable = { var = global.GDP647_chart_migration_gap min = 1 }
+            }
+            set_global_flag = GDP647_monthly_chart_started
         }
         set_variable = { global.GDP647_chart_archive_due = 1 }
         set_variable = { global.GDP647_chart_last_archive_day = global.GDP647_capture_day }
@@ -489,6 +500,7 @@ GDP647_archive_country_chart = {
         }
         add_to_array = { array = GDP647_chart_total_archive value = GDP647_country_gdp }
         add_to_array = { array = GDP647_chart_pc_archive value = GDP647_core_gdp_per_capita }
+        add_to_variable = { GDP647_chart_monthly_count = 1 }
         GDP647_prepare_map_chart = yes
     }
 }
