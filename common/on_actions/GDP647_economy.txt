@@ -15,6 +15,7 @@ on_actions = {
             }
         }
     }
+    on_state_control_changed = { effect = { set_global_flag = GDP647_control_changed } }
     on_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
     on_leave_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
     on_offer_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
@@ -29,6 +30,20 @@ on_actions = {
         effect = {
             GDP647_repair_population_update_snapshot = yes
             if = {
+                limit = { has_global_flag = GDP647_control_changed }
+                clr_global_flag = GDP647_control_changed
+                every_country = {
+                    limit = {
+                        is_ai = no
+                        has_country_flag = GDP647_open
+                        check_variable = { GDP647_view = 2 }
+                        check_variable = { GDP647_state_filter^num > 0 }
+                    }
+                    GDP647_load_list_page = yes
+                    add_to_variable = { global.GDP647_ui_revision = 1 }
+                }
+            }
+            if = {
                 limit = { has_global_flag = GDP647_follow_factions_dirty }
                 clr_global_flag = GDP647_follow_factions_dirty
                 set_temp_variable = { GDP647_record_faction_snapshot = 0 }
@@ -37,7 +52,13 @@ on_actions = {
                     limit = {
                         is_ai = no
                         has_country_flag = GDP647_open
-                        check_variable = { GDP647_view = 1 }
+                        OR = {
+                            check_variable = { GDP647_view = 1 }
+                            AND = {
+                                NOT = { check_variable = { GDP647_view > 0 } }
+                                check_variable = { GDP647_faction_filter^num > 0 }
+                            }
+                        }
                     }
                     GDP647_refresh_order = yes
                     add_to_variable = { global.GDP647_ui_revision = 1 }

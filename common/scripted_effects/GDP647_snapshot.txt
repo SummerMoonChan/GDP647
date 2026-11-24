@@ -645,10 +645,15 @@ GDP647_tag_sort_score = {
 }
 
 GDP647_close_dashboard = {
+    clear_array = GDP647_locked_country
+    clear_array = GDP647_locked_faction
+    clear_array = GDP647_locked_state
     clr_country_flag = GDP647_open
 }
 
 GDP647_refresh_state_ranking = {
+    # Draw one detail card while keeping the selected-state GUI scope.
+    resize_array = { array = GDP647_state_detail_slot size = 1 value = 0 }
     set_variable = { GDP647_state_detail_rank_mode = 1 }
     if = {
         limit = {
@@ -738,6 +743,46 @@ GDP647_load_list_page = {
         limit = { check_variable = { GDP647_page_index = 2 } }
         set_temp_variable = { GDP647_page_row_count = GDP647_state_cached_order^num }
     }
+    clear_temp_array = GDP647_filtered_indices
+    set_temp_variable = { GDP647_source_index = 0 }
+    set_temp_variable = { GDP647_filter_active = 0 }
+    if = {
+        limit = {
+            check_variable = { GDP647_page_index = 0 }
+            check_variable = { GDP647_faction_filter^num > 0 }
+        }
+        set_temp_variable = { GDP647_filter_active = 1 }
+        set_temp_variable = { GDP647_filter_target = GDP647_faction_filter^0 }
+        for_each_scope_loop = {
+            array = GDP647_display_order
+            if = {
+                limit = {
+                    is_in_faction = yes
+                    OR = { tag = var:GDP647_filter_target is_in_faction_with = var:GDP647_filter_target }
+                }
+                add_to_temp_array = { array = GDP647_filtered_indices value = GDP647_source_index }
+            }
+            add_to_temp_variable = { GDP647_source_index = 1 }
+        }
+        set_temp_variable = { GDP647_page_row_count = GDP647_filtered_indices^num }
+    }
+    else_if = {
+        limit = {
+            check_variable = { GDP647_page_index = 2 }
+            check_variable = { GDP647_state_filter^num > 0 }
+        }
+        set_temp_variable = { GDP647_filter_active = 1 }
+        set_temp_variable = { GDP647_filter_target = GDP647_state_filter^0 }
+        for_each_scope_loop = {
+            array = GDP647_state_cached_order
+            if = {
+                limit = { is_controlled_by = var:GDP647_filter_target }
+                add_to_temp_array = { array = GDP647_filtered_indices value = GDP647_source_index }
+            }
+            add_to_temp_variable = { GDP647_source_index = 1 }
+        }
+        set_temp_variable = { GDP647_page_row_count = GDP647_filtered_indices^num }
+    }
     set_temp_variable = { GDP647_last_page_offset = GDP647_page_row_count }
     subtract_from_temp_variable = { GDP647_last_page_offset = 1 }
     clamp_temp_variable = { var = GDP647_last_page_offset min = 0 }
@@ -769,14 +814,19 @@ GDP647_load_list_page = {
         limit = {
             check_variable = { GDP647_page_cursor < GDP647_page_end }
         }
+        set_temp_variable = { GDP647_source_index = GDP647_page_cursor }
+        if = {
+            limit = { check_variable = { GDP647_filter_active = 1 } }
+            set_temp_variable = { GDP647_source_index = GDP647_filtered_indices^GDP647_page_cursor }
+        }
         if = {
             limit = { check_variable = { GDP647_page_index = 2 } }
-            add_to_array = { array = GDP647_page_rows value = GDP647_state_cached_order^GDP647_page_cursor }
-            add_to_array = { array = GDP647_page_ranks value = GDP647_state_cached_ranks^GDP647_page_cursor }
+            add_to_array = { array = GDP647_page_rows value = GDP647_state_cached_order^GDP647_source_index }
+            add_to_array = { array = GDP647_page_ranks value = GDP647_state_cached_ranks^GDP647_source_index }
         }
         else = {
-            add_to_array = { array = GDP647_page_rows value = GDP647_display_order^GDP647_page_cursor }
-            add_to_array = { array = GDP647_page_ranks value = GDP647_row_ranks^GDP647_page_cursor }
+            add_to_array = { array = GDP647_page_rows value = GDP647_display_order^GDP647_source_index }
+            add_to_array = { array = GDP647_page_ranks value = GDP647_row_ranks^GDP647_source_index }
         }
         add_to_temp_variable = { GDP647_page_cursor = 1 }
     }

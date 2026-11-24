@@ -187,7 +187,7 @@ guiTypes = {
         }
         containerWindowType = {
             name = "GDP647_profile_panel"
-            position = { x = 18 y = 79 }
+            position = { x = 20 y = 79 }
             size = { width = 222 height = 410 }
             background = { name = "GDP647_profile_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         }
@@ -234,8 +234,34 @@ guiTypes = {
         }
         containerWindowType = {
             name = "GDP647_country_follow_anchor"
-            position = { x = 19 y = 79 }
+            position = { x = 22 y = 79 }
             size = { width = 222 height = 410 }
+        }
+        gridboxtype = {
+            name = "GDP647_filter_label" position = { x = 455 y = 8 }
+            size = { width = 152 height = 24 }
+            slotsize = { width = 152 height = 24 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
+        buttonType = {
+            name = "GDP647_clear_filter" position = { x = 609 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_CLEAR_FILTER"
+        }
+        gridboxtype = {
+            name = "GDP647_locked_card" position = { x = 20 y = 79 }
+            size = { width = 222 height = 410 }
+            slotsize = { width = 222 height = 410 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
+        gridboxtype = {
+            name = "GDP647_unlock_country_grid" position = { x = 142 y = 41 }
+            size = { width = 100 height = 29 }
+            slotsize = { width = 100 height = 29 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
         }
     }
 
@@ -330,8 +356,21 @@ guiTypes = {
         }
         containerWindowType = {
             name = "GDP647_faction_follow_anchor"
-            position = { x = 20 y = 79 }
+            position = { x = 22 y = 79 }
             size = { width = 222 height = 236 }
+        }
+
+        gridboxtype = {
+            name = "GDP647_locked_card" position = { x = 20 y = 79 }
+            size = { width = 222 height = 236 }
+            slotsize = { width = 222 height = 236 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
+        buttonType = {
+            name = "GDP647_unlock" position = { x = 142 y = 41 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_UNLOCK"
         }
     }
 
@@ -401,6 +440,19 @@ guiTypes = {
                 quadTextureSprite = "GFX_GDP647_detail_surface"
             }
         }
+        instantTextBoxType = {
+            name = "GDP647_select_hint" position = { x = 33 y = 138 }
+            font = "hoi_16mbs" text = "GDP647_SELECT_STATE" format = left
+            maxWidth = 202 maxHeight = 22 fixedsize = yes
+            pdx_tooltip = "GDP647_SELECT_STATE"
+        }
+        gridboxtype = {
+            name = "GDP647_locked_card" position = { x = 20 y = 79 }
+            size = { width = 222 height = 410 }
+            slotsize = { width = 222 height = 410 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
         buttonType = {
             name = "GDP647_state_previous_ten_pages" position = { x = 270 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
@@ -454,8 +506,25 @@ guiTypes = {
         }
         containerWindowType = {
             name = "GDP647_state_follow_anchor"
-            position = { x = 20 y = 79 }
+            position = { x = 22 y = 79 }
             size = { width = 222 height = 410 }
+        }
+        gridboxtype = {
+            name = "GDP647_filter_label" position = { x = 455 y = 8 }
+            size = { width = 152 height = 24 }
+            slotsize = { width = 152 height = 24 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
+        buttonType = {
+            name = "GDP647_clear_filter" position = { x = 609 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_CLEAR_FILTER"
+        }
+        buttonType = {
+            name = "GDP647_unlock" position = { x = 142 y = 41 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_UNLOCK"
         }
     }
 
@@ -467,10 +536,16 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_country_row"
         size = { width = 564 height = 39 }
-        iconType = {
+        buttonType = {
             name = "GDP647_country_flag" position = { x = 0 y = 5 }
-            alwaystransparent = yes
+            pdx_tooltip = "GDP647_COUNTRY_FLAG_TT"
             quadTextureSprite = "GFX_flag_small2"
+        }
+        instantTextBoxType = {
+            name = "GDP647_locked_marker" position = { x = 0 y = 24 }
+            font = "hoi_16mbs" text = "GDP647_LOCKED" format = left
+            maxWidth = 50 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
         }
         instantTextBoxType = {
             name = "GDP647_country_row_name" position = { x = 52 y = 0 }
@@ -516,10 +591,16 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_faction_row"
         size = { width = 564 height = 39 }
-        iconType = {
+        buttonType = {
             name = "GDP647_faction_flag" position = { x = 0 y = 5 }
-            alwaystransparent = yes
+            pdx_tooltip = "GDP647_FACTION_FLAG_TT"
             quadTextureSprite = "GFX_flag_small2"
+        }
+        instantTextBoxType = {
+            name = "GDP647_locked_marker" position = { x = 0 y = 24 }
+            font = "hoi_16mbs" text = "GDP647_LOCKED" format = left
+            maxWidth = 50 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
         }
         instantTextBoxType = {
             name = "GDP647_faction_row_name" position = { x = 52 y = 0 }
@@ -547,10 +628,16 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_state_row"
         size = { width = 564 height = 39 }
-        iconType = {
+        buttonType = {
             name = "GDP647_state_flag" position = { x = 0 y = 5 }
-            alwaystransparent = yes
+            pdx_tooltip = "GDP647_STATE_FLAG_TT"
             quadTextureSprite = "GFX_flag_small2"
+        }
+        instantTextBoxType = {
+            name = "GDP647_locked_marker" position = { x = 0 y = 24 }
+            font = "hoi_16mbs" text = "GDP647_LOCKED" format = left
+            maxWidth = 50 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
         }
         instantTextBoxType = {
             name = "GDP647_state_row_name" position = { x = 52 y = 0 }
@@ -589,10 +676,10 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_profile_row"
         size = { width = 222 height = 410 }
-        iconType = {
+        buttonType = {
             name = "GDP647_profile_flag" position = { x = 70 y = 34 }
             quadTextureSprite = "GFX_shield_medium"
-            pdx_tooltip = "GDP647_COUNTRY_NAME"
+            pdx_tooltip = "GDP647_COUNTRY_FLAG_TT"
         }
         instantTextBoxType = {
             name = "GDP647_profile_name" position = { x = 10 y = 8 }
@@ -721,9 +808,10 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_faction_detail_row"
         size = { width = 222 height = 236 }
-        iconType = {
+        buttonType = {
             name = "GDP647_faction_detail_flag" position = { x = 70 y = 34 }
             quadTextureSprite = "GFX_shield_medium"
+            pdx_tooltip = "GDP647_FACTION_FLAG_TT"
         }
         instantTextBoxType = {
             name = "GDP647_faction_detail_name" position = { x = 10 y = 8 }
@@ -767,9 +855,22 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_state_detail_row"
         size = { width = 222 height = 410 }
-        iconType = {
+        containerWindowType = {
+            name = "GDP647_state_hint_cover"
+            position = { x = 6 y = 50 }
+            size = { width = 212 height = 42 }
+            clipping = yes
+            containerWindowType = {
+                name = "GDP647_state_hint_fill"
+                position = { x = -6 y = -50 }
+                size = { width = 232 height = 410 }
+                background = { name = "GDP647_state_hint_surface" quadTextureSprite = "GFX_GDP647_detail_surface" }
+            }
+        }
+        buttonType = {
             name = "GDP647_state_detail_flag" position = { x = 70 y = 34 }
             quadTextureSprite = "GFX_shield_medium"
+            pdx_tooltip = "GDP647_STATE_FLAG_TT"
         }
         instantTextBoxType = {
             name = "GDP647_state_detail_name" position = { x = 10 y = 8 }
@@ -912,13 +1013,20 @@ guiTypes = {
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
             pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
+        gridboxtype = {
+            name = "GDP647_unlock_country_grid" position = { x = 142 y = 41 }
+            size = { width = 100 height = 29 }
+            slotsize = { width = 100 height = 29 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
         buttonType = {
-            name = "GDP647_chart_metric_total" position = { x = 130 y = 41 }
+            name = "GDP647_chart_metric_total" position = { x = 252 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_CHART_METRIC_TOTAL"
         }
         buttonType = {
-            name = "GDP647_chart_metric_pc" position = { x = 240 y = 41 }
+            name = "GDP647_chart_metric_pc" position = { x = 362 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_CHART_METRIC_PC"
         }
@@ -932,8 +1040,23 @@ guiTypes = {
                 position = { x = 0 y = 0 }
                 size = { width = 840 height = 425 }
             }
+            containerWindowType = {
+                name = "GDP647_locked_chart_anchor"
+                position = { x = 0 y = 0 }
+                size = { width = 840 height = 425 }
+            }
         }
 
+    }
+
+    containerWindowType = {
+        name = "GDP647_unlock_country_row"
+        size = { width = 100 height = 29 }
+        buttonType = {
+            name = "GDP647_unlock_country" position = { x = 0 y = 0 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_UNLOCK_COUNTRY"
+        }
     }
 
     containerWindowType = {
@@ -1391,11 +1514,24 @@ guiTypes = {
     }
 
     containerWindowType = {
+        name = "GDP647_follow_state_panel"
+        position = { x = 0 y = 0 }
+        orientation = UPPER_LEFT
+        size = { width = 222 height = 410 }
+        gridboxtype = {
+            name = "GDP647_follow_state_grid" position = { x = 0 y = 0 }
+            size = { width = 222 height = 410 }
+            slotsize = { width = 222 height = 410 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
+        }
+    }
+
+    containerWindowType = {
         name = "GDP647_follow_country_row"
         position = { x = 0 y = 0 }
         orientation = UPPER_LEFT
         size = { width = 222 height = 410 }
-        background = { name = "GDP647_diplomacy_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
             name = "GDP647_diplomacy_profile_grid" position = { x = 0 y = 0 }
             size = { width = 222 height = 410 }
@@ -1410,7 +1546,6 @@ guiTypes = {
         position = { x = 0 y = 0 }
         orientation = UPPER_LEFT
         size = { width = 222 height = 236 }
-        background = { name = "GDP647_diplomacy_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
             name = "GDP647_follow_faction_grid" position = { x = 0 y = 0 }
             size = { width = 222 height = 236 }
@@ -1431,7 +1566,6 @@ guiTypes = {
         position = { x = 0 y = 0 }
         orientation = UPPER_LEFT
         size = { width = 840 height = 425 }
-        background = { name = "GDP647_diplomacy_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
         gridboxtype = {
             name = "GDP647_follow_chart_grid" position = { x = 0 y = 0 }
             size = { width = 840 height = 425 }
@@ -1720,4 +1854,24 @@ guiTypes = {
 
 
 
+    containerWindowType = {
+        name = "GDP647_state_filter_row"
+        size = { width = 152 height = 24 }
+        instantTextBoxType = {
+            name = "GDP647_filter_target_name" position = { x = 0 y = 0 }
+            font = "hoi_16mbs" text = "GDP647_STATE_FILTER_NAME" format = left
+            maxWidth = 152 maxHeight = 22 fixedsize = yes
+            pdx_tooltip = "GDP647_STATE_FILTER_NAME"
+        }
+    }
+    containerWindowType = {
+        name = "GDP647_faction_filter_row"
+        size = { width = 152 height = 24 }
+        instantTextBoxType = {
+            name = "GDP647_filter_target_name" position = { x = 0 y = 0 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_FILTER_NAME" format = left
+            maxWidth = 152 maxHeight = 22 fixedsize = yes
+            pdx_tooltip = "GDP647_FACTION_FILTER_NAME"
+        }
+    }
 }

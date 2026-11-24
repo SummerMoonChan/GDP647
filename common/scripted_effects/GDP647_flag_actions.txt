@@ -1,0 +1,83 @@
+# THIS is the displayed country, faction leader or state. ROOT is the viewing player.
+GDP647_show_faction_members = {
+    ROOT = {
+        clear_array = GDP647_faction_filter
+        add_to_array = { array = GDP647_faction_filter value = PREV }
+        clear_array = GDP647_locked_faction
+        set_variable = { GDP647_view = 0 }
+        GDP647_reset_list_page = yes
+        GDP647_refresh_order = yes
+        add_to_variable = { global.GDP647_ui_revision = 1 }
+    }
+}
+
+GDP647_toggle_faction_lock = {
+    ROOT = {
+        if = {
+            limit = { is_in_array = { array = GDP647_locked_faction value = PREV } }
+            clear_array = GDP647_locked_faction
+        }
+        else = {
+            clear_array = GDP647_locked_faction
+            add_to_array = { array = GDP647_locked_faction value = PREV }
+        }
+        add_to_variable = { global.GDP647_ui_revision = 1 }
+    }
+}
+
+GDP647_show_controlled_states = {
+    ROOT = {
+        clear_array = GDP647_state_filter
+        add_to_array = { array = GDP647_state_filter value = PREV }
+        clear_array = GDP647_locked_state
+        clear_array = GDP647_locked_country
+        set_variable = { GDP647_view = 2 }
+        GDP647_reset_list_page = yes
+        GDP647_refresh_order = yes
+        add_to_variable = { global.GDP647_ui_revision = 1 }
+    }
+}
+
+GDP647_toggle_country_lock = {
+    ROOT = {
+        if = {
+            limit = { is_in_array = { array = GDP647_locked_country value = PREV } }
+            clear_array = GDP647_locked_country
+        }
+        else = {
+            clear_array = GDP647_locked_country
+            add_to_array = { array = GDP647_locked_country value = PREV }
+        }
+        add_to_variable = { global.GDP647_ui_revision = 1 }
+    }
+}
+
+GDP647_filter_by_state_controller = {
+    controller = {
+        if = {
+            limit = { NOT = { is_in_array = { array = ROOT.GDP647_state_filter value = THIS } } }
+            ROOT = {
+                clear_array = GDP647_state_filter
+                add_to_array = { array = GDP647_state_filter value = PREV }
+                clear_array = GDP647_locked_state
+                GDP647_reset_list_page = yes
+                GDP647_load_list_page = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+        }
+    }
+}
+
+GDP647_toggle_state_lock = {
+    ROOT = {
+        if = {
+            limit = { is_in_array = { array = GDP647_locked_state value = PREV } }
+            clear_array = GDP647_locked_state
+        }
+        else = {
+            clear_array = GDP647_locked_state
+            add_to_array = { array = GDP647_locked_state value = PREV }
+        }
+        add_to_variable = { global.GDP647_ui_revision = 1 }
+    }
+}
