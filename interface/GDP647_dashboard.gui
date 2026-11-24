@@ -1,7 +1,7 @@
 guiTypes = {
     containerWindowType = {
         name = "GDP647_launcher"
-        position = { x = 4 y = 82 }
+        position = { x = 1050 y = 0 }
         orientation = UPPER_LEFT
         size = { width = 389 height = 40 }
         moveable = yes
@@ -74,20 +74,17 @@ guiTypes = {
     }
 
     containerWindowType = {
-        name = "GDP647_dashboard_country"
+        name = "GDP647_dashboard"
         position = { x = 0 y = 0 }
         size = { width = 880 height = 572 }
         orientation = center
         origo = center
+        moveable = yes
+        click_to_front = yes
         background = { name = "GDP647_bg" quadTextureSprite = "GFX_tiled_window_1b_thin_border" }
         buttonType = {
             name = "GDP647_close" position = { x = 846 y = 9 }
             quadTextureSprite = "GFX_closebutton" shortcut = "ESCAPE" pdx_tooltip = "CLOSE"
-        }
-        instantTextBoxType = {
-            name = "GDP647_title" position = { x = 20 y = 8 }
-            font = "hoi_24header" text = "GDP647_COUNTRY_RANKING" format = left
-            maxWidth = 540 maxHeight = 34 fixedsize = yes
         }
         instantTextBoxType = {
             name = "GDP647_world_gdp" position = { x = 462 y = 13 }
@@ -101,114 +98,123 @@ guiTypes = {
             pdx_tooltip = "GDP647_WORLD_GDP_PC_TT"
         }
         instantTextBoxType = {
-            name = "GDP647_selection_mode" position = { x = 466 y = 50 }
-            font = "hoi_16mbs" text = "GDP647_SELECTION_MODE" format = left
-            maxWidth = 113 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_SELECTION_MODE_TT"
+            name = "GDP647_title_country" position = { x = 20 y = 8 }
+            font = "hoi_24header" text = "GDP647_COUNTRY_RANKING" format = left
+            maxWidth = 540 maxHeight = 34 fixedsize = yes
+            alwaystransparent = yes
         }
-        buttonType = {
-            name = "GDP647_tab_country" position = { x = 20 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29" frame = 2
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
-            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
+        instantTextBoxType = {
+            name = "GDP647_title_chart" position = { x = 20 y = 8 }
+            font = "hoi_24header" text = "GDP647_CHART_TITLE" format = left
+            maxWidth = 540 maxHeight = 34 fixedsize = yes
+            alwaystransparent = yes
         }
-        buttonType = {
-            name = "GDP647_tab_chart" position = { x = 130 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
-            pdx_tooltip = "GDP647_TAB_CHART_TT"
+        instantTextBoxType = {
+            name = "GDP647_title_faction" position = { x = 20 y = 8 }
+            font = "hoi_24header" text = "GDP647_FACTION_RANKING" format = left
+            maxWidth = 540 maxHeight = 34 fixedsize = yes
+            alwaystransparent = yes
         }
+        instantTextBoxType = {
+            name = "GDP647_title_state" position = { x = 20 y = 8 }
+            font = "hoi_24header" text = "GDP647_STATE_RANKING" format = left
+            maxWidth = 540 maxHeight = 34 fixedsize = yes
+            alwaystransparent = yes
+        }
+        containerWindowType = {
+            name = "GDP647_page_anchor"
+            position = { x = 0 y = 40 }
+            size = { width = 880 height = 532 }
+        }
+    }
+
+    containerWindowType = {
+        name = "GDP647_dashboard_country"
+        size = { width = 880 height = 532 }
         buttonType = {
-            name = "GDP647_tab_faction" position = { x = 240 y = 44 }
+            name = "GDP647_tab_faction" position = { x = 20 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
             pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
-            name = "GDP647_tab_state" position = { x = 350 y = 44 }
+            name = "GDP647_tab_country" position = { x = 130 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29" frame = 2
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_chart" position = { x = 240 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_state" position = { x = 350 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
             pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
-            name = "GDP647_sort_tag" position = { x = 278 y = 81 }
+            name = "GDP647_sort_tag" position = { x = 278 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_SORT_NAME" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_NAME_TT"
         }
         buttonType = {
-            name = "GDP647_sort_gdp" position = { x = 508 y = 81 }
+            name = "GDP647_sort_gdp" position = { x = 508 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_GDP" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_HELP"
         }
         buttonType = {
-            name = "GDP647_country_faction_filter" position = { x = 583 y = 44 }
-            quadTextureSprite = "GFX_generic_checkbox"
-            clicksound = click_checkbox
-            pdx_tooltip = "GDP647_COUNTRY_FACTION_FILTER_TT"
-        }
-        instantTextBoxType = {
-            name = "GDP647_country_faction_filter_label" position = { x = 620 y = 50 }
-            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_FILTER" format = left
-            maxWidth = 88 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_COUNTRY_FACTION_FILTER_TT"
-        }
-        buttonType = {
-            name = "GDP647_country_population_filter" position = { x = 713 y = 44 }
+            name = "GDP647_country_population_filter" position = { x = 713 y = 4 }
             quadTextureSprite = "GFX_generic_checkbox"
             clicksound = click_checkbox
             pdx_tooltip = "GDP647_COUNTRY_POP_FILTER_TT"
         }
         instantTextBoxType = {
-            name = "GDP647_country_population_filter_label" position = { x = 750 y = 50 }
+            name = "GDP647_country_population_filter_label" position = { x = 750 y = 10 }
             font = "hoi_16mbs" text = "GDP647_COUNTRY_POP_FILTER_LABEL" format = left
             maxWidth = 101 maxHeight = 22 fixedsize = yes
             pdx_tooltip = "GDP647_COUNTRY_POP_FILTER_TT"
         }
         buttonType = {
-            name = "GDP647_sort_core" position = { x = 628 y = 81 }
+            name = "GDP647_sort_core" position = { x = 628 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_CORE_PC" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_HELP"
         }
         containerWindowType = {
             name = "GDP647_profile_panel"
-            position = { x = 18 y = 119 }
+            position = { x = 18 y = 79 }
             size = { width = 222 height = 410 }
             background = { name = "GDP647_profile_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
-            gridboxtype = {
-                name = "GDP647_profile_grid" position = { x = 0 y = 0 }
-                size = { width = 222 height = 410 }
-                slotsize = { width = 222 height = 410 }
-                max_slots_horizontal = 1 max_slots_vertical = 1
-                format = "UPPER_LEFT" add_horizontal = no
-            }
         }
         buttonType = {
-            name = "GDP647_previous_page" position = { x = 270 y = 523 }
+            name = "GDP647_previous_page" position = { x = 270 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_PAGE"
         }
         instantTextBoxType = {
-            name = "GDP647_page_label" position = { x = 382 y = 527 }
+            name = "GDP647_page_label" position = { x = 382 y = 487 }
             font = "hoi_16mbs" text = "GDP647_PAGE_INDICATOR" format = centre
             maxWidth = 118 maxHeight = 22 fixedsize = yes
         }
         buttonType = {
-            name = "GDP647_next_page" position = { x = 512 y = 523 }
+            name = "GDP647_next_page" position = { x = 512 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_PAGE"
         }
         buttonType = {
-            name = "GDP647_sort_population" position = { x = 738 y = 81 }
+            name = "GDP647_sort_population" position = { x = 738 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_POPULATION" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_POPULATION_TT"
         }
         containerWindowType = {
             name = "GDP647_country_list"
-            position = { x = 264 y = 119 }
+            position = { x = 264 y = 79 }
             size = { width = 596 height = 394 }
             clipping = yes
             background = {
@@ -227,141 +233,84 @@ guiTypes = {
             }
         }
         containerWindowType = {
-            name = "GDP647_map_faction_rows_anchor"
-            position = { x = 264 y = 119 }
-            size = { width = 596 height = 440 }
-        }
-        containerWindowType = {
-            name = "GDP647_diplomacy_faction_rows_anchor"
-            position = { x = 264 y = 119 }
-            size = { width = 596 height = 440 }
-        }
-        containerWindowType = {
-            name = "GDP647_map_country_anchor"
-            position = { x = 19 y = 119 }
-            size = { width = 222 height = 410 }
-        }
-        containerWindowType = {
             name = "GDP647_country_follow_anchor"
-            position = { x = 19 y = 119 }
+            position = { x = 19 y = 79 }
             size = { width = 222 height = 410 }
         }
     }
 
     containerWindowType = {
         name = "GDP647_dashboard_faction"
-        position = { x = 0 y = 0 }
-        size = { width = 880 height = 572 }
-        orientation = center
-        origo = center
-        background = { name = "GDP647_bg" quadTextureSprite = "GFX_tiled_window_1b_thin_border" }
+        size = { width = 880 height = 532 }
         buttonType = {
-            name = "GDP647_close" position = { x = 846 y = 9 }
-            quadTextureSprite = "GFX_closebutton" shortcut = "ESCAPE" pdx_tooltip = "CLOSE"
-        }
-        instantTextBoxType = {
-            name = "GDP647_title" position = { x = 20 y = 8 }
-            font = "hoi_24header" text = "GDP647_FACTION_RANKING" format = left
-            maxWidth = 540 maxHeight = 34 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_world_gdp" position = { x = 462 y = 13 }
-            font = "hoi_16mbs" text = "GDP647_WORLD_GDP" format = left
-            maxWidth = 162 maxHeight = 22 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_world_gdp_pc" position = { x = 630 y = 13 }
-            font = "hoi_16mbs" text = "GDP647_WORLD_GDP_PC" format = left
-            maxWidth = 196 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_WORLD_GDP_PC_TT"
-        }
-        instantTextBoxType = {
-            name = "GDP647_selection_mode" position = { x = 466 y = 50 }
-            font = "hoi_16mbs" text = "GDP647_SELECTION_MODE" format = left
-            maxWidth = 113 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_SELECTION_MODE_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_country" position = { x = 20 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
-            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_chart" position = { x = 130 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
-            pdx_tooltip = "GDP647_TAB_CHART_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_faction" position = { x = 240 y = 44 }
+            name = "GDP647_tab_faction" position = { x = 20 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
             pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
-            name = "GDP647_tab_state" position = { x = 350 y = 44 }
+            name = "GDP647_tab_country" position = { x = 130 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_chart" position = { x = 240 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_state" position = { x = 350 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
             pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
-            name = "GDP647_sort_tag" position = { x = 278 y = 81 }
+            name = "GDP647_sort_tag" position = { x = 278 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_SORT_NAME" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_NAME_TT"
         }
         buttonType = {
-            name = "GDP647_sort_faction_gdp" position = { x = 508 y = 81 }
+            name = "GDP647_sort_faction_gdp" position = { x = 508 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_GDP" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_HELP"
         }
         containerWindowType = {
             name = "GDP647_faction_detail_panel"
-            position = { x = 20 y = 119 }
+            position = { x = 20 y = 79 }
             size = { width = 222 height = 236 }
             background = {
                 name = "GDP647_faction_detail_background"
                 quadTextureSprite = "GFX_GDP647_detail_surface"
             }
-        instantTextBoxType = {
-            name = "GDP647_faction_detail_empty" position = { x = 10 y = 58 }
-            font = "hoi_16mbs" text = "GDP647_FACTION_DETAIL_EMPTY" format = centre
-            maxWidth = 202 maxHeight = 22 fixedsize = yes
-        }
-            gridboxtype = {
-                name = "GDP647_faction_detail_grid" position = { x = 0 y = 0 }
-                size = { width = 222 height = 236 }
-                slotsize = { width = 222 height = 236 }
-                max_slots_horizontal = 1 max_slots_vertical = 1
-                format = "UPPER_LEFT" add_horizontal = no
-            }
         }
         buttonType = {
-            name = "GDP647_previous_page" position = { x = 270 y = 523 }
+            name = "GDP647_previous_page" position = { x = 270 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_PAGE"
         }
         instantTextBoxType = {
-            name = "GDP647_page_label" position = { x = 382 y = 527 }
+            name = "GDP647_page_label" position = { x = 382 y = 487 }
             font = "hoi_16mbs" text = "GDP647_PAGE_INDICATOR" format = centre
             maxWidth = 118 maxHeight = 22 fixedsize = yes
         }
         buttonType = {
-            name = "GDP647_next_page" position = { x = 512 y = 523 }
+            name = "GDP647_next_page" position = { x = 512 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_PAGE"
         }
         buttonType = {
-            name = "GDP647_sort_population" position = { x = 738 y = 81 }
+            name = "GDP647_sort_population" position = { x = 738 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_POPULATION" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_POPULATION_TT"
         }
         containerWindowType = {
             name = "GDP647_faction_list"
-            position = { x = 264 y = 119 }
+            position = { x = 264 y = 79 }
             size = { width = 596 height = 394 }
             clipping = yes
             background = {
@@ -380,171 +329,112 @@ guiTypes = {
             }
         }
         containerWindowType = {
-            name = "GDP647_map_faction_anchor"
-            position = { x = 20 y = 119 }
-            size = { width = 222 height = 236 }
-        }
-        containerWindowType = {
             name = "GDP647_faction_follow_anchor"
-            position = { x = 20 y = 119 }
+            position = { x = 20 y = 79 }
             size = { width = 222 height = 236 }
         }
     }
 
     containerWindowType = {
         name = "GDP647_dashboard_state"
-        position = { x = 0 y = 0 }
-        size = { width = 880 height = 572 }
-        orientation = center
-        origo = center
-        background = { name = "GDP647_bg" quadTextureSprite = "GFX_tiled_window_1b_thin_border" }
+        size = { width = 880 height = 532 }
         buttonType = {
-            name = "GDP647_close" position = { x = 846 y = 9 }
-            quadTextureSprite = "GFX_closebutton" shortcut = "ESCAPE" pdx_tooltip = "CLOSE"
-        }
-        instantTextBoxType = {
-            name = "GDP647_title" position = { x = 20 y = 8 }
-            font = "hoi_24header" text = "GDP647_STATE_RANKING" format = left
-            maxWidth = 540 maxHeight = 34 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_world_gdp" position = { x = 462 y = 13 }
-            font = "hoi_16mbs" text = "GDP647_WORLD_GDP" format = left
-            maxWidth = 162 maxHeight = 22 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_world_gdp_pc" position = { x = 630 y = 13 }
-            font = "hoi_16mbs" text = "GDP647_WORLD_GDP_PC" format = left
-            maxWidth = 196 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_WORLD_GDP_PC_TT"
-        }
-        instantTextBoxType = {
-            name = "GDP647_selection_mode" position = { x = 466 y = 50 }
-            font = "hoi_16mbs" text = "GDP647_SELECTION_MODE" format = left
-            maxWidth = 113 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_STATE_SELECTION_MODE_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_country" position = { x = 20 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
-            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_chart" position = { x = 130 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
-            pdx_tooltip = "GDP647_TAB_CHART_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_faction" position = { x = 240 y = 44 }
+            name = "GDP647_tab_faction" position = { x = 20 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
             pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
-            name = "GDP647_tab_state" position = { x = 350 y = 44 }
+            name = "GDP647_tab_country" position = { x = 130 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_chart" position = { x = 240 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_state" position = { x = 350 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29" frame = 2
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
             pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
-            name = "GDP647_sort_tag" position = { x = 278 y = 81 }
+            name = "GDP647_sort_tag" position = { x = 278 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_SORT_NAME" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_NAME_TT"
         }
         buttonType = {
-            name = "GDP647_sort_state_gdp" position = { x = 508 y = 81 }
+            name = "GDP647_sort_state_gdp" position = { x = 508 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_GDP" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_HELP"
         }
         buttonType = {
-            name = "GDP647_state_control_filter" position = { x = 583 y = 44 }
-            quadTextureSprite = "GFX_generic_checkbox"
-            clicksound = click_checkbox
-            pdx_tooltip = "GDP647_STATE_CONTROL_FILTER_TT"
-        }
-        instantTextBoxType = {
-            name = "GDP647_state_control_filter_label" position = { x = 620 y = 50 }
-            font = "hoi_16mbs" text = "GDP647_STATE_CONTROL_FILTER" format = left
-            maxWidth = 88 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_STATE_CONTROL_FILTER_TT"
-        }
-        buttonType = {
-            name = "GDP647_state_population_filter" position = { x = 713 y = 44 }
+            name = "GDP647_state_population_filter" position = { x = 713 y = 4 }
             quadTextureSprite = "GFX_generic_checkbox"
             clicksound = click_checkbox
             pdx_tooltip = "GDP647_STATE_POP_FILTER_TT"
         }
         instantTextBoxType = {
-            name = "GDP647_state_population_filter_label" position = { x = 750 y = 50 }
+            name = "GDP647_state_population_filter_label" position = { x = 750 y = 10 }
             font = "hoi_16mbs" text = "GDP647_STATE_POP_FILTER_LABEL" format = left
             maxWidth = 101 maxHeight = 22 fixedsize = yes
             pdx_tooltip = "GDP647_STATE_POP_FILTER_TT"
         }
         buttonType = {
-            name = "GDP647_sort_state_pc" position = { x = 628 y = 81 }
+            name = "GDP647_sort_state_pc" position = { x = 628 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_STATE_PC" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_HELP"
         }
         containerWindowType = {
             name = "GDP647_state_detail_panel"
-            position = { x = 20 y = 119 }
+            position = { x = 20 y = 79 }
             size = { width = 222 height = 410 }
             background = {
                 name = "GDP647_state_detail_background"
                 quadTextureSprite = "GFX_GDP647_detail_surface"
             }
-        instantTextBoxType = {
-            name = "GDP647_state_detail_empty" position = { x = 10 y = 58 }
-            font = "hoi_16mbs" text = "GDP647_STATE_DETAIL_EMPTY" format = centre
-            maxWidth = 202 maxHeight = 22 fixedsize = yes
-        }
-            gridboxtype = {
-                name = "GDP647_state_detail_grid" position = { x = 0 y = 0 }
-                size = { width = 222 height = 410 }
-                slotsize = { width = 222 height = 410 }
-                max_slots_horizontal = 1 max_slots_vertical = 1
-                format = "UPPER_LEFT" add_horizontal = no
-            }
         }
         buttonType = {
-            name = "GDP647_state_previous_ten_pages" position = { x = 270 y = 523 }
+            name = "GDP647_state_previous_ten_pages" position = { x = 270 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_TEN_PAGES"
         }
         buttonType = {
-            name = "GDP647_state_next_ten_pages" position = { x = 721 y = 523 }
+            name = "GDP647_state_next_ten_pages" position = { x = 721 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_TEN_PAGES"
         }
         buttonType = {
-            name = "GDP647_previous_page" position = { x = 379 y = 523 }
+            name = "GDP647_previous_page" position = { x = 379 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_PAGE"
         }
         instantTextBoxType = {
-            name = "GDP647_page_label" position = { x = 489 y = 527 }
+            name = "GDP647_page_label" position = { x = 489 y = 487 }
             font = "hoi_16mbs" text = "GDP647_PAGE_INDICATOR" format = centre
             maxWidth = 118 maxHeight = 22 fixedsize = yes
         }
         buttonType = {
-            name = "GDP647_next_page" position = { x = 612 y = 523 }
+            name = "GDP647_next_page" position = { x = 612 y = 483 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_PAGE"
         }
         buttonType = {
-            name = "GDP647_sort_population" position = { x = 738 y = 81 }
+            name = "GDP647_sort_population" position = { x = 738 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonText = "GDP647_RANK_POPULATION" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_POPULATION_TT"
         }
         containerWindowType = {
             name = "GDP647_state_list"
-            position = { x = 264 y = 119 }
+            position = { x = 264 y = 79 }
             size = { width = 596 height = 394 }
             clipping = yes
             background = {
@@ -564,7 +454,7 @@ guiTypes = {
         }
         containerWindowType = {
             name = "GDP647_state_follow_anchor"
-            position = { x = 20 y = 119 }
+            position = { x = 20 y = 79 }
             size = { width = 222 height = 410 }
         }
     }
@@ -572,100 +462,15 @@ guiTypes = {
 
 
 
-    containerWindowType = {
-        name = "GDP647_map_faction_ranking"
-        position = { x = 0 y = 0 }
-        orientation = UPPER_LEFT
-        size = { width = 596 height = 440 }
-        containerWindowType = {
-            name = "GDP647_faction_filter_list_content"
-            position = { x = 0 y = 0 }
-            size = { width = 596 height = 394 }
-            
-            gridboxtype = {
-                name = "GDP647_faction_filter_grid" position = { x = 14 y = 2 }
-                size = { width = 568 height = 390 }
-                slotsize = { width = 564 height = 39 }
-                max_slots_horizontal = 1 max_slots_vertical = 10
-                format = "UPPER_LEFT" add_horizontal = no
-            }
-        }
-        buttonType = {
-            name = "GDP647_faction_filter_prev" position = { x = 6 y = 404 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_PAGE"
-        }
-        buttonType = {
-            name = "GDP647_faction_filter_next" position = { x = 248 y = 404 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_PAGE"
-        }
-        instantTextBoxType = {
-            name = "GDP647_faction_filter_page_label" position = { x = 118 y = 408 }
-            font = "hoi_16mbs" text = "GDP647_MAP_FACTION_FILTER_PAGE" format = centre
-            maxWidth = 118 maxHeight = 22 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_faction_filter_empty" position = { x = 16 y = 20 }
-            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_ROWS_EMPTY" format = centre
-            maxWidth = 560 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-    }
 
-    containerWindowType = {
-        name = "GDP647_diplomacy_faction_ranking"
-        position = { x = 0 y = 0 }
-        orientation = UPPER_LEFT
-        size = { width = 596 height = 440 }
-        containerWindowType = {
-            name = "GDP647_faction_filter_list_content"
-            position = { x = 0 y = 0 }
-            size = { width = 596 height = 394 }
-            gridboxtype = {
-                name = "GDP647_faction_filter_grid" position = { x = 14 y = 2 }
-                size = { width = 568 height = 390 }
-                slotsize = { width = 564 height = 39 }
-                max_slots_horizontal = 1 max_slots_vertical = 10
-                format = "UPPER_LEFT" add_horizontal = no
-            }
-        }
-        buttonType = {
-            name = "GDP647_faction_filter_prev" position = { x = 6 y = 404 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_PREVIOUS_PAGE"
-        }
-        buttonType = {
-            name = "GDP647_faction_filter_next" position = { x = 248 y = 404 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_NEXT_PAGE"
-        }
-        instantTextBoxType = {
-            name = "GDP647_faction_filter_page_label" position = { x = 118 y = 408 }
-            font = "hoi_16mbs" text = "GDP647_DIPLOMACY_FACTION_FILTER_PAGE" format = centre
-            maxWidth = 118 maxHeight = 22 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_faction_filter_empty" position = { x = 16 y = 20 }
-            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_ROWS_EMPTY" format = centre
-            maxWidth = 560 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-    }
 
     containerWindowType = {
         name = "GDP647_country_row"
         size = { width = 564 height = 39 }
-        buttonType = {
+        iconType = {
             name = "GDP647_country_flag" position = { x = 0 y = 5 }
+            alwaystransparent = yes
             quadTextureSprite = "GFX_flag_small2"
-        }
-        buttonType = {
-            name = "GDP647_country_name_button" position = { x = 50 y = 0 }
-            size = { x = 170 y = 39 }
-            quadTextureSprite = "GFX_tiled_window_transparent"
-            pdx_tooltip = "GDP647_COUNTRY_NAME"
-            clicksound = click_default
         }
         instantTextBoxType = {
             name = "GDP647_country_row_name" position = { x = 52 y = 0 }
@@ -675,7 +480,7 @@ guiTypes = {
         }
         instantTextBoxType = {
             name = "GDP647_country_row_rank" position = { x = 52 y = 19 }
-            font = "hoi_16mbs" text = "GDP647_COUNTRY_FACTION_RANK" format = left
+            font = "hoi_16mbs" text = "GDP647_ROW_RANK" format = left
             maxWidth = 212 maxHeight = 19 fixedsize = yes
             alwaystransparent = yes
         }
@@ -711,8 +516,9 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_faction_row"
         size = { width = 564 height = 39 }
-        buttonType = {
+        iconType = {
             name = "GDP647_faction_flag" position = { x = 0 y = 5 }
+            alwaystransparent = yes
             quadTextureSprite = "GFX_flag_small2"
         }
         instantTextBoxType = {
@@ -741,8 +547,9 @@ guiTypes = {
     containerWindowType = {
         name = "GDP647_state_row"
         size = { width = 564 height = 39 }
-        buttonType = {
+        iconType = {
             name = "GDP647_state_flag" position = { x = 0 y = 5 }
+            alwaystransparent = yes
             quadTextureSprite = "GFX_flag_small2"
         }
         instantTextBoxType = {
@@ -1080,228 +887,51 @@ guiTypes = {
 
     containerWindowType = {
         name = "GDP647_dashboard_chart"
-        position = { x = 0 y = 0 }
-        size = { width = 880 height = 572 }
-        orientation = center
-        origo = center
-        background = { name = "GDP647_bg" quadTextureSprite = "GFX_tiled_window_1b_thin_border" }
+        size = { width = 880 height = 532 }
         buttonType = {
-            name = "GDP647_close" position = { x = 846 y = 9 }
-            quadTextureSprite = "GFX_closebutton" shortcut = "ESCAPE" pdx_tooltip = "CLOSE"
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_title" position = { x = 20 y = 8 }
-            font = "hoi_24header" text = "GDP647_CHART_TITLE" format = left
-            maxWidth = 540 maxHeight = 34 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_world_gdp" position = { x = 462 y = 13 }
-            font = "hoi_16mbs" text = "GDP647_WORLD_GDP" format = left
-            maxWidth = 162 maxHeight = 22 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_world_gdp_pc" position = { x = 630 y = 13 }
-            font = "hoi_16mbs" text = "GDP647_WORLD_GDP_PC" format = left
-            maxWidth = 196 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_WORLD_GDP_PC_TT"
-        }
-        instantTextBoxType = {
-            name = "GDP647_selection_mode" position = { x = 466 y = 50 }
-            font = "hoi_16mbs" text = "GDP647_SELECTION_MODE" format = left
-            maxWidth = 113 maxHeight = 22 fixedsize = yes
-            pdx_tooltip = "GDP647_SELECTION_MODE_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_country" position = { x = 20 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29"
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
-            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_chart" position = { x = 130 y = 44 }
-            quadTextureSprite = "GFX_sort_button_100x29" frame = 2
-            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
-            pdx_tooltip = "GDP647_TAB_CHART_TT"
-        }
-        buttonType = {
-            name = "GDP647_tab_faction" position = { x = 240 y = 44 }
+            name = "GDP647_tab_faction" position = { x = 20 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_FACTION"
             pdx_tooltip = "GDP647_TAB_FACTION_TT"
         }
         buttonType = {
-            name = "GDP647_tab_state" position = { x = 350 y = 44 }
+            name = "GDP647_tab_country" position = { x = 130 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_COUNTRY"
+            pdx_tooltip = "GDP647_TAB_COUNTRY_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_chart" position = { x = 240 y = 4 }
+            quadTextureSprite = "GFX_sort_button_100x29" frame = 2
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_CHART"
+            pdx_tooltip = "GDP647_TAB_CHART_TT"
+        }
+        buttonType = {
+            name = "GDP647_tab_state" position = { x = 350 y = 4 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_TAB_STATE"
             pdx_tooltip = "GDP647_TAB_STATE_TT"
         }
         buttonType = {
-            name = "GDP647_chart_metric_total" position = { x = 130 y = 81 }
+            name = "GDP647_chart_metric_total" position = { x = 130 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_CHART_METRIC_TOTAL"
         }
         buttonType = {
-            name = "GDP647_chart_metric_pc" position = { x = 240 y = 81 }
+            name = "GDP647_chart_metric_pc" position = { x = 240 y = 41 }
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_CHART_METRIC_PC"
         }
         containerWindowType = {
             name = "GDP647_chart_detail_surface"
-            position = { x = 20 y = 119 }
+            position = { x = 20 y = 79 }
             size = { width = 840 height = 425 }
             background = { name = "GDP647_chart_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
-            gridboxtype = {
-                name = "GDP647_chart_profile" position = { x = 30 y = 0 }
-                size = { width = 780 height = 425 }
-                slotsize = { width = 780 height = 425 }
-                max_slots_horizontal = 1 max_slots_vertical = 1
-                format = "UPPER_LEFT" add_horizontal = no
-            }
-            containerWindowType = {
-                name = "GDP647_map_chart_anchor"
-                position = { x = 0 y = 0 }
-                size = { width = 840 height = 425 }
-            }
             containerWindowType = {
                 name = "GDP647_diplomacy_chart_anchor"
                 position = { x = 0 y = 0 }
                 size = { width = 840 height = 425 }
             }
-        }
-        iconType = {
-            name = "GDP647_chart_grid" position = { x = 145 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_grid"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_0" position = { x = 717 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_1" position = { x = 691 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_2" position = { x = 665 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_3" position = { x = 639 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_4" position = { x = 613 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_5" position = { x = 587 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_6" position = { x = 561 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_7" position = { x = 535 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_8" position = { x = 509 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_9" position = { x = 483 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_10" position = { x = 457 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_11" position = { x = 431 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_12" position = { x = 405 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_13" position = { x = 379 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_14" position = { x = 353 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_15" position = { x = 327 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_16" position = { x = 301 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_17" position = { x = 275 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_18" position = { x = 249 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_19" position = { x = 223 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_20" position = { x = 197 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_21" position = { x = 171 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_chart_segment_22" position = { x = 145 y = 198 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_axis_top" position = { x = 30 y = 190 }
-            font = "hoi_16mbs" text = "GDP647_CHART_MAX" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_axis_bottom" position = { x = 30 y = 350 }
-            font = "hoi_16mbs" text = "GDP647_CHART_MIN" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_axis_pending" position = { x = 186 y = 254 }
-            font = "hoi_16mbs" text = "GDP647_CHART_PENDING" format = centre
-            maxWidth = 516 maxHeight = 22 fixedsize = yes
         }
 
     }
@@ -2088,61 +1718,6 @@ guiTypes = {
         }
     }
 
-    containerWindowType = {
-        name = "GDP647_state_follow_country_row"
-        position = { x = 1 y = 0 }
-        orientation = UPPER_LEFT
-        size = { width = 221 height = 410 }
-        background = { name = "GDP647_map_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
-        gridboxtype = {
-            name = "GDP647_state_profile_grid" position = { x = 0 y = 0 }
-            size = { width = 221 height = 410 }
-            slotsize = { width = 221 height = 410 }
-            max_slots_horizontal = 1 max_slots_vertical = 1
-            format = "UPPER_LEFT" add_horizontal = no
-        }
-    }
 
-    containerWindowType = {
-        name = "GDP647_state_follow_chart_panel"
-        position = { x = 0 y = 0 }
-        orientation = UPPER_LEFT
-        size = { width = 840 height = 425 }
-        background = { name = "GDP647_map_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
-        gridboxtype = {
-            name = "GDP647_state_follow_chart_grid" position = { x = 0 y = 0 }
-            size = { width = 840 height = 425 }
-            slotsize = { width = 840 height = 425 }
-            max_slots_horizontal = 1 max_slots_vertical = 1
-            format = "UPPER_LEFT" add_horizontal = no
-        }
-        gridboxtype = {
-            name = "GDP647_state_chart_summary" position = { x = 30 y = 0 }
-            size = { width = 780 height = 425 }
-            slotsize = { width = 780 height = 425 }
-            max_slots_horizontal = 1 max_slots_vertical = 1
-            format = "UPPER_LEFT" add_horizontal = no
-        }
-    }
 
-    containerWindowType = {
-        name = "GDP647_state_follow_faction_panel"
-        position = { x = 1 y = 0 }
-        orientation = UPPER_LEFT
-        size = { width = 222 height = 236 }
-        background = { name = "GDP647_map_detail_background" quadTextureSprite = "GFX_GDP647_detail_surface" }
-        gridboxtype = {
-            name = "GDP647_state_follow_faction_grid" position = { x = 0 y = 0 }
-            size = { width = 222 height = 236 }
-            slotsize = { width = 222 height = 236 }
-            max_slots_horizontal = 1 max_slots_vertical = 1
-            format = "UPPER_LEFT" add_horizontal = no
-        }
-        instantTextBoxType = {
-            name = "GDP647_state_follow_faction_empty" position = { x = 10 y = 58 }
-            font = "hoi_16mbs" text = "GDP647_FACTION_DETAIL_EMPTY" format = centre
-            maxWidth = 202 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-    }
 }

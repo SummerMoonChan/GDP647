@@ -2,28 +2,9 @@ defined_text = {
     name = GetGDP647CountryCardRank
     text = {
         trigger = {
-            ROOT = { NOT = { has_country_flag = GDP647_manual_selection } }
             check_variable = { GDP647_follow_country_rank > 0 }
         }
         localization_key = GDP647_COUNTRY_CARD_WORLD_RANK
-    }
-    text = {
-        trigger = {
-            ROOT = {
-                has_country_flag = GDP647_manual_selection
-                check_variable = { GDP647_inspected_rank > 0 }
-            }
-        }
-        localization_key = GDP647_PROFILE_RANK_NUMBER
-    }
-    text = { localization_key = GDP647_PROFILE_RANK_NONE }
-}
-
-defined_text = {
-    name = GetGDP647InspectedRank
-    text = {
-        trigger = { ROOT = { check_variable = { GDP647_inspected_rank > 0 } } }
-        localization_key = GDP647_PROFILE_RANK_NUMBER
     }
     text = { localization_key = GDP647_PROFILE_RANK_NONE }
 }
@@ -94,28 +75,9 @@ defined_text = {
     name = GetGDP647FactionCardRank
     text = {
         trigger = {
-            ROOT = { NOT = { has_country_flag = GDP647_manual_selection } }
             check_variable = { GDP647_follow_faction_rank > 0 }
         }
         localization_key = GDP647_FACTION_CARD_WORLD_RANK
     }
-    text = {
-        trigger = {
-            ROOT = {
-                has_country_flag = GDP647_manual_selection
-                check_variable = { GDP647_inspected_rank > 0 }
-            }
-        }
-        localization_key = GDP647_PROFILE_RANK_NUMBER
-    }
     text = { localization_key = GDP647_PROFILE_RANK_NONE }
-}
-
-defined_text = {
-    name = GetGDP647SelectionMode
-    text = {
-        trigger = { has_country_flag = GDP647_manual_selection }
-        localization_key = GDP647_SELECTION_MODE_MANUAL
-    }
-    text = { localization_key = GDP647_SELECTION_MODE_FOLLOW }
 }

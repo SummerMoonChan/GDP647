@@ -15,12 +15,6 @@ on_actions = {
             }
         }
     }
-    on_state_control_changed = {
-        effect = {
-            FROM.FROM = { GDP647_refresh_state_follow_scope = yes }
-            set_global_flag = GDP647_own_state_page_pending
-        }
-    }
     on_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
     on_leave_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
     on_offer_join_faction = { effect = { set_global_flag = GDP647_follow_factions_dirty set_global_flag = GDP647_faction_directory_dirty } }
@@ -43,13 +37,7 @@ on_actions = {
                     limit = {
                         is_ai = no
                         has_country_flag = GDP647_open
-                        OR = {
-                            check_variable = { GDP647_view = 1 }
-                            AND = {
-                                has_country_flag = GDP647_country_own_faction
-                                NOT = { check_variable = { GDP647_view > 0 } }
-                            }
-                        }
+                        check_variable = { GDP647_view = 1 }
                     }
                     GDP647_refresh_order = yes
                     add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -65,22 +53,6 @@ on_actions = {
                     check_variable = { var = global.num_days value = global.GDP647_due compare = greater_than_or_equals }
                 }
                 random_country = { limit = { exists = yes } GDP647_tick = yes }
-            }
-            if = {
-                limit = { has_global_flag = GDP647_own_state_page_pending }
-                clr_global_flag = GDP647_own_state_page_pending
-                every_country = {
-                    limit = {
-                        exists = yes
-                        is_ai = no
-                        has_country_flag = GDP647_open
-                        has_country_flag = GDP647_state_own_only
-                        has_country_flag = GDP647_manual_selection
-                        check_variable = { GDP647_view = 2 }
-                    }
-                    GDP647_load_list_page = yes
-                    add_to_variable = { global.GDP647_ui_revision = 1 }
-                }
             }
         }
     }
