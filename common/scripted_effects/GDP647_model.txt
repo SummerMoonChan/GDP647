@@ -154,6 +154,40 @@ add_to_variable = { PREV.GDP647_geo_U9_frozen_other_resource = GDP647_geo_U9_res
 }
 }
 
+# Country core/non-core group. Factory density proxies access to farm machinery.
+GDP647_agriculture_yield = {
+    set_temp_variable = { GDP647_farm_denom = GDP647_geo_U9_population }
+    multiply_temp_variable = { GDP647_farm_denom = global.GDP647_geo_farm_density_half }
+    add_to_temp_variable = { GDP647_farm_denom = GDP647_group_civil }
+    set_temp_variable = { GDP647_mechanization = GDP647_group_civil }
+    divide_temp_variable = { GDP647_mechanization = GDP647_farm_denom }
+    multiply_temp_variable = { GDP647_mechanization = GDP647_geo_U9_cluster }
+    set_variable = { GDP647_geo_farm_yield = global.GDP647_geo_U9_p_agriculture_gain }
+    multiply_variable = { GDP647_geo_farm_yield = GDP647_mechanization }
+    multiply_variable = { GDP647_geo_farm_yield = GDP647_mechanization }
+    add_to_variable = { GDP647_geo_farm_yield = global.GDP647_geo_U9_p_agriculture_floor }
+    # Group infrastructure is (average level + 1) / 6. This gives 0.90 to 1.15.
+    set_temp_variable = { GDP647_farm_access = GDP647_geo_U9_infrastructure }
+    multiply_temp_variable = { GDP647_farm_access = 0.30 }
+    add_to_temp_variable = { GDP647_farm_access = 0.85 }
+    multiply_variable = { GDP647_geo_farm_yield = GDP647_farm_access }
+}
+
+# Pre-reform yield is used only when establishing the first country valuation.
+GDP647_reference_farm_yield = {
+    set_temp_variable = { GDP647_reference_density = GDP647_geo_U9_resource_density }
+    set_temp_variable = { GDP647_reference_denom = GDP647_reference_density }
+    add_to_temp_variable = { GDP647_reference_denom = 0.59182 }
+    divide_temp_variable = { GDP647_reference_density = GDP647_reference_denom }
+    set_temp_variable = { GDP647_reference_yield = 1841.80174 }
+    multiply_temp_variable = { GDP647_reference_yield = GDP647_reference_density }
+    multiply_temp_variable = { GDP647_reference_yield = GDP647_reference_density }
+    multiply_temp_variable = { GDP647_reference_yield = GDP647_geo_U9_infrastructure }
+    multiply_temp_variable = { GDP647_reference_yield = GDP647_geo_U9_infrastructure }
+    multiply_temp_variable = { GDP647_reference_yield = GDP647_geo_U9_infrastructure }
+    add_to_temp_variable = { GDP647_reference_yield = 6.82354 }
+}
+
 GDP647_geo_U9_prepare_frozen = {
 if = { limit = { OR = { check_variable = { var = GDP647_geo_U9_frozen_core_population value = 0 compare = greater_than } check_variable = { var = GDP647_geo_U9_frozen_core_capacity value = 0 compare = greater_than } check_variable = { var = GDP647_geo_U9_frozen_core_resource value = 0 compare = greater_than } } }
 set_variable = { GDP647_geo_U9_population = GDP647_geo_U9_frozen_core_population }
@@ -177,22 +211,18 @@ set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_density }
 add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
 divide_variable = { GDP647_geo_U9_density = GDP647_geo_U9_denom }
 clamp_variable = { var = GDP647_geo_U9_density min = 0 max = 1 }
-set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_resource_density }
-add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
-divide_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_denom }
-clamp_variable = { var = GDP647_geo_U9_resource_density min = 0 max = 1 }
 set_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_frozen_core_civil }
 set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_frozen_core_civil }
 add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_cluster_half }
 divide_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_denom }
 clamp_variable = { var = GDP647_geo_U9_cluster min = 0 max = 1 }
-set_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = global.GDP647_geo_U9_p_agriculture_gain }
-multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_resource_density }
-multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_resource_density }
-multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_infrastructure }
-multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_infrastructure }
-multiply_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_U9_infrastructure }
-add_to_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = global.GDP647_geo_U9_p_agriculture_floor }
+if = { limit = { NOT = { has_variable = GDP647_valuation_multiplier } }
+    GDP647_reference_farm_yield = yes
+    set_variable = { GDP647_reference_core_yield = GDP647_reference_yield }
+}
+set_temp_variable = { GDP647_group_civil = GDP647_geo_U9_frozen_core_civil }
+GDP647_agriculture_yield = yes
+set_variable = { GDP647_geo_U9_frozen_core_agriculture_unit = GDP647_geo_farm_yield }
 set_variable = { GDP647_geo_U9_frozen_core_modern_unit = global.GDP647_geo_U9_p_civil_unit }
 set_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_modern_floor }
 multiply_variable = { GDP647_geo_U9_part = -1 }
@@ -246,22 +276,18 @@ set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_density }
 add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
 divide_variable = { GDP647_geo_U9_density = GDP647_geo_U9_denom }
 clamp_variable = { var = GDP647_geo_U9_density min = 0 max = 1 }
-set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_resource_density }
-add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_density_half }
-divide_variable = { GDP647_geo_U9_resource_density = GDP647_geo_U9_denom }
-clamp_variable = { var = GDP647_geo_U9_resource_density min = 0 max = 1 }
 set_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_frozen_other_civil }
 set_variable = { GDP647_geo_U9_denom = GDP647_geo_U9_frozen_other_civil }
 add_to_variable = { GDP647_geo_U9_denom = global.GDP647_geo_U9_p_cluster_half }
 divide_variable = { GDP647_geo_U9_cluster = GDP647_geo_U9_denom }
 clamp_variable = { var = GDP647_geo_U9_cluster min = 0 max = 1 }
-set_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = global.GDP647_geo_U9_p_agriculture_gain }
-multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_resource_density }
-multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_resource_density }
-multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_infrastructure }
-multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_infrastructure }
-multiply_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_U9_infrastructure }
-add_to_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = global.GDP647_geo_U9_p_agriculture_floor }
+if = { limit = { NOT = { has_variable = GDP647_valuation_multiplier } }
+    GDP647_reference_farm_yield = yes
+    set_variable = { GDP647_reference_other_yield = GDP647_reference_yield }
+}
+set_temp_variable = { GDP647_group_civil = GDP647_geo_U9_frozen_other_civil }
+GDP647_agriculture_yield = yes
+set_variable = { GDP647_geo_U9_frozen_other_agriculture_unit = GDP647_geo_farm_yield }
 set_variable = { GDP647_geo_U9_frozen_other_modern_unit = global.GDP647_geo_U9_p_civil_unit }
 set_variable = { GDP647_geo_U9_part = global.GDP647_geo_U9_p_modern_floor }
 multiply_variable = { GDP647_geo_U9_part = -1 }

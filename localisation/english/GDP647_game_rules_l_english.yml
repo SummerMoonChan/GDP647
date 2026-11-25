@@ -1,9 +1,0 @@
-﻿l_english:
- GDP647_RULE_GROUP:0 "GDP647 Economy"
- GDP647_RULE_CATEGORY_TABLE:0 "State category table"
- GDP647_RULE_CATEGORY_VANILLA:0 "Vanilla"
- GDP647_RULE_CATEGORY_VANILLA_DESC:0 "Use the vanilla state categories."
- GDP647_RULE_CATEGORY_NUMBERED:0 "KaiserReich"
- GDP647_RULE_CATEGORY_NUMBERED_DESC:0 "Use the numerical categories from one to twelve—such as KR, KX, and FR—as well as those from my large-scale mod, EOE."
- GDP647_RULE_CATEGORY_56:0 "Road to 56"
- GDP647_RULE_CATEGORY_56_DESC:0 "Use the vanilla categories with additional support for developed_rural."
