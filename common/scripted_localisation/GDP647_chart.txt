@@ -320,3 +320,284 @@ defined_text = {
     }
 }
 
+defined_text = {
+    name = GetGDP647FactionEconomySize
+    text = {
+        trigger = {
+            OR = {
+                NOT = { has_global_flag = GDP647_economic_benchmarks_ready }
+                NOT = { has_variable = GDP647_faction_gdp }
+            }
+        }
+        localization_key = GDP647_GROWTH_UNAVAILABLE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_15 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_HEGEMON
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_14 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_TITAN
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_13 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_PARAMOUNT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_12 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_DOMINANT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_11 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_MAJOR
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_10 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_POWERFUL
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_9 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_CONSIDERABLE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_8 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_SUBSTANTIAL
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_7 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_ESTABLISHED
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_6 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_MODERATE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_5 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_DEVELOPING
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_4 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_RUDIMENTARY
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_3 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_PERIPHERAL
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_2 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_NEGLIGIBLE
+    }
+    text = { localization_key = GDP647_CHART_SIZE_PRIMITIVE }
+}
+
+defined_text = {
+    name = GetGDP647FactionEconomySizeShort
+    text = {
+        trigger = {
+            OR = {
+                NOT = { has_global_flag = GDP647_economic_benchmarks_ready }
+                NOT = { has_variable = GDP647_faction_gdp }
+            }
+        }
+        localization_key = GDP647_GROWTH_UNAVAILABLE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_15 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_HEGEMON_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_14 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_TITAN_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_13 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_PARAMOUNT_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_12 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_DOMINANT_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_11 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_MAJOR_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_10 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_POWERFUL_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_9 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_CONSIDERABLE_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_8 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_SUBSTANTIAL_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_7 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_ESTABLISHED_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_6 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_MODERATE_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_5 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_DEVELOPING_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_4 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_RUDIMENTARY_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_3 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_PERIPHERAL_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_gdp value = global.GDP647_threshold_size_2 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_SIZE_NEGLIGIBLE_SHORT
+    }
+    text = { localization_key = GDP647_CHART_SIZE_PRIMITIVE_SHORT }
+}
+
+defined_text = {
+    name = GetGDP647FactionEconomyDevelopment
+    text = {
+        trigger = {
+            OR = {
+                NOT = { has_global_flag = GDP647_economic_benchmarks_ready }
+                NOT = { has_variable = GDP647_faction_core_gdp_per_capita }
+                NOT = { check_variable = { GDP647_faction_core_population > 0 } }
+            }
+        }
+        localization_key = GDP647_GROWTH_UNAVAILABLE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_15 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_UTOPIAN
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_14 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_TRANSCENDENTAL
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_13 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_RADIANT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_12 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_GILDED
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_11 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_OPULENT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_10 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_PROSPEROUS
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_9 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_VIBRANT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_8 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_ROBUST
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_7 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_COMFORTABLE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_6 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_DECENT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_5 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_MEAGER
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_4 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_GRIMY
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_3 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_HARDSCRABBLE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_2 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_SQUALID
+    }
+    text = { localization_key = GDP647_CHART_DEVELOPMENT_ABJECT }
+}
+
+defined_text = {
+    name = GetGDP647FactionEconomyDevelopmentShort
+    text = {
+        trigger = {
+            OR = {
+                NOT = { has_global_flag = GDP647_economic_benchmarks_ready }
+                NOT = { has_variable = GDP647_faction_core_gdp_per_capita }
+                NOT = { check_variable = { GDP647_faction_core_population > 0 } }
+            }
+        }
+        localization_key = GDP647_GROWTH_UNAVAILABLE
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_15 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_UTOPIAN_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_14 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_TRANSCENDENTAL_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_13 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_RADIANT_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_12 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_GILDED_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_11 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_OPULENT_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_10 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_PROSPEROUS_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_9 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_VIBRANT_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_8 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_ROBUST_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_7 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_COMFORTABLE_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_6 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_DECENT_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_5 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_MEAGER_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_4 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_GRIMY_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_3 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_HARDSCRABBLE_SHORT
+    }
+    text = {
+        trigger = { check_variable = { var = GDP647_faction_core_gdp_per_capita value = global.GDP647_threshold_development_2 compare = greater_than_or_equals } }
+        localization_key = GDP647_CHART_DEVELOPMENT_SQUALID_SHORT
+    }
+    text = { localization_key = GDP647_CHART_DEVELOPMENT_ABJECT_SHORT }
+}

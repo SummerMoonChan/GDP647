@@ -304,10 +304,16 @@ guiTypes = {
             buttonText = "GDP647_RANK_GDP" buttonFont = "hoi_16mbs"
             pdx_tooltip = "GDP647_SORT_HELP"
         }
+        buttonType = {
+            name = "GDP647_sort_faction_pc" position = { x = 628 y = 41 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonText = "GDP647_RANK_CORE_PC" buttonFont = "hoi_16mbs"
+            pdx_tooltip = "GDP647_SORT_HELP"
+        }
         containerWindowType = {
             name = "GDP647_faction_detail_panel"
             position = { x = 20 y = 79 }
-            size = { width = 222 height = 236 }
+            size = { width = 222 height = 434 }
             background = {
                 name = "GDP647_faction_detail_background"
                 quadTextureSprite = "GFX_GDP647_detail_surface"
@@ -357,13 +363,13 @@ guiTypes = {
         containerWindowType = {
             name = "GDP647_faction_follow_anchor"
             position = { x = 22 y = 79 }
-            size = { width = 222 height = 236 }
+            size = { width = 222 height = 434 }
         }
 
         gridboxtype = {
             name = "GDP647_locked_card" position = { x = 20 y = 79 }
-            size = { width = 222 height = 236 }
-            slotsize = { width = 222 height = 236 }
+            size = { width = 222 height = 434 }
+            slotsize = { width = 222 height = 434 }
             max_slots_horizontal = 1 max_slots_vertical = 1
             format = "UPPER_LEFT" add_horizontal = no
         }
@@ -614,7 +620,7 @@ guiTypes = {
             maxWidth = 212 maxHeight = 19 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_faction_row_total" position = { x = 230 y = 4 }
+            name = "GDP647_faction_row_total" position = { x = 230 y = 0 }
             font = "hoi_18mbs" text = "GDP647_FACTION_VALUE" format = left
             maxWidth = 112 maxHeight = 24 fixedsize = yes
         }
@@ -622,6 +628,23 @@ guiTypes = {
             name = "GDP647_faction_row_population" position = { x = 460 y = 4 }
             font = "hoi_18mbs" text = "GDP647_FACTION_ROW_POPULATION" format = left
             maxWidth = 104 maxHeight = 22 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_row_size" position = { x = 230 y = 19 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_CHART_SIZE_SHORT" format = left
+            maxWidth = 108 maxHeight = 19 fixedsize = yes
+            pdx_tooltip = "GDP647_FACTION_CHART_SIZE"
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_row_pc" position = { x = 350 y = 0 }
+            font = "hoi_18mbs" text = "GDP647_FACTION_PC_VALUE" format = left
+            maxWidth = 102 maxHeight = 24 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_row_development" position = { x = 350 y = 19 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_CHART_DEVELOPMENT_SHORT" format = left
+            maxWidth = 108 maxHeight = 19 fixedsize = yes
+            pdx_tooltip = "GDP647_FACTION_CHART_DEVELOPMENT"
         }
     }
 
@@ -807,7 +830,7 @@ guiTypes = {
 
     containerWindowType = {
         name = "GDP647_faction_detail_row"
-        size = { width = 222 height = 236 }
+        size = { width = 222 height = 434 }
         buttonType = {
             name = "GDP647_faction_detail_flag" position = { x = 70 y = 34 }
             quadTextureSprite = "GFX_shield_medium"
@@ -819,17 +842,22 @@ guiTypes = {
             maxWidth = 202 maxHeight = 22 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_faction_detail_country" position = { x = 12 y = 112 }
+            name = "GDP647_faction_detail_country" position = { x = 12 y = 152 }
             font = "hoi_16mbs" text = "GDP647_FACTION_DETAIL_COUNTRY" format = left
             maxWidth = 198 maxHeight = 22 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_faction_detail_gdp" position = { x = 12 y = 134 }
+            name = "GDP647_faction_detail_pc" position = { x = 12 y = 132 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_PROFILE_PC" format = left
+            maxWidth = 198 maxHeight = 22 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_detail_gdp" position = { x = 12 y = 112 }
             font = "hoi_16mbs" text = "GDP647_FACTION_DETAIL_GDP" format = left
             maxWidth = 198 maxHeight = 22 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_faction_detail_members" position = { x = 12 y = 156 }
+            name = "GDP647_faction_detail_members" position = { x = 12 y = 406 }
             font = "hoi_16mbs" text = "GDP647_FACTION_DETAIL_MEMBERS" format = left
             maxWidth = 198 maxHeight = 22 fixedsize = yes
         }
@@ -839,16 +867,98 @@ guiTypes = {
             maxWidth = 198 maxHeight = 20 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_faction_growth_mom" position = { x = 12 y = 178 }
+            name = "GDP647_faction_growth_mom" position = { x = 12 y = 174 }
             font = "hoi_16mbs" text = "GDP647_FACTION_GROWTH_MOM" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
             pdx_tooltip = "GDP647_GROWTH_MOM_TT"
         }
         instantTextBoxType = {
-            name = "GDP647_faction_growth_yoy" position = { x = 12 y = 198 }
+            name = "GDP647_faction_growth_yoy" position = { x = 12 y = 194 }
             font = "hoi_16mbs" text = "GDP647_FACTION_GROWTH_YOY" format = left
             maxWidth = 198 maxHeight = 20 fixedsize = yes
             pdx_tooltip = "GDP647_GROWTH_YOY_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_profile_size_level" position = { x = 12 y = 214 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_PROFILE_SIZE_LEVEL" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_FACTION_CHART_SIZE"
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_profile_development_level" position = { x = 12 y = 234 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_PROFILE_DEVELOPMENT_LEVEL" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+            pdx_tooltip = "GDP647_FACTION_CHART_DEVELOPMENT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_heading" position = { x = 12 y = 256 }
+            font = "hoi_18mbs" text = "GDP647_STATE_BREAKDOWN" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_pending" position = { x = 12 y = 281 }
+            font = "hoi_16mbs" text = "GDP647_STATE_BREAKDOWN_PENDING" format = left
+            maxWidth = 198 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_faction_breakdown_agriculture_icon" position = { x = 13 y = 283 }
+            quadTextureSprite = "GFX_population_icon" scale = 0.50
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_agriculture" position = { x = 33 y = 281 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_SECTOR_AGRICULTURE" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_faction_breakdown_civilian_icon" position = { x = 13 y = 303 }
+            quadTextureSprite = "GFX_industrial_capacity_icon" scale = 0.51
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_civilian" position = { x = 33 y = 301 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_SECTOR_CIVILIAN" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_faction_breakdown_military_icon" position = { x = 13 y = 323 }
+            quadTextureSprite = "GFX_military_factory_icon" scale = 0.65
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_military" position = { x = 33 y = 321 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_SECTOR_MILITARY" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_faction_breakdown_services_icon" position = { x = 13 y = 343 }
+            quadTextureSprite = "GFX_traded_factories_icon" scale = 0.39
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_services" position = { x = 33 y = 341 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_SECTOR_SERVICES" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_faction_breakdown_resources_icon" position = { x = 13 y = 362 }
+            quadTextureSprite = "GFX_resources_strip" frame = 5 scale = 0.62
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_resources" position = { x = 33 y = 361 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_SECTOR_RESOURCES" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
+        }
+        iconType = {
+            name = "GDP647_faction_breakdown_reinvestment_icon" position = { x = 13 y = 385 }
+            quadTextureSprite = "GFX_construction_speed_icon" scale = 0.60
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_faction_breakdown_reinvestment" position = { x = 33 y = 381 }
+            font = "hoi_16mbs" text = "GDP647_FACTION_SECTOR_REINVESTMENT" format = left
+            maxWidth = 177 maxHeight = 20 fixedsize = yes
         }
     }
 
@@ -1030,6 +1140,16 @@ guiTypes = {
             quadTextureSprite = "GFX_sort_button_100x29"
             buttonFont = "hoi_16mbs" buttonText = "GDP647_CHART_METRIC_PC"
         }
+        buttonType = {
+            name = "GDP647_world_total" position = { x = 472 y = 41 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_WORLD_METRIC_TOTAL"
+        }
+        buttonType = {
+            name = "GDP647_world_pc" position = { x = 582 y = 41 }
+            quadTextureSprite = "GFX_sort_button_100x29"
+            buttonFont = "hoi_16mbs" buttonText = "GDP647_WORLD_METRIC_PC"
+        }
         containerWindowType = {
             name = "GDP647_chart_detail_surface"
             position = { x = 20 y = 79 }
@@ -1044,6 +1164,14 @@ guiTypes = {
                 name = "GDP647_locked_chart_anchor"
                 position = { x = 0 y = 0 }
                 size = { width = 840 height = 425 }
+            }
+            gridboxtype = {
+                name = "GDP647_world_plot_rows"
+                position = { x = 0 y = 0 }
+                size = { width = 840 height = 425 }
+                slotsize = { width = 840 height = 425 }
+                max_slots_horizontal = 1 max_slots_vertical = 1
+                format = "UPPER_LEFT" add_horizontal = no
             }
         }
 
@@ -1060,456 +1188,371 @@ guiTypes = {
     }
 
     containerWindowType = {
-        name = "GDP647_chart_profile_row"
-        size = { width = 780 height = 425 }
-        iconType = {
-            name = "GDP647_chart_country_flag" position = { x = 0 y = 8 }
-            quadTextureSprite = "GFX_shield_medium"
-        }
+        name = "GDP647_plot_row"
+        size = { width = 840 height = 425 }
         instantTextBoxType = {
-            name = "GDP647_chart_country_name" position = { x = 112 y = 4 }
-            font = "hoi_18mbs" text = "GDP647_COUNTRY_NAME" format = left
+            name = "GDP647_plot_heading" position = { x = 30 y = 25 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_HEADING" format = left
             maxWidth = 660 maxHeight = 28 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_grid" position = { x = 125 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_grid"
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_chart_current_gdp" position = { x = 112 y = 34 }
-            font = "hoi_16mbs" text = "GDP647_PROFILE_GDP" format = left
-            maxWidth = 300 maxHeight = 22 fixedsize = yes
+            name = "GDP647_plot_tick_0" position = { x = 6 y = 70 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_TICK_0" format = right
+            maxWidth = 108 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_chart_current_pc" position = { x = 390 y = 34 }
-            font = "hoi_16mbs" text = "GDP647_PROFILE_PC" format = left
-            maxWidth = 365 maxHeight = 22 fixedsize = yes
+            name = "GDP647_plot_tick_1" position = { x = 6 y = 110 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_TICK_1" format = right
+            maxWidth = 108 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
         }
         instantTextBoxType = {
-            name = "GDP647_chart_size_text" position = { x = 0 y = 278 }
+            name = "GDP647_plot_tick_2" position = { x = 6 y = 150 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_TICK_2" format = right
+            maxWidth = 108 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_tick_3" position = { x = 6 y = 190 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_TICK_3" format = right
+            maxWidth = 108 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_tick_4" position = { x = 6 y = 230 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_TICK_4" format = right
+            maxWidth = 108 maxHeight = 22 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_0" position = { x = 697 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_1" position = { x = 671 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_2" position = { x = 645 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_3" position = { x = 619 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_4" position = { x = 593 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_5" position = { x = 567 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_6" position = { x = 541 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_7" position = { x = 515 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_8" position = { x = 489 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_9" position = { x = 463 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_10" position = { x = 437 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_11" position = { x = 411 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_12" position = { x = 385 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_13" position = { x = 359 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_14" position = { x = 333 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_15" position = { x = 307 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_16" position = { x = 281 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_17" position = { x = 255 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_18" position = { x = 229 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_19" position = { x = 203 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_20" position = { x = 177 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_21" position = { x = 151 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_segment_22" position = { x = 125 y = 79 }
+            quadTextureSprite = "GFX_GDP647_chart_line"
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_0" position = { x = 720 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_0_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_0" position = { x = 686 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_0" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_1" position = { x = 694 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_1_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_2" position = { x = 668 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_2_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_3" position = { x = 642 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_3_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_3" position = { x = 608 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_3" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_4" position = { x = 616 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_4_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_4" position = { x = 582 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_4" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_5" position = { x = 590 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_5_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_6" position = { x = 564 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_6_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_7" position = { x = 538 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_7_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_7" position = { x = 504 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_7" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_8" position = { x = 512 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_8_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_8" position = { x = 478 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_8" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_9" position = { x = 486 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_9_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_10" position = { x = 460 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_10_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_11" position = { x = 434 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_11_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_11" position = { x = 400 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_11" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_12" position = { x = 408 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_12_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_12" position = { x = 374 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_12" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_13" position = { x = 382 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_13_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_14" position = { x = 356 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_14_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_15" position = { x = 330 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_15_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_15" position = { x = 296 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_15" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_16" position = { x = 304 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_16_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_16" position = { x = 270 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_16" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_17" position = { x = 278 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_17_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_18" position = { x = 252 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_18_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_19" position = { x = 226 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_19_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_19" position = { x = 192 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_19" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_20" position = { x = 200 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_20_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_20" position = { x = 166 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_20" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        iconType = {
+            name = "GDP647_plot_dot_21" position = { x = 174 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_21_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_22" position = { x = 148 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_22_TT"
+        }
+        iconType = {
+            name = "GDP647_plot_dot_23" position = { x = 122 y = 76 }
+            quadTextureSprite = "GFX_GDP647_chart_dot"
+            pdx_tooltip = "GDP647_PLOT_DOT_23_TT"
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_date_23" position = { x = 88 y = 249 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_DATE_23" format = centre
+            maxWidth = 74 maxHeight = 20 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_plot_pending" position = { x = 160 y = 155 }
+            font = "hoi_16mbs" text = "GDP647_PLOT_PENDING" format = centre
+            maxWidth = 530 maxHeight = 30 fixedsize = yes
+            alwaystransparent = yes
+        }
+        instantTextBoxType = {
+            name = "GDP647_chart_size_text" position = { x = 30 y = 278 }
             font = "hoi_16mbs" text = "GDP647_CHART_SIZE" format = left
             maxWidth = 780 maxHeight = 50 fixedsize = yes
         }
         instantTextBoxType = {
-            name = "GDP647_chart_development_text" position = { x = 0 y = 337 }
+            name = "GDP647_chart_development_text" position = { x = 30 y = 337 }
             font = "hoi_16mbs" text = "GDP647_CHART_DEVELOPMENT" format = left
             maxWidth = 780 maxHeight = 50 fixedsize = yes
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_0" position = { x = 690 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_0_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_0" position = { x = 690 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_0_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_1" position = { x = 664 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_1_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_1" position = { x = 664 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_1_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_2" position = { x = 638 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_2_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_2" position = { x = 638 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_2_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_3" position = { x = 612 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_3_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_3" position = { x = 612 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_3_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_4" position = { x = 586 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_4_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_4" position = { x = 586 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_4_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_5" position = { x = 560 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_5_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_5" position = { x = 560 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_5_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_6" position = { x = 534 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_6_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_6" position = { x = 534 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_6_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_7" position = { x = 508 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_7_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_7" position = { x = 508 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_7_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_8" position = { x = 482 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_8_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_8" position = { x = 482 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_8_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_9" position = { x = 456 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_9_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_9" position = { x = 456 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_9_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_10" position = { x = 430 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_10_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_10" position = { x = 430 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_10_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_11" position = { x = 404 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_11_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_11" position = { x = 404 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_11_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_12" position = { x = 378 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_12_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_12" position = { x = 378 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_12_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_13" position = { x = 352 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_13_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_13" position = { x = 352 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_13_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_14" position = { x = 326 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_14_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_14" position = { x = 326 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_14_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_15" position = { x = 300 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_15_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_15" position = { x = 300 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_15_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_16" position = { x = 274 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_16_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_16" position = { x = 274 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_16_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_17" position = { x = 248 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_17_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_17" position = { x = 248 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_17_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_18" position = { x = 222 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_18_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_18" position = { x = 222 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_18_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_19" position = { x = 196 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_19_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_19" position = { x = 196 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_19_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_20" position = { x = 170 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_20_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_20" position = { x = 170 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_20_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_21" position = { x = 144 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_21_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_21" position = { x = 144 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_21_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_22" position = { x = 118 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_22_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_22" position = { x = 118 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_22_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_total_23" position = { x = 92 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_23_TT"
-        }
-        iconType = {
-            name = "GDP647_chart_dot_pc_23" position = { x = 92 y = 76 }
-            quadTextureSprite = "GFX_GDP647_chart_dot"
-            pdx_tooltip = "GDP647_CHART_POINT_23_TT"
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_tick_total_0" position = { x = -20 y = 111 }
-            font = "hoi_16mbs" text = "GDP647_CHART_TICK_TOTAL_0" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_tick_total_1" position = { x = -20 y = 151 }
-            font = "hoi_16mbs" text = "GDP647_CHART_TICK_TOTAL_1" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_tick_total_2" position = { x = -20 y = 191 }
-            font = "hoi_16mbs" text = "GDP647_CHART_TICK_TOTAL_2" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_tick_pc_0" position = { x = -20 y = 111 }
-            font = "hoi_16mbs" text = "GDP647_CHART_TICK_PC_0" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_tick_pc_1" position = { x = -20 y = 151 }
-            font = "hoi_16mbs" text = "GDP647_CHART_TICK_PC_1" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_tick_pc_2" position = { x = -20 y = 191 }
-            font = "hoi_16mbs" text = "GDP647_CHART_TICK_PC_2" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_0" position = { x = 669 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_0" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_1" position = { x = 643 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_1" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_2" position = { x = 617 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_2" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_3" position = { x = 591 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_3" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_4" position = { x = 565 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_4" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_5" position = { x = 539 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_5" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_6" position = { x = 513 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_6" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_7" position = { x = 487 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_7" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_8" position = { x = 461 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_8" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_9" position = { x = 435 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_9" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_10" position = { x = 409 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_10" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_11" position = { x = 383 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_11" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_12" position = { x = 357 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_12" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_13" position = { x = 331 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_13" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_14" position = { x = 305 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_14" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_15" position = { x = 279 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_15" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_16" position = { x = 253 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_16" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_17" position = { x = 227 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_17" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_18" position = { x = 201 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_18" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_19" position = { x = 175 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_19" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_20" position = { x = 149 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_20" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_21" position = { x = 123 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_21" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_22" position = { x = 97 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_22" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_chart_year_23" position = { x = 71 y = 247 }
-            font = "hoi_16mbs" text = "GDP647_CHART_YEAR_23" format = centre
-            maxWidth = 48 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
         }
     }
 
@@ -1545,11 +1588,11 @@ guiTypes = {
         name = "GDP647_follow_faction_panel"
         position = { x = 0 y = 0 }
         orientation = UPPER_LEFT
-        size = { width = 222 height = 236 }
+        size = { width = 222 height = 434 }
         gridboxtype = {
             name = "GDP647_follow_faction_grid" position = { x = 0 y = 0 }
-            size = { width = 222 height = 236 }
-            slotsize = { width = 222 height = 236 }
+            size = { width = 222 height = 434 }
+            slotsize = { width = 222 height = 434 }
             max_slots_horizontal = 1 max_slots_vertical = 1
             format = "UPPER_LEFT" add_horizontal = no
         }
@@ -1562,295 +1605,33 @@ guiTypes = {
     }
 
     containerWindowType = {
-        name = "GDP647_follow_chart_panel"
+        name = "GDP647_total_plot_source"
         position = { x = 0 y = 0 }
-        orientation = UPPER_LEFT
         size = { width = 840 height = 425 }
         gridboxtype = {
-            name = "GDP647_follow_chart_grid" position = { x = 0 y = 0 }
+            name = "GDP647_country_plot_rows"
+            position = { x = 0 y = 0 }
             size = { width = 840 height = 425 }
             slotsize = { width = 840 height = 425 }
-            max_slots_horizontal = 1 max_slots_vertical = 1
-            format = "UPPER_LEFT" add_horizontal = no
-        }
-        gridboxtype = {
-            name = "GDP647_diplomacy_chart_summary" position = { x = 30 y = 0 }
-            size = { width = 780 height = 425 }
-            slotsize = { width = 780 height = 425 }
             max_slots_horizontal = 1 max_slots_vertical = 1
             format = "UPPER_LEFT" add_horizontal = no
         }
     }
 
     containerWindowType = {
-        name = "GDP647_follow_chart_row"
+        name = "GDP647_pc_plot_source"
+        position = { x = 0 y = 0 }
         size = { width = 840 height = 425 }
-        iconType = {
-            name = "GDP647_follow_chart_lines_grid" position = { x = 125 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_grid"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_0" position = { x = 697 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_1" position = { x = 671 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_2" position = { x = 645 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_3" position = { x = 619 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_4" position = { x = 593 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_5" position = { x = 567 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_6" position = { x = 541 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_7" position = { x = 515 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_8" position = { x = 489 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_9" position = { x = 463 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_10" position = { x = 437 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_11" position = { x = 411 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_12" position = { x = 385 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_13" position = { x = 359 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_14" position = { x = 333 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_15" position = { x = 307 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_16" position = { x = 281 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_17" position = { x = 255 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_18" position = { x = 229 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_19" position = { x = 203 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_20" position = { x = 177 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_21" position = { x = 151 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_total_22" position = { x = 125 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_follow_chart_total_max" position = { x = 10 y = 71 }
-            font = "hoi_16mbs" text = "GDP647_MAP_CHART_TOTAL_MAX" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_follow_chart_total_min" position = { x = 10 y = 231 }
-            font = "hoi_16mbs" text = "GDP647_MAP_CHART_TOTAL_MIN" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_0" position = { x = 697 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_1" position = { x = 671 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_2" position = { x = 645 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_3" position = { x = 619 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_4" position = { x = 593 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_5" position = { x = 567 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_6" position = { x = 541 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_7" position = { x = 515 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_8" position = { x = 489 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_9" position = { x = 463 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_10" position = { x = 437 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_11" position = { x = 411 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_12" position = { x = 385 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_13" position = { x = 359 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_14" position = { x = 333 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_15" position = { x = 307 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_16" position = { x = 281 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_17" position = { x = 255 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_18" position = { x = 229 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_19" position = { x = 203 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_20" position = { x = 177 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_21" position = { x = 151 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        iconType = {
-            name = "GDP647_follow_chart_pc_22" position = { x = 125 y = 79 }
-            quadTextureSprite = "GFX_GDP647_chart_line"
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_follow_chart_pc_max" position = { x = 10 y = 71 }
-            font = "hoi_16mbs" text = "GDP647_MAP_CHART_PC_MAX" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_follow_chart_pc_min" position = { x = 10 y = 231 }
-            font = "hoi_16mbs" text = "GDP647_MAP_CHART_PC_MIN" format = right
-            maxWidth = 105 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
-        }
-        instantTextBoxType = {
-            name = "GDP647_follow_chart_pending" position = { x = 166 y = 135 }
-            font = "hoi_16mbs" text = "GDP647_CHART_PENDING" format = centre
-            maxWidth = 516 maxHeight = 22 fixedsize = yes
-            alwaystransparent = yes
+        gridboxtype = {
+            name = "GDP647_country_plot_rows"
+            position = { x = 0 y = 0 }
+            size = { width = 840 height = 425 }
+            slotsize = { width = 840 height = 425 }
+            max_slots_horizontal = 1 max_slots_vertical = 1
+            format = "UPPER_LEFT" add_horizontal = no
         }
     }
+
 
 
 

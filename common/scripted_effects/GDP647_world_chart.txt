@@ -1,0 +1,144 @@
+# Older saves can already have published country and world values but no world history.
+GDP647_seed_world_chart = {
+    if = {
+        limit = {
+            check_variable = { global.GDP647_world_month_archive^num = 0 }
+            has_variable = global.GDP647_chart_last_archive_day
+        }
+        if = {
+            limit = { NOT = { has_global_flag = GDP647_world_totals_ready } }
+            GDP647_publish_economic_benchmarks = yes
+        }
+        GDP647_archive_world_chart = yes
+    }
+}
+
+# World GDP is stored in billions of dollars. Per capita is dollars per controlled resident.
+GDP647_archive_world_chart = {
+    if = {
+        limit = { has_variable = global.GDP647_chart_last_archive_day has_global_flag = GDP647_world_totals_ready }
+        GDP647_get_archive_month = yes
+        if = {
+            limit = {
+                check_variable = { global.GDP647_world_month_archive^num > 0 }
+                check_variable = { global.GDP647_world_last_month = GDP647_archive_month }
+            }
+            set_temp_variable = { GDP647_world_last = global.GDP647_world_month_archive^num }
+            subtract_from_temp_variable = { GDP647_world_last = 1 }
+            set_variable = { global.GDP647_world_total_archive^GDP647_world_last = global.GDP647_world_gdp_b }
+            set_variable = { global.GDP647_world_pc_archive^GDP647_world_last = global.GDP647_world_gdp_pc }
+        }
+        else = {
+            add_to_array = { array = global.GDP647_world_month_archive value = GDP647_archive_month }
+            add_to_array = { array = global.GDP647_world_total_archive value = global.GDP647_world_gdp_b }
+            add_to_array = { array = global.GDP647_world_pc_archive value = global.GDP647_world_gdp_pc }
+            set_variable = { global.GDP647_world_last_month = GDP647_archive_month }
+        }
+    }
+}
+
+# Sample the full history for this viewer, newest first. Country chart caches stay in country scope.
+GDP647_prepare_world_plot = {
+    set_variable = { GDP647_world_plot_count = global.GDP647_world_month_archive^num }
+    clamp_variable = { var = GDP647_world_plot_count max = 24 }
+    clear_array = GDP647_world_sample_total
+    clear_array = GDP647_world_sample_pc
+    clear_array = GDP647_world_sample_year
+    clear_array = GDP647_world_sample_month
+    clear_array = GDP647_world_dot_y
+    clear_array = GDP647_world_line_y
+    clear_array = GDP647_world_line_frame
+    clear_array = GDP647_world_axis
+    clear_temp_array = GDP647_world_samples
+    set_temp_variable = { GDP647_world_last = global.GDP647_world_month_archive^num }
+    subtract_from_temp_variable = { GDP647_world_last = 1 }
+    set_temp_variable = { GDP647_world_span = GDP647_world_plot_count }
+    subtract_from_temp_variable = { GDP647_world_span = 1 }
+    clamp_temp_variable = { var = GDP647_world_span min = 1 }
+    set_temp_variable = { GDP647_world_i = 0 }
+    while_loop_effect = {
+        limit = { check_variable = { GDP647_world_i < GDP647_world_plot_count } }
+        set_temp_variable = { GDP647_world_offset = GDP647_world_i }
+        multiply_temp_variable = { GDP647_world_offset = GDP647_world_last }
+        divide_temp_variable = { GDP647_world_offset = GDP647_world_span }
+        round_temp_variable = GDP647_world_offset
+        set_temp_variable = { GDP647_world_index = GDP647_world_last }
+        subtract_from_temp_variable = { GDP647_world_index = GDP647_world_offset }
+        set_temp_variable = { GDP647_world_date = global.GDP647_world_month_archive^GDP647_world_index }
+        set_temp_variable = { GDP647_world_month = GDP647_world_date }
+        modulo_temp_variable = { var = GDP647_world_month value = 12 }
+        subtract_from_temp_variable = { GDP647_world_date = GDP647_world_month }
+        divide_temp_variable = { GDP647_world_date = 12 }
+        add_to_temp_variable = { GDP647_world_month = 1 }
+        add_to_array = { array = GDP647_world_sample_year value = GDP647_world_date }
+        add_to_array = { array = GDP647_world_sample_month value = GDP647_world_month }
+        add_to_array = { array = GDP647_world_sample_total value = global.GDP647_world_total_archive^GDP647_world_index }
+        add_to_array = { array = GDP647_world_sample_pc value = global.GDP647_world_pc_archive^GDP647_world_index }
+        set_temp_variable = { GDP647_world_value = global.GDP647_world_total_archive^GDP647_world_index }
+        if = {
+            limit = { check_variable = { GDP647_chart_metric = 4 } }
+            set_temp_variable = { GDP647_world_value = global.GDP647_world_pc_archive^GDP647_world_index }
+        }
+        add_to_temp_array = { array = GDP647_world_samples value = GDP647_world_value }
+        if = {
+            limit = { check_variable = { GDP647_world_i = 0 } }
+            set_temp_variable = { GDP647_world_low = GDP647_world_value }
+            set_temp_variable = { GDP647_world_high = GDP647_world_value }
+        }
+        clamp_temp_variable = { var = GDP647_world_low max = GDP647_world_value }
+        clamp_temp_variable = { var = GDP647_world_high min = GDP647_world_value }
+        add_to_temp_variable = { GDP647_world_i = 1 }
+    }
+    if = {
+        limit = { check_variable = { GDP647_world_plot_count > 0 } }
+        GDP647_scale_world_plot = yes
+    }
+}
+
+GDP647_scale_world_plot = {
+    if = {
+        limit = { check_variable = { GDP647_world_high = GDP647_world_low } }
+        set_temp_variable = { GDP647_world_padding = GDP647_world_high }
+        multiply_temp_variable = { GDP647_world_padding = 0.05 }
+        clamp_temp_variable = { var = GDP647_world_padding min = 0.01 }
+        add_to_temp_variable = { GDP647_world_high = GDP647_world_padding }
+        subtract_from_temp_variable = { GDP647_world_low = GDP647_world_padding }
+        clamp_temp_variable = { var = GDP647_world_low min = 0 }
+    }
+    set_temp_variable = { GDP647_world_range = GDP647_world_high }
+    subtract_from_temp_variable = { GDP647_world_range = GDP647_world_low }
+    set_temp_variable = { GDP647_world_i = 0 }
+    while_loop_effect = {
+        limit = { check_variable = { GDP647_world_i < 5 } }
+        set_temp_variable = { GDP647_world_tick = GDP647_world_range }
+        divide_temp_variable = { GDP647_world_tick = 4 }
+        multiply_temp_variable = { GDP647_world_tick = GDP647_world_i }
+        set_temp_variable = { GDP647_world_value = GDP647_world_high }
+        subtract_from_temp_variable = { GDP647_world_value = GDP647_world_tick }
+        add_to_array = { array = GDP647_world_axis value = GDP647_world_value }
+        add_to_temp_variable = { GDP647_world_i = 1 }
+    }
+    set_temp_variable = { GDP647_world_i = 0 }
+    while_loop_effect = {
+        limit = { check_variable = { GDP647_world_i < GDP647_world_plot_count } }
+        set_temp_variable = { GDP647_chart_left = GDP647_world_high }
+        subtract_from_temp_variable = { GDP647_chart_left = GDP647_world_samples^GDP647_world_i }
+        divide_temp_variable = { GDP647_chart_left = GDP647_world_range }
+        multiply_temp_variable = { GDP647_chart_left = 40 }
+        round_temp_variable = GDP647_chart_left
+        clamp_temp_variable = { var = GDP647_chart_left min = 0 max = 40 }
+        set_temp_variable = { GDP647_world_y = GDP647_chart_left }
+        multiply_temp_variable = { GDP647_world_y = 4 }
+        add_to_temp_variable = { GDP647_world_y = 76 }
+        add_to_array = { array = GDP647_world_dot_y value = GDP647_world_y }
+        if = {
+            limit = { check_variable = { GDP647_world_i > 0 } }
+            GDP647_chart_segment_geometry = yes
+            subtract_from_temp_variable = { GDP647_chart_segment_y = 119 }
+            add_to_array = { array = GDP647_world_line_y value = GDP647_chart_segment_y }
+            add_to_array = { array = GDP647_world_line_frame value = GDP647_chart_segment_frame }
+        }
+        set_temp_variable = { GDP647_chart_right = GDP647_chart_left }
+        add_to_temp_variable = { GDP647_world_i = 1 }
+    }
+}

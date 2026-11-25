@@ -82,6 +82,7 @@ GDP647_compute_state = {
 }
 
 GDP647_publish = {
+    GDP647_seed_world_chart = yes
     GDP647_prepare_growth_sample = yes
     GDP647_prepare_chart_archive = yes
     clear_array = global.GDP647_countries
@@ -189,7 +190,9 @@ GDP647_publish = {
     set_temp_variable = { GDP647_record_faction_snapshot = 1 }
     GDP647_refresh_faction_directory = yes
     set_temp_variable = { GDP647_record_faction_snapshot = 0 }
+    set_global_flag = GDP647_compact_amounts_ready_v2
     GDP647_publish_economic_benchmarks = yes
+    GDP647_archive_world_chart = yes
     GDP647_rank_follow_countries = yes
     every_country = {
         limit = { exists = yes is_ai = no }
@@ -365,10 +368,11 @@ GDP647_refresh_order = {
             check_variable = { GDP647_view = 1 }
             OR = {
                 NOT = { has_global_flag = GDP647_live_faction_directory_ready }
+                any_of_scopes = { array = global.GDP647_factions NOT = { has_variable = GDP647_faction_core_gdp_per_capita_compact_unit } }
                 has_global_flag = GDP647_faction_directory_dirty
                 any_of_scopes = {
                     array = global.GDP647_factions
-                    OR = { exists = no is_in_faction = no is_faction_leader = no }
+                    OR = { exists = no is_in_faction = no is_faction_leader = no NOT = { has_variable = GDP647_faction_sector_agriculture } }
                 }
                 any_of_scopes = {
                     array = global.GDP647_countries
@@ -512,6 +516,10 @@ GDP647_build_order = {
                 if = {
                     limit = { check_variable = { GDP647_order_metric = 4 } }
                     set_temp_variable = { GDP647_rank_score = PREV.GDP647_faction_population_10k }
+                }
+                else_if = {
+                    limit = { check_variable = { GDP647_order_metric = 2 } }
+                    set_temp_variable = { GDP647_rank_score = PREV.GDP647_faction_core_gdp_per_capita }
                 }
                 GDP647_insert_row = yes
             }

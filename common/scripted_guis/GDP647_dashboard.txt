@@ -20,6 +20,20 @@ scripted_gui = {
                         limit = { NOT = { has_global_flag = GDP647_world_totals_ready } }
                         GDP647_publish_economic_benchmarks = yes
                     }
+                    if = {
+                        limit = { NOT = { has_global_flag = GDP647_compact_amounts_ready_v2 } }
+                        for_each_scope_loop = {
+                            array = global.GDP647_countries
+                            GDP647_format_country_amounts = yes
+                        }
+                        every_state = {
+                            limit = { has_variable = GDP647_state_gdp }
+                            GDP647_format_state_amounts = yes
+                        }
+                        set_temp_variable = { GDP647_record_faction_snapshot = 0 }
+                        GDP647_refresh_faction_directory = yes
+                        set_global_flag = GDP647_compact_amounts_ready_v2
+                    }
                     GDP647_initialize_follow_cache = yes
                     if = {
                         limit = { NOT = { has_global_flag = GDP647_faction_card_ranks_ready } }
@@ -84,6 +98,10 @@ scripted_gui = {
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
             GDP647_tab_chart_click = {
+                if = {
+                    limit = { check_variable = { GDP647_locked_country^num > 0 } check_variable = { GDP647_chart_metric > 2 } }
+                    set_variable = { GDP647_chart_metric = 1 }
+                }
                 set_variable = { GDP647_view = 3 }
                 GDP647_refresh_chart = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -219,12 +237,29 @@ scripted_gui = {
                 set_temp_variable = { GDP647_requested_sort_key = 4 }
                 GDP647_change_sort = yes
             }
+            GDP647_sort_faction_pc_click = {
+                set_temp_variable = { GDP647_requested_sort_key = 2 }
+                GDP647_change_sort = yes
+            }
             GDP647_sort_faction_gdp_click = {
                 set_temp_variable = { GDP647_requested_sort_key = 1 }
                 GDP647_change_sort = yes
             }
         }
         triggers = {
+            GDP647_faction_breakdown_agriculture_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_agriculture_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_civilian_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_civilian_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_military_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_military_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_services_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_services_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_resources_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_resources_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_reinvestment_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_reinvestment_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_pending_visible = { has_variable = GDP647_faction_sectors_incomplete }
             GDP647_unlock_visible = { check_variable = { GDP647_locked_faction^num > 0 } }
             GDP647_locked_marker_visible = { is_in_array = { array = ROOT.GDP647_locked_faction value = THIS } }
             GDP647_previous_page_click_enabled = { check_variable = { GDP647_page_number > 1 } }
@@ -236,6 +271,7 @@ scripted_gui = {
         }
         properties = {
             GDP647_faction_detail_flag = { image = "[THIS.GetFlag]" }
+            GDP647_sort_faction_pc = { frame = GDP647_rank_per_capita_frame }
             GDP647_sort_faction_gdp = { frame = GDP647_rank_total_frame }
             GDP647_sort_tag = { frame = GDP647_name_sort_frame }
             GDP647_sort_population = { frame = GDP647_population_sort_frame }
@@ -436,6 +472,16 @@ scripted_gui = {
                 GDP647_refresh_chart = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
             }
+            GDP647_world_total_click = {
+                set_variable = { GDP647_chart_metric = 3 }
+                GDP647_refresh_chart = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
+            GDP647_world_pc_click = {
+                set_variable = { GDP647_chart_metric = 4 }
+                GDP647_refresh_chart = yes
+                add_to_variable = { global.GDP647_ui_revision = 1 }
+            }
             GDP647_tab_chart_click = {
                 GDP647_refresh_chart = yes
                 add_to_variable = { global.GDP647_ui_revision = 1 }
@@ -459,257 +505,402 @@ scripted_gui = {
             }
         }
         dynamic_lists = {
+            GDP647_world_plot_rows = { array = GDP647_world_plot_slot change_scope = no entry_container = "GDP647_plot_row" }
             GDP647_unlock_country_grid = { array = GDP647_locked_country change_scope = yes entry_container = "GDP647_unlock_country_row" }
         }
+        triggers = {
+            GDP647_world_plot_rows_visible = { check_variable = { GDP647_chart_metric > 2 } }
+            GDP647_locked_chart_anchor_visible = { NOT = { check_variable = { GDP647_chart_metric > 2 } } check_variable = { GDP647_locked_country^num > 0 } }
+            GDP647_diplomacy_chart_anchor_visible = { NOT = { check_variable = { GDP647_chart_metric > 2 } } NOT = { check_variable = { GDP647_locked_country^num > 0 } } }
+            GDP647_chart_size_text_visible = { always = no }
+            GDP647_chart_development_text_visible = { always = no }
+            GDP647_plot_grid_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_tick_0_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_tick_1_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_tick_2_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_tick_3_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_tick_4_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_segment_0_visible = { check_variable = { GDP647_world_plot_count > 1 } }
+            GDP647_plot_segment_1_visible = { check_variable = { GDP647_world_plot_count > 2 } }
+            GDP647_plot_segment_2_visible = { check_variable = { GDP647_world_plot_count > 3 } }
+            GDP647_plot_segment_3_visible = { check_variable = { GDP647_world_plot_count > 4 } }
+            GDP647_plot_segment_4_visible = { check_variable = { GDP647_world_plot_count > 5 } }
+            GDP647_plot_segment_5_visible = { check_variable = { GDP647_world_plot_count > 6 } }
+            GDP647_plot_segment_6_visible = { check_variable = { GDP647_world_plot_count > 7 } }
+            GDP647_plot_segment_7_visible = { check_variable = { GDP647_world_plot_count > 8 } }
+            GDP647_plot_segment_8_visible = { check_variable = { GDP647_world_plot_count > 9 } }
+            GDP647_plot_segment_9_visible = { check_variable = { GDP647_world_plot_count > 10 } }
+            GDP647_plot_segment_10_visible = { check_variable = { GDP647_world_plot_count > 11 } }
+            GDP647_plot_segment_11_visible = { check_variable = { GDP647_world_plot_count > 12 } }
+            GDP647_plot_segment_12_visible = { check_variable = { GDP647_world_plot_count > 13 } }
+            GDP647_plot_segment_13_visible = { check_variable = { GDP647_world_plot_count > 14 } }
+            GDP647_plot_segment_14_visible = { check_variable = { GDP647_world_plot_count > 15 } }
+            GDP647_plot_segment_15_visible = { check_variable = { GDP647_world_plot_count > 16 } }
+            GDP647_plot_segment_16_visible = { check_variable = { GDP647_world_plot_count > 17 } }
+            GDP647_plot_segment_17_visible = { check_variable = { GDP647_world_plot_count > 18 } }
+            GDP647_plot_segment_18_visible = { check_variable = { GDP647_world_plot_count > 19 } }
+            GDP647_plot_segment_19_visible = { check_variable = { GDP647_world_plot_count > 20 } }
+            GDP647_plot_segment_20_visible = { check_variable = { GDP647_world_plot_count > 21 } }
+            GDP647_plot_segment_21_visible = { check_variable = { GDP647_world_plot_count > 22 } }
+            GDP647_plot_segment_22_visible = { check_variable = { GDP647_world_plot_count > 23 } }
+            GDP647_plot_dot_0_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_date_0_visible = { check_variable = { GDP647_world_plot_count > 0 } }
+            GDP647_plot_dot_1_visible = { check_variable = { GDP647_world_plot_count > 1 } }
+            GDP647_plot_dot_2_visible = { check_variable = { GDP647_world_plot_count > 2 } }
+            GDP647_plot_dot_3_visible = { check_variable = { GDP647_world_plot_count > 3 } }
+            GDP647_plot_date_3_visible = { check_variable = { GDP647_world_plot_count = 4 } }
+            GDP647_plot_dot_4_visible = { check_variable = { GDP647_world_plot_count > 4 } }
+            GDP647_plot_date_4_visible = { check_variable = { GDP647_world_plot_count > 4 } }
+            GDP647_plot_dot_5_visible = { check_variable = { GDP647_world_plot_count > 5 } }
+            GDP647_plot_dot_6_visible = { check_variable = { GDP647_world_plot_count > 6 } }
+            GDP647_plot_dot_7_visible = { check_variable = { GDP647_world_plot_count > 7 } }
+            GDP647_plot_date_7_visible = { check_variable = { GDP647_world_plot_count = 8 } }
+            GDP647_plot_dot_8_visible = { check_variable = { GDP647_world_plot_count > 8 } }
+            GDP647_plot_date_8_visible = { check_variable = { GDP647_world_plot_count > 8 } }
+            GDP647_plot_dot_9_visible = { check_variable = { GDP647_world_plot_count > 9 } }
+            GDP647_plot_dot_10_visible = { check_variable = { GDP647_world_plot_count > 10 } }
+            GDP647_plot_dot_11_visible = { check_variable = { GDP647_world_plot_count > 11 } }
+            GDP647_plot_date_11_visible = { check_variable = { GDP647_world_plot_count = 12 } }
+            GDP647_plot_dot_12_visible = { check_variable = { GDP647_world_plot_count > 12 } }
+            GDP647_plot_date_12_visible = { check_variable = { GDP647_world_plot_count > 12 } }
+            GDP647_plot_dot_13_visible = { check_variable = { GDP647_world_plot_count > 13 } }
+            GDP647_plot_dot_14_visible = { check_variable = { GDP647_world_plot_count > 14 } }
+            GDP647_plot_dot_15_visible = { check_variable = { GDP647_world_plot_count > 15 } }
+            GDP647_plot_date_15_visible = { check_variable = { GDP647_world_plot_count = 16 } }
+            GDP647_plot_dot_16_visible = { check_variable = { GDP647_world_plot_count > 16 } }
+            GDP647_plot_date_16_visible = { check_variable = { GDP647_world_plot_count > 16 } }
+            GDP647_plot_dot_17_visible = { check_variable = { GDP647_world_plot_count > 17 } }
+            GDP647_plot_dot_18_visible = { check_variable = { GDP647_world_plot_count > 18 } }
+            GDP647_plot_dot_19_visible = { check_variable = { GDP647_world_plot_count > 19 } }
+            GDP647_plot_date_19_visible = { check_variable = { GDP647_world_plot_count = 20 } }
+            GDP647_plot_dot_20_visible = { check_variable = { GDP647_world_plot_count > 20 } }
+            GDP647_plot_date_20_visible = { check_variable = { GDP647_world_plot_count > 20 } }
+            GDP647_plot_dot_21_visible = { check_variable = { GDP647_world_plot_count > 21 } }
+            GDP647_plot_dot_22_visible = { check_variable = { GDP647_world_plot_count > 22 } }
+            GDP647_plot_dot_23_visible = { check_variable = { GDP647_world_plot_count > 23 } }
+            GDP647_plot_date_23_visible = { check_variable = { GDP647_world_plot_count = 24 } }
+            GDP647_plot_pending_visible = { NOT = { check_variable = { GDP647_world_plot_count > 0 } } }
+        }
         properties = {
+            GDP647_plot_segment_0 = { y = GDP647_world_line_y^0 frame = GDP647_world_line_frame^0 }
+            GDP647_plot_segment_1 = { y = GDP647_world_line_y^1 frame = GDP647_world_line_frame^1 }
+            GDP647_plot_segment_2 = { y = GDP647_world_line_y^2 frame = GDP647_world_line_frame^2 }
+            GDP647_plot_segment_3 = { y = GDP647_world_line_y^3 frame = GDP647_world_line_frame^3 }
+            GDP647_plot_segment_4 = { y = GDP647_world_line_y^4 frame = GDP647_world_line_frame^4 }
+            GDP647_plot_segment_5 = { y = GDP647_world_line_y^5 frame = GDP647_world_line_frame^5 }
+            GDP647_plot_segment_6 = { y = GDP647_world_line_y^6 frame = GDP647_world_line_frame^6 }
+            GDP647_plot_segment_7 = { y = GDP647_world_line_y^7 frame = GDP647_world_line_frame^7 }
+            GDP647_plot_segment_8 = { y = GDP647_world_line_y^8 frame = GDP647_world_line_frame^8 }
+            GDP647_plot_segment_9 = { y = GDP647_world_line_y^9 frame = GDP647_world_line_frame^9 }
+            GDP647_plot_segment_10 = { y = GDP647_world_line_y^10 frame = GDP647_world_line_frame^10 }
+            GDP647_plot_segment_11 = { y = GDP647_world_line_y^11 frame = GDP647_world_line_frame^11 }
+            GDP647_plot_segment_12 = { y = GDP647_world_line_y^12 frame = GDP647_world_line_frame^12 }
+            GDP647_plot_segment_13 = { y = GDP647_world_line_y^13 frame = GDP647_world_line_frame^13 }
+            GDP647_plot_segment_14 = { y = GDP647_world_line_y^14 frame = GDP647_world_line_frame^14 }
+            GDP647_plot_segment_15 = { y = GDP647_world_line_y^15 frame = GDP647_world_line_frame^15 }
+            GDP647_plot_segment_16 = { y = GDP647_world_line_y^16 frame = GDP647_world_line_frame^16 }
+            GDP647_plot_segment_17 = { y = GDP647_world_line_y^17 frame = GDP647_world_line_frame^17 }
+            GDP647_plot_segment_18 = { y = GDP647_world_line_y^18 frame = GDP647_world_line_frame^18 }
+            GDP647_plot_segment_19 = { y = GDP647_world_line_y^19 frame = GDP647_world_line_frame^19 }
+            GDP647_plot_segment_20 = { y = GDP647_world_line_y^20 frame = GDP647_world_line_frame^20 }
+            GDP647_plot_segment_21 = { y = GDP647_world_line_y^21 frame = GDP647_world_line_frame^21 }
+            GDP647_plot_segment_22 = { y = GDP647_world_line_y^22 frame = GDP647_world_line_frame^22 }
+            GDP647_plot_dot_0 = { y = GDP647_world_dot_y^0 }
+            GDP647_plot_dot_1 = { y = GDP647_world_dot_y^1 }
+            GDP647_plot_dot_2 = { y = GDP647_world_dot_y^2 }
+            GDP647_plot_dot_3 = { y = GDP647_world_dot_y^3 }
+            GDP647_plot_dot_4 = { y = GDP647_world_dot_y^4 }
+            GDP647_plot_dot_5 = { y = GDP647_world_dot_y^5 }
+            GDP647_plot_dot_6 = { y = GDP647_world_dot_y^6 }
+            GDP647_plot_dot_7 = { y = GDP647_world_dot_y^7 }
+            GDP647_plot_dot_8 = { y = GDP647_world_dot_y^8 }
+            GDP647_plot_dot_9 = { y = GDP647_world_dot_y^9 }
+            GDP647_plot_dot_10 = { y = GDP647_world_dot_y^10 }
+            GDP647_plot_dot_11 = { y = GDP647_world_dot_y^11 }
+            GDP647_plot_dot_12 = { y = GDP647_world_dot_y^12 }
+            GDP647_plot_dot_13 = { y = GDP647_world_dot_y^13 }
+            GDP647_plot_dot_14 = { y = GDP647_world_dot_y^14 }
+            GDP647_plot_dot_15 = { y = GDP647_world_dot_y^15 }
+            GDP647_plot_dot_16 = { y = GDP647_world_dot_y^16 }
+            GDP647_plot_dot_17 = { y = GDP647_world_dot_y^17 }
+            GDP647_plot_dot_18 = { y = GDP647_world_dot_y^18 }
+            GDP647_plot_dot_19 = { y = GDP647_world_dot_y^19 }
+            GDP647_plot_dot_20 = { y = GDP647_world_dot_y^20 }
+            GDP647_plot_dot_21 = { y = GDP647_world_dot_y^21 }
+            GDP647_plot_dot_22 = { y = GDP647_world_dot_y^22 }
+            GDP647_plot_dot_23 = { y = GDP647_world_dot_y^23 }
+            GDP647_world_total = { frame = GDP647_world_total_frame }
+            GDP647_world_pc = { frame = GDP647_world_pc_frame }
             GDP647_chart_metric_total = { frame = GDP647_chart_total_frame }
             GDP647_chart_metric_pc = { frame = GDP647_chart_pc_frame }
         }
     }
 
-    GDP647_locked_chart_gui = {
+    GDP647_locked_total_chart_gui = {
         context_type = player_context
         dirty = global.GDP647_ui_revision
-        window_name = "GDP647_follow_chart_panel"
+        window_name = "GDP647_total_plot_source"
         parent_window_name = "GDP647_locked_chart_anchor"
         ai_enabled = { always = no }
         visible = {
             has_country_flag = GDP647_open
+            NOT = { check_variable = { GDP647_chart_metric > 1 } }
             check_variable = { GDP647_view = 3 }
             check_variable = { GDP647_locked_country^num > 0 }
         }
         dynamic_lists = {
-            GDP647_diplomacy_chart_summary = { array = GDP647_locked_country change_scope = yes entry_container = "GDP647_chart_profile_row" }
-            GDP647_follow_chart_grid = { array = GDP647_locked_country change_scope = yes entry_container = "GDP647_follow_chart_row" }
+            GDP647_country_plot_rows = { array = GDP647_locked_country change_scope = yes entry_container = "GDP647_plot_row" }
         }
         triggers = {
-            GDP647_chart_dot_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_2_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_2_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_3_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_3_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_4_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_4_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_5_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_5_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_6_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_6_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_7_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_7_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_8_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_8_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_9_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_9_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_10_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_10_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_11_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_11_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_12_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_12_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_13_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_13_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_14_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_14_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_15_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_15_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_16_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_16_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_17_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_17_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_18_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_18_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_19_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_19_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_20_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_20_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_21_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_21_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_22_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_22_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_23_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_23_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_tick_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_tick_total_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_tick_total_2_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_tick_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_tick_pc_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_tick_pc_2_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_year_0_visible = { check_variable = { GDP647_chart_year_labels^0 > 0 } }
-            GDP647_chart_year_1_visible = { check_variable = { GDP647_chart_year_labels^1 > 0 } }
-            GDP647_chart_year_2_visible = { check_variable = { GDP647_chart_year_labels^2 > 0 } }
-            GDP647_chart_year_3_visible = { check_variable = { GDP647_chart_year_labels^3 > 0 } }
-            GDP647_chart_year_4_visible = { check_variable = { GDP647_chart_year_labels^4 > 0 } }
-            GDP647_chart_year_5_visible = { check_variable = { GDP647_chart_year_labels^5 > 0 } }
-            GDP647_chart_year_6_visible = { check_variable = { GDP647_chart_year_labels^6 > 0 } }
-            GDP647_chart_year_7_visible = { check_variable = { GDP647_chart_year_labels^7 > 0 } }
-            GDP647_chart_year_8_visible = { check_variable = { GDP647_chart_year_labels^8 > 0 } }
-            GDP647_chart_year_9_visible = { check_variable = { GDP647_chart_year_labels^9 > 0 } }
-            GDP647_chart_year_10_visible = { check_variable = { GDP647_chart_year_labels^10 > 0 } }
-            GDP647_chart_year_11_visible = { check_variable = { GDP647_chart_year_labels^11 > 0 } }
-            GDP647_chart_year_12_visible = { check_variable = { GDP647_chart_year_labels^12 > 0 } }
-            GDP647_chart_year_13_visible = { check_variable = { GDP647_chart_year_labels^13 > 0 } }
-            GDP647_chart_year_14_visible = { check_variable = { GDP647_chart_year_labels^14 > 0 } }
-            GDP647_chart_year_15_visible = { check_variable = { GDP647_chart_year_labels^15 > 0 } }
-            GDP647_chart_year_16_visible = { check_variable = { GDP647_chart_year_labels^16 > 0 } }
-            GDP647_chart_year_17_visible = { check_variable = { GDP647_chart_year_labels^17 > 0 } }
-            GDP647_chart_year_18_visible = { check_variable = { GDP647_chart_year_labels^18 > 0 } }
-            GDP647_chart_year_19_visible = { check_variable = { GDP647_chart_year_labels^19 > 0 } }
-            GDP647_chart_year_20_visible = { check_variable = { GDP647_chart_year_labels^20 > 0 } }
-            GDP647_chart_year_21_visible = { check_variable = { GDP647_chart_year_labels^21 > 0 } }
-            GDP647_chart_year_22_visible = { check_variable = { GDP647_chart_year_labels^22 > 0 } }
-            GDP647_chart_year_23_visible = { check_variable = { GDP647_chart_year_labels^23 > 0 } }
-            GDP647_follow_chart_pending_visible = { check_variable = { GDP647_map_chart_count < 2 } }
-            GDP647_follow_chart_lines_grid_visible = { check_variable = { GDP647_map_chart_count > 1 } }
-            GDP647_follow_chart_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_plot_grid_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_1_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_2_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_3_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_4_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_segment_0_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_segment_1_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_segment_2_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_segment_3_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_segment_4_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_segment_5_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_segment_6_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_segment_7_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_segment_8_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_segment_9_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_segment_10_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_segment_11_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_segment_12_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_segment_13_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_segment_14_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_segment_15_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_segment_16_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_segment_17_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_segment_18_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_segment_19_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_segment_20_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_segment_21_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_segment_22_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_dot_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_date_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_dot_1_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_dot_2_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_dot_3_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_date_3_visible = { check_variable = { GDP647_map_chart_count = 4 } }
+            GDP647_plot_dot_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_date_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_dot_5_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_dot_6_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_dot_7_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_date_7_visible = { check_variable = { GDP647_map_chart_count = 8 } }
+            GDP647_plot_dot_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_date_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_dot_9_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_dot_10_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_dot_11_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_date_11_visible = { check_variable = { GDP647_map_chart_count = 12 } }
+            GDP647_plot_dot_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_date_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_dot_13_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_dot_14_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_dot_15_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_date_15_visible = { check_variable = { GDP647_map_chart_count = 16 } }
+            GDP647_plot_dot_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_date_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_dot_17_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_dot_18_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_dot_19_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_date_19_visible = { check_variable = { GDP647_map_chart_count = 20 } }
+            GDP647_plot_dot_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_date_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_dot_21_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_dot_22_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_dot_23_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_date_23_visible = { check_variable = { GDP647_map_chart_count = 24 } }
+            GDP647_plot_pending_visible = { NOT = { check_variable = { GDP647_map_chart_count > 0 } } }
         }
         properties = {
-            GDP647_chart_dot_total_0 = { y = GDP647_chart_total_dots^0 }
-            GDP647_chart_dot_pc_0 = { y = GDP647_chart_pc_dots^0 }
-            GDP647_chart_dot_total_1 = { y = GDP647_chart_total_dots^1 }
-            GDP647_chart_dot_pc_1 = { y = GDP647_chart_pc_dots^1 }
-            GDP647_chart_dot_total_2 = { y = GDP647_chart_total_dots^2 }
-            GDP647_chart_dot_pc_2 = { y = GDP647_chart_pc_dots^2 }
-            GDP647_chart_dot_total_3 = { y = GDP647_chart_total_dots^3 }
-            GDP647_chart_dot_pc_3 = { y = GDP647_chart_pc_dots^3 }
-            GDP647_chart_dot_total_4 = { y = GDP647_chart_total_dots^4 }
-            GDP647_chart_dot_pc_4 = { y = GDP647_chart_pc_dots^4 }
-            GDP647_chart_dot_total_5 = { y = GDP647_chart_total_dots^5 }
-            GDP647_chart_dot_pc_5 = { y = GDP647_chart_pc_dots^5 }
-            GDP647_chart_dot_total_6 = { y = GDP647_chart_total_dots^6 }
-            GDP647_chart_dot_pc_6 = { y = GDP647_chart_pc_dots^6 }
-            GDP647_chart_dot_total_7 = { y = GDP647_chart_total_dots^7 }
-            GDP647_chart_dot_pc_7 = { y = GDP647_chart_pc_dots^7 }
-            GDP647_chart_dot_total_8 = { y = GDP647_chart_total_dots^8 }
-            GDP647_chart_dot_pc_8 = { y = GDP647_chart_pc_dots^8 }
-            GDP647_chart_dot_total_9 = { y = GDP647_chart_total_dots^9 }
-            GDP647_chart_dot_pc_9 = { y = GDP647_chart_pc_dots^9 }
-            GDP647_chart_dot_total_10 = { y = GDP647_chart_total_dots^10 }
-            GDP647_chart_dot_pc_10 = { y = GDP647_chart_pc_dots^10 }
-            GDP647_chart_dot_total_11 = { y = GDP647_chart_total_dots^11 }
-            GDP647_chart_dot_pc_11 = { y = GDP647_chart_pc_dots^11 }
-            GDP647_chart_dot_total_12 = { y = GDP647_chart_total_dots^12 }
-            GDP647_chart_dot_pc_12 = { y = GDP647_chart_pc_dots^12 }
-            GDP647_chart_dot_total_13 = { y = GDP647_chart_total_dots^13 }
-            GDP647_chart_dot_pc_13 = { y = GDP647_chart_pc_dots^13 }
-            GDP647_chart_dot_total_14 = { y = GDP647_chart_total_dots^14 }
-            GDP647_chart_dot_pc_14 = { y = GDP647_chart_pc_dots^14 }
-            GDP647_chart_dot_total_15 = { y = GDP647_chart_total_dots^15 }
-            GDP647_chart_dot_pc_15 = { y = GDP647_chart_pc_dots^15 }
-            GDP647_chart_dot_total_16 = { y = GDP647_chart_total_dots^16 }
-            GDP647_chart_dot_pc_16 = { y = GDP647_chart_pc_dots^16 }
-            GDP647_chart_dot_total_17 = { y = GDP647_chart_total_dots^17 }
-            GDP647_chart_dot_pc_17 = { y = GDP647_chart_pc_dots^17 }
-            GDP647_chart_dot_total_18 = { y = GDP647_chart_total_dots^18 }
-            GDP647_chart_dot_pc_18 = { y = GDP647_chart_pc_dots^18 }
-            GDP647_chart_dot_total_19 = { y = GDP647_chart_total_dots^19 }
-            GDP647_chart_dot_pc_19 = { y = GDP647_chart_pc_dots^19 }
-            GDP647_chart_dot_total_20 = { y = GDP647_chart_total_dots^20 }
-            GDP647_chart_dot_pc_20 = { y = GDP647_chart_pc_dots^20 }
-            GDP647_chart_dot_total_21 = { y = GDP647_chart_total_dots^21 }
-            GDP647_chart_dot_pc_21 = { y = GDP647_chart_pc_dots^21 }
-            GDP647_chart_dot_total_22 = { y = GDP647_chart_total_dots^22 }
-            GDP647_chart_dot_pc_22 = { y = GDP647_chart_pc_dots^22 }
-            GDP647_chart_dot_total_23 = { y = GDP647_chart_total_dots^23 }
-            GDP647_chart_dot_pc_23 = { y = GDP647_chart_pc_dots^23 }
-            GDP647_chart_country_flag = { image = "[THIS.GetFlag]" }
-            GDP647_follow_chart_total_0 = { y = GDP647_map_total_y_0 frame = GDP647_map_total_frame_0 }
-            GDP647_follow_chart_total_1 = { y = GDP647_map_total_y_1 frame = GDP647_map_total_frame_1 }
-            GDP647_follow_chart_total_2 = { y = GDP647_map_total_y_2 frame = GDP647_map_total_frame_2 }
-            GDP647_follow_chart_total_3 = { y = GDP647_map_total_y_3 frame = GDP647_map_total_frame_3 }
-            GDP647_follow_chart_total_4 = { y = GDP647_map_total_y_4 frame = GDP647_map_total_frame_4 }
-            GDP647_follow_chart_total_5 = { y = GDP647_map_total_y_5 frame = GDP647_map_total_frame_5 }
-            GDP647_follow_chart_total_6 = { y = GDP647_map_total_y_6 frame = GDP647_map_total_frame_6 }
-            GDP647_follow_chart_total_7 = { y = GDP647_map_total_y_7 frame = GDP647_map_total_frame_7 }
-            GDP647_follow_chart_total_8 = { y = GDP647_map_total_y_8 frame = GDP647_map_total_frame_8 }
-            GDP647_follow_chart_total_9 = { y = GDP647_map_total_y_9 frame = GDP647_map_total_frame_9 }
-            GDP647_follow_chart_total_10 = { y = GDP647_map_total_y_10 frame = GDP647_map_total_frame_10 }
-            GDP647_follow_chart_total_11 = { y = GDP647_map_total_y_11 frame = GDP647_map_total_frame_11 }
-            GDP647_follow_chart_total_12 = { y = GDP647_map_total_y_12 frame = GDP647_map_total_frame_12 }
-            GDP647_follow_chart_total_13 = { y = GDP647_map_total_y_13 frame = GDP647_map_total_frame_13 }
-            GDP647_follow_chart_total_14 = { y = GDP647_map_total_y_14 frame = GDP647_map_total_frame_14 }
-            GDP647_follow_chart_total_15 = { y = GDP647_map_total_y_15 frame = GDP647_map_total_frame_15 }
-            GDP647_follow_chart_total_16 = { y = GDP647_map_total_y_16 frame = GDP647_map_total_frame_16 }
-            GDP647_follow_chart_total_17 = { y = GDP647_map_total_y_17 frame = GDP647_map_total_frame_17 }
-            GDP647_follow_chart_total_18 = { y = GDP647_map_total_y_18 frame = GDP647_map_total_frame_18 }
-            GDP647_follow_chart_total_19 = { y = GDP647_map_total_y_19 frame = GDP647_map_total_frame_19 }
-            GDP647_follow_chart_total_20 = { y = GDP647_map_total_y_20 frame = GDP647_map_total_frame_20 }
-            GDP647_follow_chart_total_21 = { y = GDP647_map_total_y_21 frame = GDP647_map_total_frame_21 }
-            GDP647_follow_chart_total_22 = { y = GDP647_map_total_y_22 frame = GDP647_map_total_frame_22 }
-            GDP647_follow_chart_pc_0 = { y = GDP647_map_pc_y_0 frame = GDP647_map_pc_frame_0 }
-            GDP647_follow_chart_pc_1 = { y = GDP647_map_pc_y_1 frame = GDP647_map_pc_frame_1 }
-            GDP647_follow_chart_pc_2 = { y = GDP647_map_pc_y_2 frame = GDP647_map_pc_frame_2 }
-            GDP647_follow_chart_pc_3 = { y = GDP647_map_pc_y_3 frame = GDP647_map_pc_frame_3 }
-            GDP647_follow_chart_pc_4 = { y = GDP647_map_pc_y_4 frame = GDP647_map_pc_frame_4 }
-            GDP647_follow_chart_pc_5 = { y = GDP647_map_pc_y_5 frame = GDP647_map_pc_frame_5 }
-            GDP647_follow_chart_pc_6 = { y = GDP647_map_pc_y_6 frame = GDP647_map_pc_frame_6 }
-            GDP647_follow_chart_pc_7 = { y = GDP647_map_pc_y_7 frame = GDP647_map_pc_frame_7 }
-            GDP647_follow_chart_pc_8 = { y = GDP647_map_pc_y_8 frame = GDP647_map_pc_frame_8 }
-            GDP647_follow_chart_pc_9 = { y = GDP647_map_pc_y_9 frame = GDP647_map_pc_frame_9 }
-            GDP647_follow_chart_pc_10 = { y = GDP647_map_pc_y_10 frame = GDP647_map_pc_frame_10 }
-            GDP647_follow_chart_pc_11 = { y = GDP647_map_pc_y_11 frame = GDP647_map_pc_frame_11 }
-            GDP647_follow_chart_pc_12 = { y = GDP647_map_pc_y_12 frame = GDP647_map_pc_frame_12 }
-            GDP647_follow_chart_pc_13 = { y = GDP647_map_pc_y_13 frame = GDP647_map_pc_frame_13 }
-            GDP647_follow_chart_pc_14 = { y = GDP647_map_pc_y_14 frame = GDP647_map_pc_frame_14 }
-            GDP647_follow_chart_pc_15 = { y = GDP647_map_pc_y_15 frame = GDP647_map_pc_frame_15 }
-            GDP647_follow_chart_pc_16 = { y = GDP647_map_pc_y_16 frame = GDP647_map_pc_frame_16 }
-            GDP647_follow_chart_pc_17 = { y = GDP647_map_pc_y_17 frame = GDP647_map_pc_frame_17 }
-            GDP647_follow_chart_pc_18 = { y = GDP647_map_pc_y_18 frame = GDP647_map_pc_frame_18 }
-            GDP647_follow_chart_pc_19 = { y = GDP647_map_pc_y_19 frame = GDP647_map_pc_frame_19 }
-            GDP647_follow_chart_pc_20 = { y = GDP647_map_pc_y_20 frame = GDP647_map_pc_frame_20 }
-            GDP647_follow_chart_pc_21 = { y = GDP647_map_pc_y_21 frame = GDP647_map_pc_frame_21 }
-            GDP647_follow_chart_pc_22 = { y = GDP647_map_pc_y_22 frame = GDP647_map_pc_frame_22 }
+            GDP647_plot_segment_0 = { y = GDP647_map_total_y_0 frame = GDP647_map_total_frame_0 }
+            GDP647_plot_segment_1 = { y = GDP647_map_total_y_1 frame = GDP647_map_total_frame_1 }
+            GDP647_plot_segment_2 = { y = GDP647_map_total_y_2 frame = GDP647_map_total_frame_2 }
+            GDP647_plot_segment_3 = { y = GDP647_map_total_y_3 frame = GDP647_map_total_frame_3 }
+            GDP647_plot_segment_4 = { y = GDP647_map_total_y_4 frame = GDP647_map_total_frame_4 }
+            GDP647_plot_segment_5 = { y = GDP647_map_total_y_5 frame = GDP647_map_total_frame_5 }
+            GDP647_plot_segment_6 = { y = GDP647_map_total_y_6 frame = GDP647_map_total_frame_6 }
+            GDP647_plot_segment_7 = { y = GDP647_map_total_y_7 frame = GDP647_map_total_frame_7 }
+            GDP647_plot_segment_8 = { y = GDP647_map_total_y_8 frame = GDP647_map_total_frame_8 }
+            GDP647_plot_segment_9 = { y = GDP647_map_total_y_9 frame = GDP647_map_total_frame_9 }
+            GDP647_plot_segment_10 = { y = GDP647_map_total_y_10 frame = GDP647_map_total_frame_10 }
+            GDP647_plot_segment_11 = { y = GDP647_map_total_y_11 frame = GDP647_map_total_frame_11 }
+            GDP647_plot_segment_12 = { y = GDP647_map_total_y_12 frame = GDP647_map_total_frame_12 }
+            GDP647_plot_segment_13 = { y = GDP647_map_total_y_13 frame = GDP647_map_total_frame_13 }
+            GDP647_plot_segment_14 = { y = GDP647_map_total_y_14 frame = GDP647_map_total_frame_14 }
+            GDP647_plot_segment_15 = { y = GDP647_map_total_y_15 frame = GDP647_map_total_frame_15 }
+            GDP647_plot_segment_16 = { y = GDP647_map_total_y_16 frame = GDP647_map_total_frame_16 }
+            GDP647_plot_segment_17 = { y = GDP647_map_total_y_17 frame = GDP647_map_total_frame_17 }
+            GDP647_plot_segment_18 = { y = GDP647_map_total_y_18 frame = GDP647_map_total_frame_18 }
+            GDP647_plot_segment_19 = { y = GDP647_map_total_y_19 frame = GDP647_map_total_frame_19 }
+            GDP647_plot_segment_20 = { y = GDP647_map_total_y_20 frame = GDP647_map_total_frame_20 }
+            GDP647_plot_segment_21 = { y = GDP647_map_total_y_21 frame = GDP647_map_total_frame_21 }
+            GDP647_plot_segment_22 = { y = GDP647_map_total_y_22 frame = GDP647_map_total_frame_22 }
+            GDP647_plot_dot_0 = { y = GDP647_chart_total_dots^0 }
+            GDP647_plot_dot_1 = { y = GDP647_chart_total_dots^1 }
+            GDP647_plot_dot_2 = { y = GDP647_chart_total_dots^2 }
+            GDP647_plot_dot_3 = { y = GDP647_chart_total_dots^3 }
+            GDP647_plot_dot_4 = { y = GDP647_chart_total_dots^4 }
+            GDP647_plot_dot_5 = { y = GDP647_chart_total_dots^5 }
+            GDP647_plot_dot_6 = { y = GDP647_chart_total_dots^6 }
+            GDP647_plot_dot_7 = { y = GDP647_chart_total_dots^7 }
+            GDP647_plot_dot_8 = { y = GDP647_chart_total_dots^8 }
+            GDP647_plot_dot_9 = { y = GDP647_chart_total_dots^9 }
+            GDP647_plot_dot_10 = { y = GDP647_chart_total_dots^10 }
+            GDP647_plot_dot_11 = { y = GDP647_chart_total_dots^11 }
+            GDP647_plot_dot_12 = { y = GDP647_chart_total_dots^12 }
+            GDP647_plot_dot_13 = { y = GDP647_chart_total_dots^13 }
+            GDP647_plot_dot_14 = { y = GDP647_chart_total_dots^14 }
+            GDP647_plot_dot_15 = { y = GDP647_chart_total_dots^15 }
+            GDP647_plot_dot_16 = { y = GDP647_chart_total_dots^16 }
+            GDP647_plot_dot_17 = { y = GDP647_chart_total_dots^17 }
+            GDP647_plot_dot_18 = { y = GDP647_chart_total_dots^18 }
+            GDP647_plot_dot_19 = { y = GDP647_chart_total_dots^19 }
+            GDP647_plot_dot_20 = { y = GDP647_chart_total_dots^20 }
+            GDP647_plot_dot_21 = { y = GDP647_chart_total_dots^21 }
+            GDP647_plot_dot_22 = { y = GDP647_chart_total_dots^22 }
+            GDP647_plot_dot_23 = { y = GDP647_chart_total_dots^23 }
+        }
+    }
+
+    GDP647_locked_pc_chart_gui = {
+        context_type = player_context
+        dirty = global.GDP647_ui_revision
+        window_name = "GDP647_pc_plot_source"
+        parent_window_name = "GDP647_locked_chart_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            has_country_flag = GDP647_open
+            check_variable = { GDP647_chart_metric = 2 }
+            check_variable = { GDP647_view = 3 }
+            check_variable = { GDP647_locked_country^num > 0 }
+        }
+        dynamic_lists = {
+            GDP647_country_plot_rows = { array = GDP647_locked_country change_scope = yes entry_container = "GDP647_plot_row" }
+        }
+        triggers = {
+            GDP647_plot_grid_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_1_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_2_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_3_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_4_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_segment_0_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_segment_1_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_segment_2_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_segment_3_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_segment_4_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_segment_5_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_segment_6_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_segment_7_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_segment_8_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_segment_9_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_segment_10_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_segment_11_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_segment_12_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_segment_13_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_segment_14_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_segment_15_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_segment_16_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_segment_17_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_segment_18_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_segment_19_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_segment_20_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_segment_21_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_segment_22_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_dot_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_date_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_dot_1_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_dot_2_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_dot_3_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_date_3_visible = { check_variable = { GDP647_map_chart_count = 4 } }
+            GDP647_plot_dot_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_date_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_dot_5_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_dot_6_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_dot_7_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_date_7_visible = { check_variable = { GDP647_map_chart_count = 8 } }
+            GDP647_plot_dot_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_date_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_dot_9_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_dot_10_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_dot_11_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_date_11_visible = { check_variable = { GDP647_map_chart_count = 12 } }
+            GDP647_plot_dot_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_date_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_dot_13_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_dot_14_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_dot_15_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_date_15_visible = { check_variable = { GDP647_map_chart_count = 16 } }
+            GDP647_plot_dot_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_date_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_dot_17_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_dot_18_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_dot_19_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_date_19_visible = { check_variable = { GDP647_map_chart_count = 20 } }
+            GDP647_plot_dot_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_date_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_dot_21_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_dot_22_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_dot_23_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_date_23_visible = { check_variable = { GDP647_map_chart_count = 24 } }
+            GDP647_plot_pending_visible = { NOT = { check_variable = { GDP647_map_chart_count > 0 } } }
+        }
+        properties = {
+            GDP647_plot_segment_0 = { y = GDP647_map_pc_y_0 frame = GDP647_map_pc_frame_0 }
+            GDP647_plot_segment_1 = { y = GDP647_map_pc_y_1 frame = GDP647_map_pc_frame_1 }
+            GDP647_plot_segment_2 = { y = GDP647_map_pc_y_2 frame = GDP647_map_pc_frame_2 }
+            GDP647_plot_segment_3 = { y = GDP647_map_pc_y_3 frame = GDP647_map_pc_frame_3 }
+            GDP647_plot_segment_4 = { y = GDP647_map_pc_y_4 frame = GDP647_map_pc_frame_4 }
+            GDP647_plot_segment_5 = { y = GDP647_map_pc_y_5 frame = GDP647_map_pc_frame_5 }
+            GDP647_plot_segment_6 = { y = GDP647_map_pc_y_6 frame = GDP647_map_pc_frame_6 }
+            GDP647_plot_segment_7 = { y = GDP647_map_pc_y_7 frame = GDP647_map_pc_frame_7 }
+            GDP647_plot_segment_8 = { y = GDP647_map_pc_y_8 frame = GDP647_map_pc_frame_8 }
+            GDP647_plot_segment_9 = { y = GDP647_map_pc_y_9 frame = GDP647_map_pc_frame_9 }
+            GDP647_plot_segment_10 = { y = GDP647_map_pc_y_10 frame = GDP647_map_pc_frame_10 }
+            GDP647_plot_segment_11 = { y = GDP647_map_pc_y_11 frame = GDP647_map_pc_frame_11 }
+            GDP647_plot_segment_12 = { y = GDP647_map_pc_y_12 frame = GDP647_map_pc_frame_12 }
+            GDP647_plot_segment_13 = { y = GDP647_map_pc_y_13 frame = GDP647_map_pc_frame_13 }
+            GDP647_plot_segment_14 = { y = GDP647_map_pc_y_14 frame = GDP647_map_pc_frame_14 }
+            GDP647_plot_segment_15 = { y = GDP647_map_pc_y_15 frame = GDP647_map_pc_frame_15 }
+            GDP647_plot_segment_16 = { y = GDP647_map_pc_y_16 frame = GDP647_map_pc_frame_16 }
+            GDP647_plot_segment_17 = { y = GDP647_map_pc_y_17 frame = GDP647_map_pc_frame_17 }
+            GDP647_plot_segment_18 = { y = GDP647_map_pc_y_18 frame = GDP647_map_pc_frame_18 }
+            GDP647_plot_segment_19 = { y = GDP647_map_pc_y_19 frame = GDP647_map_pc_frame_19 }
+            GDP647_plot_segment_20 = { y = GDP647_map_pc_y_20 frame = GDP647_map_pc_frame_20 }
+            GDP647_plot_segment_21 = { y = GDP647_map_pc_y_21 frame = GDP647_map_pc_frame_21 }
+            GDP647_plot_segment_22 = { y = GDP647_map_pc_y_22 frame = GDP647_map_pc_frame_22 }
+            GDP647_plot_dot_0 = { y = GDP647_chart_pc_dots^0 }
+            GDP647_plot_dot_1 = { y = GDP647_chart_pc_dots^1 }
+            GDP647_plot_dot_2 = { y = GDP647_chart_pc_dots^2 }
+            GDP647_plot_dot_3 = { y = GDP647_chart_pc_dots^3 }
+            GDP647_plot_dot_4 = { y = GDP647_chart_pc_dots^4 }
+            GDP647_plot_dot_5 = { y = GDP647_chart_pc_dots^5 }
+            GDP647_plot_dot_6 = { y = GDP647_chart_pc_dots^6 }
+            GDP647_plot_dot_7 = { y = GDP647_chart_pc_dots^7 }
+            GDP647_plot_dot_8 = { y = GDP647_chart_pc_dots^8 }
+            GDP647_plot_dot_9 = { y = GDP647_chart_pc_dots^9 }
+            GDP647_plot_dot_10 = { y = GDP647_chart_pc_dots^10 }
+            GDP647_plot_dot_11 = { y = GDP647_chart_pc_dots^11 }
+            GDP647_plot_dot_12 = { y = GDP647_chart_pc_dots^12 }
+            GDP647_plot_dot_13 = { y = GDP647_chart_pc_dots^13 }
+            GDP647_plot_dot_14 = { y = GDP647_chart_pc_dots^14 }
+            GDP647_plot_dot_15 = { y = GDP647_chart_pc_dots^15 }
+            GDP647_plot_dot_16 = { y = GDP647_chart_pc_dots^16 }
+            GDP647_plot_dot_17 = { y = GDP647_chart_pc_dots^17 }
+            GDP647_plot_dot_18 = { y = GDP647_chart_pc_dots^18 }
+            GDP647_plot_dot_19 = { y = GDP647_chart_pc_dots^19 }
+            GDP647_plot_dot_20 = { y = GDP647_chart_pc_dots^20 }
+            GDP647_plot_dot_21 = { y = GDP647_chart_pc_dots^21 }
+            GDP647_plot_dot_22 = { y = GDP647_chart_pc_dots^22 }
+            GDP647_plot_dot_23 = { y = GDP647_chart_pc_dots^23 }
         }
     }
 
@@ -774,14 +965,27 @@ scripted_gui = {
             GDP647_follow_faction_grid = { array = GDP647_diplomacy_faction change_scope = yes entry_container = "GDP647_faction_detail_row" }
         }
         triggers = {
+            GDP647_faction_breakdown_agriculture_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_agriculture_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_civilian_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_civilian_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_military_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_military_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_services_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_services_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_resources_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_resources_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_reinvestment_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_reinvestment_icon_visible = { NOT = { has_variable = GDP647_faction_sectors_incomplete } }
+            GDP647_faction_breakdown_pending_visible = { has_variable = GDP647_faction_sectors_incomplete }
             GDP647_follow_faction_empty_visible = { NOT = { check_variable = { GDP647_diplomacy_faction^num > 0 } } }
         }
         properties = { GDP647_faction_detail_flag = { image = "[THIS.GetFlag]" } }
     }
 
-    GDP647_follow_chart_gui = {
+    GDP647_follow_total_chart_gui = {
         context_type = diplomacy_target_context
-        window_name = "GDP647_follow_chart_panel"
+        window_name = "GDP647_total_plot_source"
         parent_window_name = "GDP647_diplomacy_chart_anchor"
         ai_enabled = { always = no }
         visible = {
@@ -790,241 +994,266 @@ scripted_gui = {
             ROOT = {
                 NOT = { check_variable = { GDP647_locked_country^num > 0 } }
                 has_country_flag = GDP647_open
+                NOT = { check_variable = { GDP647_chart_metric > 1 } }
                 check_variable = { GDP647_view = 3 }
             }
         }
         dynamic_lists = {
-            GDP647_diplomacy_chart_summary = { array = GDP647_diplomacy_country change_scope = yes entry_container = "GDP647_chart_profile_row" }
-            GDP647_follow_chart_grid = { array = GDP647_diplomacy_country change_scope = yes entry_container = "GDP647_follow_chart_row" }
+            GDP647_country_plot_rows = { array = GDP647_diplomacy_country change_scope = yes entry_container = "GDP647_plot_row" }
         }
         triggers = {
-            GDP647_chart_dot_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_2_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_2_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_3_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_3_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_4_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_4_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_5_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_5_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_6_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_6_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_7_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_7_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_8_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_8_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_9_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_9_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_10_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_10_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_11_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_11_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_12_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_12_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_13_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_13_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_14_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_14_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_15_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_15_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_16_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_16_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_17_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_17_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_18_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_18_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_19_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_19_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_20_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_20_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_21_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_21_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_22_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_22_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_dot_total_23_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_dot_pc_23_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_tick_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_tick_total_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_tick_total_2_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_chart_tick_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_tick_pc_1_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_tick_pc_2_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_chart_year_0_visible = { check_variable = { GDP647_chart_year_labels^0 > 0 } }
-            GDP647_chart_year_1_visible = { check_variable = { GDP647_chart_year_labels^1 > 0 } }
-            GDP647_chart_year_2_visible = { check_variable = { GDP647_chart_year_labels^2 > 0 } }
-            GDP647_chart_year_3_visible = { check_variable = { GDP647_chart_year_labels^3 > 0 } }
-            GDP647_chart_year_4_visible = { check_variable = { GDP647_chart_year_labels^4 > 0 } }
-            GDP647_chart_year_5_visible = { check_variable = { GDP647_chart_year_labels^5 > 0 } }
-            GDP647_chart_year_6_visible = { check_variable = { GDP647_chart_year_labels^6 > 0 } }
-            GDP647_chart_year_7_visible = { check_variable = { GDP647_chart_year_labels^7 > 0 } }
-            GDP647_chart_year_8_visible = { check_variable = { GDP647_chart_year_labels^8 > 0 } }
-            GDP647_chart_year_9_visible = { check_variable = { GDP647_chart_year_labels^9 > 0 } }
-            GDP647_chart_year_10_visible = { check_variable = { GDP647_chart_year_labels^10 > 0 } }
-            GDP647_chart_year_11_visible = { check_variable = { GDP647_chart_year_labels^11 > 0 } }
-            GDP647_chart_year_12_visible = { check_variable = { GDP647_chart_year_labels^12 > 0 } }
-            GDP647_chart_year_13_visible = { check_variable = { GDP647_chart_year_labels^13 > 0 } }
-            GDP647_chart_year_14_visible = { check_variable = { GDP647_chart_year_labels^14 > 0 } }
-            GDP647_chart_year_15_visible = { check_variable = { GDP647_chart_year_labels^15 > 0 } }
-            GDP647_chart_year_16_visible = { check_variable = { GDP647_chart_year_labels^16 > 0 } }
-            GDP647_chart_year_17_visible = { check_variable = { GDP647_chart_year_labels^17 > 0 } }
-            GDP647_chart_year_18_visible = { check_variable = { GDP647_chart_year_labels^18 > 0 } }
-            GDP647_chart_year_19_visible = { check_variable = { GDP647_chart_year_labels^19 > 0 } }
-            GDP647_chart_year_20_visible = { check_variable = { GDP647_chart_year_labels^20 > 0 } }
-            GDP647_chart_year_21_visible = { check_variable = { GDP647_chart_year_labels^21 > 0 } }
-            GDP647_chart_year_22_visible = { check_variable = { GDP647_chart_year_labels^22 > 0 } }
-            GDP647_chart_year_23_visible = { check_variable = { GDP647_chart_year_labels^23 > 0 } }
-            GDP647_follow_chart_pending_visible = { check_variable = { GDP647_map_chart_count < 2 } }
-            GDP647_follow_chart_lines_grid_visible = { check_variable = { GDP647_map_chart_count > 1 } }
-            GDP647_follow_chart_total_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_total_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { NOT = { check_variable = { GDP647_chart_metric = 2 } } } }
-            GDP647_follow_chart_pc_0_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_1_visible = { check_variable = { GDP647_map_chart_count > 2 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_2_visible = { check_variable = { GDP647_map_chart_count > 3 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_3_visible = { check_variable = { GDP647_map_chart_count > 4 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_4_visible = { check_variable = { GDP647_map_chart_count > 5 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_5_visible = { check_variable = { GDP647_map_chart_count > 6 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_6_visible = { check_variable = { GDP647_map_chart_count > 7 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_7_visible = { check_variable = { GDP647_map_chart_count > 8 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_8_visible = { check_variable = { GDP647_map_chart_count > 9 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_9_visible = { check_variable = { GDP647_map_chart_count > 10 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_10_visible = { check_variable = { GDP647_map_chart_count > 11 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_11_visible = { check_variable = { GDP647_map_chart_count > 12 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_12_visible = { check_variable = { GDP647_map_chart_count > 13 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_13_visible = { check_variable = { GDP647_map_chart_count > 14 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_14_visible = { check_variable = { GDP647_map_chart_count > 15 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_15_visible = { check_variable = { GDP647_map_chart_count > 16 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_16_visible = { check_variable = { GDP647_map_chart_count > 17 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_17_visible = { check_variable = { GDP647_map_chart_count > 18 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_18_visible = { check_variable = { GDP647_map_chart_count > 19 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_19_visible = { check_variable = { GDP647_map_chart_count > 20 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_20_visible = { check_variable = { GDP647_map_chart_count > 21 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_21_visible = { check_variable = { GDP647_map_chart_count > 22 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_22_visible = { check_variable = { GDP647_map_chart_count > 23 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_min_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
-            GDP647_follow_chart_pc_max_visible = { check_variable = { GDP647_map_chart_count > 1 } ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+            GDP647_plot_grid_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_1_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_2_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_3_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_4_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_segment_0_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_segment_1_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_segment_2_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_segment_3_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_segment_4_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_segment_5_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_segment_6_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_segment_7_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_segment_8_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_segment_9_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_segment_10_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_segment_11_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_segment_12_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_segment_13_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_segment_14_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_segment_15_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_segment_16_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_segment_17_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_segment_18_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_segment_19_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_segment_20_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_segment_21_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_segment_22_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_dot_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_date_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_dot_1_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_dot_2_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_dot_3_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_date_3_visible = { check_variable = { GDP647_map_chart_count = 4 } }
+            GDP647_plot_dot_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_date_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_dot_5_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_dot_6_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_dot_7_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_date_7_visible = { check_variable = { GDP647_map_chart_count = 8 } }
+            GDP647_plot_dot_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_date_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_dot_9_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_dot_10_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_dot_11_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_date_11_visible = { check_variable = { GDP647_map_chart_count = 12 } }
+            GDP647_plot_dot_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_date_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_dot_13_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_dot_14_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_dot_15_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_date_15_visible = { check_variable = { GDP647_map_chart_count = 16 } }
+            GDP647_plot_dot_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_date_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_dot_17_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_dot_18_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_dot_19_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_date_19_visible = { check_variable = { GDP647_map_chart_count = 20 } }
+            GDP647_plot_dot_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_date_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_dot_21_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_dot_22_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_dot_23_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_date_23_visible = { check_variable = { GDP647_map_chart_count = 24 } }
+            GDP647_plot_pending_visible = { NOT = { check_variable = { GDP647_map_chart_count > 0 } } }
         }
         properties = {
-            GDP647_chart_dot_total_0 = { y = GDP647_chart_total_dots^0 }
-            GDP647_chart_dot_pc_0 = { y = GDP647_chart_pc_dots^0 }
-            GDP647_chart_dot_total_1 = { y = GDP647_chart_total_dots^1 }
-            GDP647_chart_dot_pc_1 = { y = GDP647_chart_pc_dots^1 }
-            GDP647_chart_dot_total_2 = { y = GDP647_chart_total_dots^2 }
-            GDP647_chart_dot_pc_2 = { y = GDP647_chart_pc_dots^2 }
-            GDP647_chart_dot_total_3 = { y = GDP647_chart_total_dots^3 }
-            GDP647_chart_dot_pc_3 = { y = GDP647_chart_pc_dots^3 }
-            GDP647_chart_dot_total_4 = { y = GDP647_chart_total_dots^4 }
-            GDP647_chart_dot_pc_4 = { y = GDP647_chart_pc_dots^4 }
-            GDP647_chart_dot_total_5 = { y = GDP647_chart_total_dots^5 }
-            GDP647_chart_dot_pc_5 = { y = GDP647_chart_pc_dots^5 }
-            GDP647_chart_dot_total_6 = { y = GDP647_chart_total_dots^6 }
-            GDP647_chart_dot_pc_6 = { y = GDP647_chart_pc_dots^6 }
-            GDP647_chart_dot_total_7 = { y = GDP647_chart_total_dots^7 }
-            GDP647_chart_dot_pc_7 = { y = GDP647_chart_pc_dots^7 }
-            GDP647_chart_dot_total_8 = { y = GDP647_chart_total_dots^8 }
-            GDP647_chart_dot_pc_8 = { y = GDP647_chart_pc_dots^8 }
-            GDP647_chart_dot_total_9 = { y = GDP647_chart_total_dots^9 }
-            GDP647_chart_dot_pc_9 = { y = GDP647_chart_pc_dots^9 }
-            GDP647_chart_dot_total_10 = { y = GDP647_chart_total_dots^10 }
-            GDP647_chart_dot_pc_10 = { y = GDP647_chart_pc_dots^10 }
-            GDP647_chart_dot_total_11 = { y = GDP647_chart_total_dots^11 }
-            GDP647_chart_dot_pc_11 = { y = GDP647_chart_pc_dots^11 }
-            GDP647_chart_dot_total_12 = { y = GDP647_chart_total_dots^12 }
-            GDP647_chart_dot_pc_12 = { y = GDP647_chart_pc_dots^12 }
-            GDP647_chart_dot_total_13 = { y = GDP647_chart_total_dots^13 }
-            GDP647_chart_dot_pc_13 = { y = GDP647_chart_pc_dots^13 }
-            GDP647_chart_dot_total_14 = { y = GDP647_chart_total_dots^14 }
-            GDP647_chart_dot_pc_14 = { y = GDP647_chart_pc_dots^14 }
-            GDP647_chart_dot_total_15 = { y = GDP647_chart_total_dots^15 }
-            GDP647_chart_dot_pc_15 = { y = GDP647_chart_pc_dots^15 }
-            GDP647_chart_dot_total_16 = { y = GDP647_chart_total_dots^16 }
-            GDP647_chart_dot_pc_16 = { y = GDP647_chart_pc_dots^16 }
-            GDP647_chart_dot_total_17 = { y = GDP647_chart_total_dots^17 }
-            GDP647_chart_dot_pc_17 = { y = GDP647_chart_pc_dots^17 }
-            GDP647_chart_dot_total_18 = { y = GDP647_chart_total_dots^18 }
-            GDP647_chart_dot_pc_18 = { y = GDP647_chart_pc_dots^18 }
-            GDP647_chart_dot_total_19 = { y = GDP647_chart_total_dots^19 }
-            GDP647_chart_dot_pc_19 = { y = GDP647_chart_pc_dots^19 }
-            GDP647_chart_dot_total_20 = { y = GDP647_chart_total_dots^20 }
-            GDP647_chart_dot_pc_20 = { y = GDP647_chart_pc_dots^20 }
-            GDP647_chart_dot_total_21 = { y = GDP647_chart_total_dots^21 }
-            GDP647_chart_dot_pc_21 = { y = GDP647_chart_pc_dots^21 }
-            GDP647_chart_dot_total_22 = { y = GDP647_chart_total_dots^22 }
-            GDP647_chart_dot_pc_22 = { y = GDP647_chart_pc_dots^22 }
-            GDP647_chart_dot_total_23 = { y = GDP647_chart_total_dots^23 }
-            GDP647_chart_dot_pc_23 = { y = GDP647_chart_pc_dots^23 }
-            GDP647_chart_country_flag = { image = "[THIS.GetFlag]" }
-            GDP647_follow_chart_total_0 = { y = GDP647_map_total_y_0 frame = GDP647_map_total_frame_0 }
-            GDP647_follow_chart_total_1 = { y = GDP647_map_total_y_1 frame = GDP647_map_total_frame_1 }
-            GDP647_follow_chart_total_2 = { y = GDP647_map_total_y_2 frame = GDP647_map_total_frame_2 }
-            GDP647_follow_chart_total_3 = { y = GDP647_map_total_y_3 frame = GDP647_map_total_frame_3 }
-            GDP647_follow_chart_total_4 = { y = GDP647_map_total_y_4 frame = GDP647_map_total_frame_4 }
-            GDP647_follow_chart_total_5 = { y = GDP647_map_total_y_5 frame = GDP647_map_total_frame_5 }
-            GDP647_follow_chart_total_6 = { y = GDP647_map_total_y_6 frame = GDP647_map_total_frame_6 }
-            GDP647_follow_chart_total_7 = { y = GDP647_map_total_y_7 frame = GDP647_map_total_frame_7 }
-            GDP647_follow_chart_total_8 = { y = GDP647_map_total_y_8 frame = GDP647_map_total_frame_8 }
-            GDP647_follow_chart_total_9 = { y = GDP647_map_total_y_9 frame = GDP647_map_total_frame_9 }
-            GDP647_follow_chart_total_10 = { y = GDP647_map_total_y_10 frame = GDP647_map_total_frame_10 }
-            GDP647_follow_chart_total_11 = { y = GDP647_map_total_y_11 frame = GDP647_map_total_frame_11 }
-            GDP647_follow_chart_total_12 = { y = GDP647_map_total_y_12 frame = GDP647_map_total_frame_12 }
-            GDP647_follow_chart_total_13 = { y = GDP647_map_total_y_13 frame = GDP647_map_total_frame_13 }
-            GDP647_follow_chart_total_14 = { y = GDP647_map_total_y_14 frame = GDP647_map_total_frame_14 }
-            GDP647_follow_chart_total_15 = { y = GDP647_map_total_y_15 frame = GDP647_map_total_frame_15 }
-            GDP647_follow_chart_total_16 = { y = GDP647_map_total_y_16 frame = GDP647_map_total_frame_16 }
-            GDP647_follow_chart_total_17 = { y = GDP647_map_total_y_17 frame = GDP647_map_total_frame_17 }
-            GDP647_follow_chart_total_18 = { y = GDP647_map_total_y_18 frame = GDP647_map_total_frame_18 }
-            GDP647_follow_chart_total_19 = { y = GDP647_map_total_y_19 frame = GDP647_map_total_frame_19 }
-            GDP647_follow_chart_total_20 = { y = GDP647_map_total_y_20 frame = GDP647_map_total_frame_20 }
-            GDP647_follow_chart_total_21 = { y = GDP647_map_total_y_21 frame = GDP647_map_total_frame_21 }
-            GDP647_follow_chart_total_22 = { y = GDP647_map_total_y_22 frame = GDP647_map_total_frame_22 }
-            GDP647_follow_chart_pc_0 = { y = GDP647_map_pc_y_0 frame = GDP647_map_pc_frame_0 }
-            GDP647_follow_chart_pc_1 = { y = GDP647_map_pc_y_1 frame = GDP647_map_pc_frame_1 }
-            GDP647_follow_chart_pc_2 = { y = GDP647_map_pc_y_2 frame = GDP647_map_pc_frame_2 }
-            GDP647_follow_chart_pc_3 = { y = GDP647_map_pc_y_3 frame = GDP647_map_pc_frame_3 }
-            GDP647_follow_chart_pc_4 = { y = GDP647_map_pc_y_4 frame = GDP647_map_pc_frame_4 }
-            GDP647_follow_chart_pc_5 = { y = GDP647_map_pc_y_5 frame = GDP647_map_pc_frame_5 }
-            GDP647_follow_chart_pc_6 = { y = GDP647_map_pc_y_6 frame = GDP647_map_pc_frame_6 }
-            GDP647_follow_chart_pc_7 = { y = GDP647_map_pc_y_7 frame = GDP647_map_pc_frame_7 }
-            GDP647_follow_chart_pc_8 = { y = GDP647_map_pc_y_8 frame = GDP647_map_pc_frame_8 }
-            GDP647_follow_chart_pc_9 = { y = GDP647_map_pc_y_9 frame = GDP647_map_pc_frame_9 }
-            GDP647_follow_chart_pc_10 = { y = GDP647_map_pc_y_10 frame = GDP647_map_pc_frame_10 }
-            GDP647_follow_chart_pc_11 = { y = GDP647_map_pc_y_11 frame = GDP647_map_pc_frame_11 }
-            GDP647_follow_chart_pc_12 = { y = GDP647_map_pc_y_12 frame = GDP647_map_pc_frame_12 }
-            GDP647_follow_chart_pc_13 = { y = GDP647_map_pc_y_13 frame = GDP647_map_pc_frame_13 }
-            GDP647_follow_chart_pc_14 = { y = GDP647_map_pc_y_14 frame = GDP647_map_pc_frame_14 }
-            GDP647_follow_chart_pc_15 = { y = GDP647_map_pc_y_15 frame = GDP647_map_pc_frame_15 }
-            GDP647_follow_chart_pc_16 = { y = GDP647_map_pc_y_16 frame = GDP647_map_pc_frame_16 }
-            GDP647_follow_chart_pc_17 = { y = GDP647_map_pc_y_17 frame = GDP647_map_pc_frame_17 }
-            GDP647_follow_chart_pc_18 = { y = GDP647_map_pc_y_18 frame = GDP647_map_pc_frame_18 }
-            GDP647_follow_chart_pc_19 = { y = GDP647_map_pc_y_19 frame = GDP647_map_pc_frame_19 }
-            GDP647_follow_chart_pc_20 = { y = GDP647_map_pc_y_20 frame = GDP647_map_pc_frame_20 }
-            GDP647_follow_chart_pc_21 = { y = GDP647_map_pc_y_21 frame = GDP647_map_pc_frame_21 }
-            GDP647_follow_chart_pc_22 = { y = GDP647_map_pc_y_22 frame = GDP647_map_pc_frame_22 }
+            GDP647_plot_segment_0 = { y = GDP647_map_total_y_0 frame = GDP647_map_total_frame_0 }
+            GDP647_plot_segment_1 = { y = GDP647_map_total_y_1 frame = GDP647_map_total_frame_1 }
+            GDP647_plot_segment_2 = { y = GDP647_map_total_y_2 frame = GDP647_map_total_frame_2 }
+            GDP647_plot_segment_3 = { y = GDP647_map_total_y_3 frame = GDP647_map_total_frame_3 }
+            GDP647_plot_segment_4 = { y = GDP647_map_total_y_4 frame = GDP647_map_total_frame_4 }
+            GDP647_plot_segment_5 = { y = GDP647_map_total_y_5 frame = GDP647_map_total_frame_5 }
+            GDP647_plot_segment_6 = { y = GDP647_map_total_y_6 frame = GDP647_map_total_frame_6 }
+            GDP647_plot_segment_7 = { y = GDP647_map_total_y_7 frame = GDP647_map_total_frame_7 }
+            GDP647_plot_segment_8 = { y = GDP647_map_total_y_8 frame = GDP647_map_total_frame_8 }
+            GDP647_plot_segment_9 = { y = GDP647_map_total_y_9 frame = GDP647_map_total_frame_9 }
+            GDP647_plot_segment_10 = { y = GDP647_map_total_y_10 frame = GDP647_map_total_frame_10 }
+            GDP647_plot_segment_11 = { y = GDP647_map_total_y_11 frame = GDP647_map_total_frame_11 }
+            GDP647_plot_segment_12 = { y = GDP647_map_total_y_12 frame = GDP647_map_total_frame_12 }
+            GDP647_plot_segment_13 = { y = GDP647_map_total_y_13 frame = GDP647_map_total_frame_13 }
+            GDP647_plot_segment_14 = { y = GDP647_map_total_y_14 frame = GDP647_map_total_frame_14 }
+            GDP647_plot_segment_15 = { y = GDP647_map_total_y_15 frame = GDP647_map_total_frame_15 }
+            GDP647_plot_segment_16 = { y = GDP647_map_total_y_16 frame = GDP647_map_total_frame_16 }
+            GDP647_plot_segment_17 = { y = GDP647_map_total_y_17 frame = GDP647_map_total_frame_17 }
+            GDP647_plot_segment_18 = { y = GDP647_map_total_y_18 frame = GDP647_map_total_frame_18 }
+            GDP647_plot_segment_19 = { y = GDP647_map_total_y_19 frame = GDP647_map_total_frame_19 }
+            GDP647_plot_segment_20 = { y = GDP647_map_total_y_20 frame = GDP647_map_total_frame_20 }
+            GDP647_plot_segment_21 = { y = GDP647_map_total_y_21 frame = GDP647_map_total_frame_21 }
+            GDP647_plot_segment_22 = { y = GDP647_map_total_y_22 frame = GDP647_map_total_frame_22 }
+            GDP647_plot_dot_0 = { y = GDP647_chart_total_dots^0 }
+            GDP647_plot_dot_1 = { y = GDP647_chart_total_dots^1 }
+            GDP647_plot_dot_2 = { y = GDP647_chart_total_dots^2 }
+            GDP647_plot_dot_3 = { y = GDP647_chart_total_dots^3 }
+            GDP647_plot_dot_4 = { y = GDP647_chart_total_dots^4 }
+            GDP647_plot_dot_5 = { y = GDP647_chart_total_dots^5 }
+            GDP647_plot_dot_6 = { y = GDP647_chart_total_dots^6 }
+            GDP647_plot_dot_7 = { y = GDP647_chart_total_dots^7 }
+            GDP647_plot_dot_8 = { y = GDP647_chart_total_dots^8 }
+            GDP647_plot_dot_9 = { y = GDP647_chart_total_dots^9 }
+            GDP647_plot_dot_10 = { y = GDP647_chart_total_dots^10 }
+            GDP647_plot_dot_11 = { y = GDP647_chart_total_dots^11 }
+            GDP647_plot_dot_12 = { y = GDP647_chart_total_dots^12 }
+            GDP647_plot_dot_13 = { y = GDP647_chart_total_dots^13 }
+            GDP647_plot_dot_14 = { y = GDP647_chart_total_dots^14 }
+            GDP647_plot_dot_15 = { y = GDP647_chart_total_dots^15 }
+            GDP647_plot_dot_16 = { y = GDP647_chart_total_dots^16 }
+            GDP647_plot_dot_17 = { y = GDP647_chart_total_dots^17 }
+            GDP647_plot_dot_18 = { y = GDP647_chart_total_dots^18 }
+            GDP647_plot_dot_19 = { y = GDP647_chart_total_dots^19 }
+            GDP647_plot_dot_20 = { y = GDP647_chart_total_dots^20 }
+            GDP647_plot_dot_21 = { y = GDP647_chart_total_dots^21 }
+            GDP647_plot_dot_22 = { y = GDP647_chart_total_dots^22 }
+            GDP647_plot_dot_23 = { y = GDP647_chart_total_dots^23 }
+        }
+    }
+
+    GDP647_follow_pc_chart_gui = {
+        context_type = diplomacy_target_context
+        window_name = "GDP647_pc_plot_source"
+        parent_window_name = "GDP647_diplomacy_chart_anchor"
+        ai_enabled = { always = no }
+        visible = {
+            exists = yes
+            check_variable = { GDP647_diplomacy_country^num > 0 }
+            ROOT = {
+                NOT = { check_variable = { GDP647_locked_country^num > 0 } }
+                has_country_flag = GDP647_open
+                check_variable = { GDP647_chart_metric = 2 }
+                check_variable = { GDP647_view = 3 }
+            }
+        }
+        dynamic_lists = {
+            GDP647_country_plot_rows = { array = GDP647_diplomacy_country change_scope = yes entry_container = "GDP647_plot_row" }
+        }
+        triggers = {
+            GDP647_plot_grid_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_1_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_2_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_3_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_tick_4_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_segment_0_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_segment_1_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_segment_2_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_segment_3_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_segment_4_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_segment_5_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_segment_6_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_segment_7_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_segment_8_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_segment_9_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_segment_10_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_segment_11_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_segment_12_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_segment_13_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_segment_14_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_segment_15_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_segment_16_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_segment_17_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_segment_18_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_segment_19_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_segment_20_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_segment_21_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_segment_22_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_dot_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_date_0_visible = { check_variable = { GDP647_map_chart_count > 0 } }
+            GDP647_plot_dot_1_visible = { check_variable = { GDP647_map_chart_count > 1 } }
+            GDP647_plot_dot_2_visible = { check_variable = { GDP647_map_chart_count > 2 } }
+            GDP647_plot_dot_3_visible = { check_variable = { GDP647_map_chart_count > 3 } }
+            GDP647_plot_date_3_visible = { check_variable = { GDP647_map_chart_count = 4 } }
+            GDP647_plot_dot_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_date_4_visible = { check_variable = { GDP647_map_chart_count > 4 } }
+            GDP647_plot_dot_5_visible = { check_variable = { GDP647_map_chart_count > 5 } }
+            GDP647_plot_dot_6_visible = { check_variable = { GDP647_map_chart_count > 6 } }
+            GDP647_plot_dot_7_visible = { check_variable = { GDP647_map_chart_count > 7 } }
+            GDP647_plot_date_7_visible = { check_variable = { GDP647_map_chart_count = 8 } }
+            GDP647_plot_dot_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_date_8_visible = { check_variable = { GDP647_map_chart_count > 8 } }
+            GDP647_plot_dot_9_visible = { check_variable = { GDP647_map_chart_count > 9 } }
+            GDP647_plot_dot_10_visible = { check_variable = { GDP647_map_chart_count > 10 } }
+            GDP647_plot_dot_11_visible = { check_variable = { GDP647_map_chart_count > 11 } }
+            GDP647_plot_date_11_visible = { check_variable = { GDP647_map_chart_count = 12 } }
+            GDP647_plot_dot_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_date_12_visible = { check_variable = { GDP647_map_chart_count > 12 } }
+            GDP647_plot_dot_13_visible = { check_variable = { GDP647_map_chart_count > 13 } }
+            GDP647_plot_dot_14_visible = { check_variable = { GDP647_map_chart_count > 14 } }
+            GDP647_plot_dot_15_visible = { check_variable = { GDP647_map_chart_count > 15 } }
+            GDP647_plot_date_15_visible = { check_variable = { GDP647_map_chart_count = 16 } }
+            GDP647_plot_dot_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_date_16_visible = { check_variable = { GDP647_map_chart_count > 16 } }
+            GDP647_plot_dot_17_visible = { check_variable = { GDP647_map_chart_count > 17 } }
+            GDP647_plot_dot_18_visible = { check_variable = { GDP647_map_chart_count > 18 } }
+            GDP647_plot_dot_19_visible = { check_variable = { GDP647_map_chart_count > 19 } }
+            GDP647_plot_date_19_visible = { check_variable = { GDP647_map_chart_count = 20 } }
+            GDP647_plot_dot_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_date_20_visible = { check_variable = { GDP647_map_chart_count > 20 } }
+            GDP647_plot_dot_21_visible = { check_variable = { GDP647_map_chart_count > 21 } }
+            GDP647_plot_dot_22_visible = { check_variable = { GDP647_map_chart_count > 22 } }
+            GDP647_plot_dot_23_visible = { check_variable = { GDP647_map_chart_count > 23 } }
+            GDP647_plot_date_23_visible = { check_variable = { GDP647_map_chart_count = 24 } }
+            GDP647_plot_pending_visible = { NOT = { check_variable = { GDP647_map_chart_count > 0 } } }
+        }
+        properties = {
+            GDP647_plot_segment_0 = { y = GDP647_map_pc_y_0 frame = GDP647_map_pc_frame_0 }
+            GDP647_plot_segment_1 = { y = GDP647_map_pc_y_1 frame = GDP647_map_pc_frame_1 }
+            GDP647_plot_segment_2 = { y = GDP647_map_pc_y_2 frame = GDP647_map_pc_frame_2 }
+            GDP647_plot_segment_3 = { y = GDP647_map_pc_y_3 frame = GDP647_map_pc_frame_3 }
+            GDP647_plot_segment_4 = { y = GDP647_map_pc_y_4 frame = GDP647_map_pc_frame_4 }
+            GDP647_plot_segment_5 = { y = GDP647_map_pc_y_5 frame = GDP647_map_pc_frame_5 }
+            GDP647_plot_segment_6 = { y = GDP647_map_pc_y_6 frame = GDP647_map_pc_frame_6 }
+            GDP647_plot_segment_7 = { y = GDP647_map_pc_y_7 frame = GDP647_map_pc_frame_7 }
+            GDP647_plot_segment_8 = { y = GDP647_map_pc_y_8 frame = GDP647_map_pc_frame_8 }
+            GDP647_plot_segment_9 = { y = GDP647_map_pc_y_9 frame = GDP647_map_pc_frame_9 }
+            GDP647_plot_segment_10 = { y = GDP647_map_pc_y_10 frame = GDP647_map_pc_frame_10 }
+            GDP647_plot_segment_11 = { y = GDP647_map_pc_y_11 frame = GDP647_map_pc_frame_11 }
+            GDP647_plot_segment_12 = { y = GDP647_map_pc_y_12 frame = GDP647_map_pc_frame_12 }
+            GDP647_plot_segment_13 = { y = GDP647_map_pc_y_13 frame = GDP647_map_pc_frame_13 }
+            GDP647_plot_segment_14 = { y = GDP647_map_pc_y_14 frame = GDP647_map_pc_frame_14 }
+            GDP647_plot_segment_15 = { y = GDP647_map_pc_y_15 frame = GDP647_map_pc_frame_15 }
+            GDP647_plot_segment_16 = { y = GDP647_map_pc_y_16 frame = GDP647_map_pc_frame_16 }
+            GDP647_plot_segment_17 = { y = GDP647_map_pc_y_17 frame = GDP647_map_pc_frame_17 }
+            GDP647_plot_segment_18 = { y = GDP647_map_pc_y_18 frame = GDP647_map_pc_frame_18 }
+            GDP647_plot_segment_19 = { y = GDP647_map_pc_y_19 frame = GDP647_map_pc_frame_19 }
+            GDP647_plot_segment_20 = { y = GDP647_map_pc_y_20 frame = GDP647_map_pc_frame_20 }
+            GDP647_plot_segment_21 = { y = GDP647_map_pc_y_21 frame = GDP647_map_pc_frame_21 }
+            GDP647_plot_segment_22 = { y = GDP647_map_pc_y_22 frame = GDP647_map_pc_frame_22 }
+            GDP647_plot_dot_0 = { y = GDP647_chart_pc_dots^0 }
+            GDP647_plot_dot_1 = { y = GDP647_chart_pc_dots^1 }
+            GDP647_plot_dot_2 = { y = GDP647_chart_pc_dots^2 }
+            GDP647_plot_dot_3 = { y = GDP647_chart_pc_dots^3 }
+            GDP647_plot_dot_4 = { y = GDP647_chart_pc_dots^4 }
+            GDP647_plot_dot_5 = { y = GDP647_chart_pc_dots^5 }
+            GDP647_plot_dot_6 = { y = GDP647_chart_pc_dots^6 }
+            GDP647_plot_dot_7 = { y = GDP647_chart_pc_dots^7 }
+            GDP647_plot_dot_8 = { y = GDP647_chart_pc_dots^8 }
+            GDP647_plot_dot_9 = { y = GDP647_chart_pc_dots^9 }
+            GDP647_plot_dot_10 = { y = GDP647_chart_pc_dots^10 }
+            GDP647_plot_dot_11 = { y = GDP647_chart_pc_dots^11 }
+            GDP647_plot_dot_12 = { y = GDP647_chart_pc_dots^12 }
+            GDP647_plot_dot_13 = { y = GDP647_chart_pc_dots^13 }
+            GDP647_plot_dot_14 = { y = GDP647_chart_pc_dots^14 }
+            GDP647_plot_dot_15 = { y = GDP647_chart_pc_dots^15 }
+            GDP647_plot_dot_16 = { y = GDP647_chart_pc_dots^16 }
+            GDP647_plot_dot_17 = { y = GDP647_chart_pc_dots^17 }
+            GDP647_plot_dot_18 = { y = GDP647_chart_pc_dots^18 }
+            GDP647_plot_dot_19 = { y = GDP647_chart_pc_dots^19 }
+            GDP647_plot_dot_20 = { y = GDP647_chart_pc_dots^20 }
+            GDP647_plot_dot_21 = { y = GDP647_chart_pc_dots^21 }
+            GDP647_plot_dot_22 = { y = GDP647_chart_pc_dots^22 }
+            GDP647_plot_dot_23 = { y = GDP647_chart_pc_dots^23 }
         }
     }
 

@@ -5,6 +5,7 @@ on_actions = {
                 limit = { NOT = { has_global_flag = GDP647_ready_v2 } }
                 random_country = { limit = { exists = yes } GDP647_initialize = yes }
             }
+            else = { GDP647_seed_world_chart = yes }
         }
     }
 }

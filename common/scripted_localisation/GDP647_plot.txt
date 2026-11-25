@@ -1,0 +1,414 @@
+defined_text = {
+    name = GetGDP647PlotHeading
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 4 } } }
+        localization_key = GDP647_WORLD_PC_HEADING
+    }
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 3 } } }
+        localization_key = GDP647_WORLD_TOTAL_HEADING
+    }
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        localization_key = GDP647_PLOT_COUNTRY_PC_HEADING
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_TOTAL_HEADING }
+}
+
+defined_text = {
+    name = GetGDP647PlotPending
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_PENDING
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_PENDING }
+}
+
+defined_text = {
+    name = GetGDP647PlotTick0
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_TICK_0
+    }
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        localization_key = GDP647_MAP_CHART_PC_MAX
+    }
+    text = { localization_key = GDP647_MAP_CHART_TOTAL_MAX }
+}
+
+defined_text = {
+    name = GetGDP647PlotTick1
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_TICK_1
+    }
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        localization_key = GDP647_CHART_TICK_PC_0
+    }
+    text = { localization_key = GDP647_CHART_TICK_TOTAL_0 }
+}
+
+defined_text = {
+    name = GetGDP647PlotTick2
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_TICK_2
+    }
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        localization_key = GDP647_CHART_TICK_PC_1
+    }
+    text = { localization_key = GDP647_CHART_TICK_TOTAL_1 }
+}
+
+defined_text = {
+    name = GetGDP647PlotTick3
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_TICK_3
+    }
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        localization_key = GDP647_CHART_TICK_PC_2
+    }
+    text = { localization_key = GDP647_CHART_TICK_TOTAL_2 }
+}
+
+defined_text = {
+    name = GetGDP647PlotTick4
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_TICK_4
+    }
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric = 2 } } }
+        localization_key = GDP647_MAP_CHART_PC_MIN
+    }
+    text = { localization_key = GDP647_MAP_CHART_TOTAL_MIN }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint0
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_0_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_0_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint1
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_1_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_1_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint2
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_2_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_2_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint3
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_3_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_3_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint4
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_4_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_4_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint5
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_5_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_5_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint6
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_6_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_6_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint7
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_7_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_7_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint8
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_8_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_8_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint9
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_9_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_9_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint10
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_10_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_10_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint11
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_11_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_11_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint12
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_12_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_12_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint13
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_13_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_13_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint14
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_14_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_14_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint15
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_15_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_15_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint16
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_16_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_16_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint17
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_17_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_17_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint18
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_18_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_18_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint19
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_19_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_19_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint20
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_20_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_20_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint21
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_21_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_21_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint22
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_22_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_22_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotPoint23
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DOT_23_TT
+    }
+    text = { localization_key = GDP647_CHART_POINT_23_TT }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate0
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_0
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_0 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate3
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_3
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_3 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate4
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_4
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_4 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate7
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_7
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_7 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate8
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_8
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_8 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate11
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_11
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_11 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate12
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_12
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_12 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate15
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_15
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_15 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate16
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_16
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_16 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate19
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_19
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_19 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate20
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_20
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_20 }
+}
+
+defined_text = {
+    name = GetGDP647PlotDate23
+    text = {
+        trigger = { ROOT = { check_variable = { GDP647_chart_metric > 2 } } }
+        localization_key = GDP647_WORLD_DATE_23
+    }
+    text = { localization_key = GDP647_PLOT_COUNTRY_DATE_23 }
+}

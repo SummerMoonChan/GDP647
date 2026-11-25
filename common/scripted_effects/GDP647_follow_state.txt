@@ -69,7 +69,7 @@ GDP647_prepare_map_chart = {
     set_variable = { GDP647_map_chart_count = GDP647_chart_total_archive^num }
     clamp_variable = { var = GDP647_map_chart_count max = 24 }
     if = {
-        limit = { check_variable = { GDP647_map_chart_count > 1 } }
+        limit = { check_variable = { GDP647_map_chart_count > 0 } }
         GDP647_cache_map_chart_total = yes
         GDP647_cache_map_chart_pc = yes
     }
@@ -83,6 +83,7 @@ GDP647_render_map_chart_series = {
     subtract_from_temp_variable = { GDP647_map_plot_last = 1 }
     set_temp_variable = { GDP647_map_plot_span = GDP647_map_chart_count }
     subtract_from_temp_variable = { GDP647_map_plot_span = 1 }
+    clamp_temp_variable = { var = GDP647_map_plot_span min = 1 }
     set_temp_variable = { GDP647_map_plot_i = 0 }
     while_loop_effect = {
         limit = { check_variable = { GDP647_map_plot_i < GDP647_map_chart_count } }
@@ -546,6 +547,17 @@ GDP647_refresh_faction_directory = {
             add_to_array = { array = global.GDP647_factions }
             set_temp_variable = { GDP647_growth_prior_published = GDP647_faction_gdp }
             set_variable = { GDP647_faction_gdp = GDP647_country_gdp }
+            clear_variable = GDP647_faction_sectors_incomplete
+            if = {
+                limit = { check_variable = { GDP647_country_gdp > 0 } NOT = { has_variable = GDP647_country_sector_agriculture } }
+                set_variable = { GDP647_faction_sectors_incomplete = 1 }
+            }
+            set_variable = { GDP647_faction_sector_agriculture = GDP647_country_sector_agriculture }
+            set_variable = { GDP647_faction_sector_civilian = GDP647_country_sector_civilian }
+            set_variable = { GDP647_faction_sector_military = GDP647_country_sector_military }
+            set_variable = { GDP647_faction_sector_services = GDP647_country_sector_services }
+            set_variable = { GDP647_faction_sector_resources = GDP647_country_sector_resources }
+            set_variable = { GDP647_faction_sector_reinvestment = GDP647_country_sector_reinvestment }
             set_temp_variable = { GDP647_pc_prior = GDP647_faction_core_gdp_per_capita }
             set_variable = { GDP647_faction_core_population = GDP647_published_core_population }
             set_variable = { GDP647_faction_core_gdp = GDP647_core_gdp_per_capita }
@@ -556,6 +568,16 @@ GDP647_refresh_faction_directory = {
             every_other_country = {
                 limit = { exists = yes is_in_faction_with = PREV }
                 add_to_variable = { PREV.GDP647_faction_gdp = GDP647_country_gdp }
+                if = {
+                    limit = { check_variable = { GDP647_country_gdp > 0 } NOT = { has_variable = GDP647_country_sector_agriculture } }
+                    set_variable = { PREV.GDP647_faction_sectors_incomplete = 1 }
+                }
+                add_to_variable = { PREV.GDP647_faction_sector_agriculture = GDP647_country_sector_agriculture }
+                add_to_variable = { PREV.GDP647_faction_sector_civilian = GDP647_country_sector_civilian }
+                add_to_variable = { PREV.GDP647_faction_sector_military = GDP647_country_sector_military }
+                add_to_variable = { PREV.GDP647_faction_sector_services = GDP647_country_sector_services }
+                add_to_variable = { PREV.GDP647_faction_sector_resources = GDP647_country_sector_resources }
+                add_to_variable = { PREV.GDP647_faction_sector_reinvestment = GDP647_country_sector_reinvestment }
                 add_to_variable = { PREV.GDP647_faction_member_count = 1 }
                 add_to_variable = { PREV.GDP647_faction_core_population = GDP647_published_core_population }
                 set_temp_variable = { GDP647_member_core_gdp = GDP647_core_gdp_per_capita }

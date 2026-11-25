@@ -162,6 +162,38 @@ GDP647_format_country_amounts = {
 }
 
 GDP647_format_faction_amounts = {
+    set_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 0 }
+    set_variable = { GDP647_faction_core_gdp_per_capita_compact = GDP647_faction_core_gdp_per_capita }
+    if = {
+        limit = {
+            OR = {
+                check_variable = { var = GDP647_faction_core_gdp_per_capita_compact value = 1000 compare = greater_than_or_equals }
+                check_variable = { var = GDP647_faction_core_gdp_per_capita_compact value = -1000 compare = less_than_or_equals }
+            }
+        }
+        divide_variable = { GDP647_faction_core_gdp_per_capita_compact = 1000 }
+        set_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 1 }
+        if = {
+            limit = {
+                OR = {
+                    check_variable = { var = GDP647_faction_core_gdp_per_capita_compact value = 1000 compare = greater_than_or_equals }
+                    check_variable = { var = GDP647_faction_core_gdp_per_capita_compact value = -1000 compare = less_than_or_equals }
+                }
+            }
+            divide_variable = { GDP647_faction_core_gdp_per_capita_compact = 1000 }
+            set_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 2 }
+            if = {
+                limit = {
+                    OR = {
+                        check_variable = { var = GDP647_faction_core_gdp_per_capita_compact value = 1000 compare = greater_than_or_equals }
+                        check_variable = { var = GDP647_faction_core_gdp_per_capita_compact value = -1000 compare = less_than_or_equals }
+                    }
+                }
+                divide_variable = { GDP647_faction_core_gdp_per_capita_compact = 1000 }
+                set_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 3 }
+            }
+        }
+    }
     if = {
         limit = { OR = { check_variable = { var = GDP647_faction_gdp value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_gdp value = -1000 compare = less_than_or_equals } } }
         set_variable = { GDP647_faction_gdp_compact = GDP647_faction_gdp }
@@ -179,6 +211,114 @@ GDP647_format_faction_amounts = {
     else = {
         set_variable = { GDP647_faction_gdp_compact = GDP647_faction_gdp }
         multiply_variable = { GDP647_faction_gdp_compact = 1000000 }
+    }
+    if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_agriculture value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_agriculture value = -1000 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_agriculture_compact = GDP647_faction_sector_agriculture }
+        divide_variable = { GDP647_faction_sector_agriculture_compact = 1000 }
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_agriculture value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_agriculture value = -1 compare = less_than_or_equals } } }
+        clear_variable = GDP647_faction_sector_agriculture_compact
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_agriculture value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_agriculture value = -0.001 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_agriculture_compact = GDP647_faction_sector_agriculture }
+        multiply_variable = { GDP647_faction_sector_agriculture_compact = 1000 }
+    }
+    else = {
+        set_variable = { GDP647_faction_sector_agriculture_compact = GDP647_faction_sector_agriculture }
+        multiply_variable = { GDP647_faction_sector_agriculture_compact = 1000000 }
+    }
+    if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_civilian value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_civilian value = -1000 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_civilian_compact = GDP647_faction_sector_civilian }
+        divide_variable = { GDP647_faction_sector_civilian_compact = 1000 }
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_civilian value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_civilian value = -1 compare = less_than_or_equals } } }
+        clear_variable = GDP647_faction_sector_civilian_compact
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_civilian value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_civilian value = -0.001 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_civilian_compact = GDP647_faction_sector_civilian }
+        multiply_variable = { GDP647_faction_sector_civilian_compact = 1000 }
+    }
+    else = {
+        set_variable = { GDP647_faction_sector_civilian_compact = GDP647_faction_sector_civilian }
+        multiply_variable = { GDP647_faction_sector_civilian_compact = 1000000 }
+    }
+    if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_military value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_military value = -1000 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_military_compact = GDP647_faction_sector_military }
+        divide_variable = { GDP647_faction_sector_military_compact = 1000 }
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_military value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_military value = -1 compare = less_than_or_equals } } }
+        clear_variable = GDP647_faction_sector_military_compact
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_military value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_military value = -0.001 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_military_compact = GDP647_faction_sector_military }
+        multiply_variable = { GDP647_faction_sector_military_compact = 1000 }
+    }
+    else = {
+        set_variable = { GDP647_faction_sector_military_compact = GDP647_faction_sector_military }
+        multiply_variable = { GDP647_faction_sector_military_compact = 1000000 }
+    }
+    if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_services value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_services value = -1000 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_services_compact = GDP647_faction_sector_services }
+        divide_variable = { GDP647_faction_sector_services_compact = 1000 }
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_services value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_services value = -1 compare = less_than_or_equals } } }
+        clear_variable = GDP647_faction_sector_services_compact
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_services value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_services value = -0.001 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_services_compact = GDP647_faction_sector_services }
+        multiply_variable = { GDP647_faction_sector_services_compact = 1000 }
+    }
+    else = {
+        set_variable = { GDP647_faction_sector_services_compact = GDP647_faction_sector_services }
+        multiply_variable = { GDP647_faction_sector_services_compact = 1000000 }
+    }
+    if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_resources value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_resources value = -1000 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_resources_compact = GDP647_faction_sector_resources }
+        divide_variable = { GDP647_faction_sector_resources_compact = 1000 }
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_resources value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_resources value = -1 compare = less_than_or_equals } } }
+        clear_variable = GDP647_faction_sector_resources_compact
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_resources value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_resources value = -0.001 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_resources_compact = GDP647_faction_sector_resources }
+        multiply_variable = { GDP647_faction_sector_resources_compact = 1000 }
+    }
+    else = {
+        set_variable = { GDP647_faction_sector_resources_compact = GDP647_faction_sector_resources }
+        multiply_variable = { GDP647_faction_sector_resources_compact = 1000000 }
+    }
+    if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_reinvestment value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_reinvestment value = -1000 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_reinvestment_compact = GDP647_faction_sector_reinvestment }
+        divide_variable = { GDP647_faction_sector_reinvestment_compact = 1000 }
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_reinvestment value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_reinvestment value = -1 compare = less_than_or_equals } } }
+        clear_variable = GDP647_faction_sector_reinvestment_compact
+    }
+    else_if = {
+        limit = { OR = { check_variable = { var = GDP647_faction_sector_reinvestment value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_reinvestment value = -0.001 compare = less_than_or_equals } } }
+        set_variable = { GDP647_faction_sector_reinvestment_compact = GDP647_faction_sector_reinvestment }
+        multiply_variable = { GDP647_faction_sector_reinvestment_compact = 1000 }
+    }
+    else = {
+        set_variable = { GDP647_faction_sector_reinvestment_compact = GDP647_faction_sector_reinvestment }
+        multiply_variable = { GDP647_faction_sector_reinvestment_compact = 1000000 }
     }
 }
 

@@ -346,3 +346,146 @@ defined_text = {
     }
     text = { localization_key = GDP647_STATE_SECTOR_REINVESTMENT_DISPLAY_FALLBACK }
 }
+
+defined_text = {
+    name = GetGDP647MoneyFactionSectorAgriculture
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_agriculture value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_agriculture value = -1000 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_agriculture_compact }
+        localization_key = GDP647_FACTION_SECTOR_AGRICULTURE_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_agriculture value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_agriculture value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_FACTION_SECTOR_AGRICULTURE_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_agriculture value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_agriculture value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_agriculture_compact }
+        localization_key = GDP647_FACTION_SECTOR_AGRICULTURE_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_sector_agriculture_compact }
+        localization_key = GDP647_FACTION_SECTOR_AGRICULTURE_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_FACTION_SECTOR_AGRICULTURE_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyFactionSectorCivilian
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_civilian value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_civilian value = -1000 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_civilian_compact }
+        localization_key = GDP647_FACTION_SECTOR_CIVILIAN_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_civilian value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_civilian value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_FACTION_SECTOR_CIVILIAN_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_civilian value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_civilian value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_civilian_compact }
+        localization_key = GDP647_FACTION_SECTOR_CIVILIAN_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_sector_civilian_compact }
+        localization_key = GDP647_FACTION_SECTOR_CIVILIAN_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_FACTION_SECTOR_CIVILIAN_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyFactionSectorMilitary
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_military value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_military value = -1000 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_military_compact }
+        localization_key = GDP647_FACTION_SECTOR_MILITARY_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_military value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_military value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_FACTION_SECTOR_MILITARY_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_military value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_military value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_military_compact }
+        localization_key = GDP647_FACTION_SECTOR_MILITARY_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_sector_military_compact }
+        localization_key = GDP647_FACTION_SECTOR_MILITARY_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_FACTION_SECTOR_MILITARY_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyFactionSectorServices
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_services value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_services value = -1000 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_services_compact }
+        localization_key = GDP647_FACTION_SECTOR_SERVICES_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_services value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_services value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_FACTION_SECTOR_SERVICES_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_services value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_services value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_services_compact }
+        localization_key = GDP647_FACTION_SECTOR_SERVICES_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_sector_services_compact }
+        localization_key = GDP647_FACTION_SECTOR_SERVICES_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_FACTION_SECTOR_SERVICES_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyFactionSectorResources
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_resources value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_resources value = -1000 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_resources_compact }
+        localization_key = GDP647_FACTION_SECTOR_RESOURCES_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_resources value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_resources value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_FACTION_SECTOR_RESOURCES_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_resources value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_resources value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_resources_compact }
+        localization_key = GDP647_FACTION_SECTOR_RESOURCES_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_sector_resources_compact }
+        localization_key = GDP647_FACTION_SECTOR_RESOURCES_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_FACTION_SECTOR_RESOURCES_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyFactionSectorReinvestment
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_reinvestment value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_reinvestment value = -1000 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_reinvestment_compact }
+        localization_key = GDP647_FACTION_SECTOR_REINVESTMENT_DISPLAY_B
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_reinvestment value = 1 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_reinvestment value = -1 compare = less_than_or_equals } } }
+        localization_key = GDP647_FACTION_SECTOR_REINVESTMENT_DISPLAY_M
+    }
+    text = {
+        trigger = { OR = { check_variable = { var = GDP647_faction_sector_reinvestment value = 0.001 compare = greater_than_or_equals } check_variable = { var = GDP647_faction_sector_reinvestment value = -0.001 compare = less_than_or_equals } } has_variable = GDP647_faction_sector_reinvestment_compact }
+        localization_key = GDP647_FACTION_SECTOR_REINVESTMENT_DISPLAY_K
+    }
+    text = {
+        trigger = { has_variable = GDP647_faction_sector_reinvestment_compact }
+        localization_key = GDP647_FACTION_SECTOR_REINVESTMENT_DISPLAY_USD
+    }
+    text = { localization_key = GDP647_FACTION_SECTOR_REINVESTMENT_DISPLAY_FALLBACK }
+}
+
+defined_text = {
+    name = GetGDP647MoneyFactionCoreGdpPerCapita
+    text = {
+        trigger = { check_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 3 } }
+        localization_key = GDP647_FACTION_CORE_GDP_PER_CAPITA_DISPLAY_B
+    }
+    text = {
+        trigger = { check_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 2 } }
+        localization_key = GDP647_FACTION_CORE_GDP_PER_CAPITA_DISPLAY_M
+    }
+    text = {
+        trigger = { check_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 1 } }
+        localization_key = GDP647_FACTION_CORE_GDP_PER_CAPITA_DISPLAY_K
+    }
+    text = { localization_key = GDP647_FACTION_CORE_GDP_PER_CAPITA_DISPLAY_USD }
+}

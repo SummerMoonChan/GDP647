@@ -7,17 +7,32 @@ GDP647_refresh_open_view = {
 }
 
 GDP647_refresh_chart = {
+    GDP647_seed_world_chart = yes
     if = {
         limit = { NOT = { has_global_flag = GDP647_world_totals_ready } }
         GDP647_publish_economic_benchmarks = yes
     }
     GDP647_refresh_chart_calendar_ticks = yes
+    clear_array = GDP647_world_plot_slot
+    set_variable = { GDP647_world_total_frame = 1 }
+    set_variable = { GDP647_world_pc_frame = 1 }
     set_variable = { GDP647_chart_total_frame = 2 }
     set_variable = { GDP647_chart_pc_frame = 1 }
     if = {
         limit = { check_variable = { GDP647_chart_metric = 2 } }
         set_variable = { GDP647_chart_total_frame = 1 }
         set_variable = { GDP647_chart_pc_frame = 2 }
+    }
+    else_if = {
+        limit = { check_variable = { GDP647_chart_metric > 2 } }
+        set_variable = { GDP647_chart_total_frame = 1 }
+        if = {
+            limit = { check_variable = { GDP647_chart_metric = 3 } }
+            set_variable = { GDP647_world_total_frame = 2 }
+        }
+        else = { set_variable = { GDP647_world_pc_frame = 2 } }
+        resize_array = { array = GDP647_world_plot_slot size = 1 value = 0 }
+        GDP647_prepare_world_plot = yes
     }
 }
 
