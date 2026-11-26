@@ -1,6 +1,27 @@
 # Compact display values. The raw GDP and per-capita data are kept in their original units.
 
 GDP647_format_country_amounts = {
+    set_variable = { GDP647_country_sector_agriculture_share = 0 }
+    set_variable = { GDP647_country_sector_civilian_share = 0 }
+    set_variable = { GDP647_country_sector_military_share = 0 }
+    set_variable = { GDP647_country_sector_services_share = 0 }
+    set_variable = { GDP647_country_sector_resources_share = 0 }
+    set_variable = { GDP647_country_sector_reinvestment_share = 0 }
+    if = {
+        limit = { check_variable = { GDP647_country_gdp > 0 } }
+        set_variable = { GDP647_country_sector_agriculture_share = GDP647_country_sector_agriculture }
+        divide_variable = { GDP647_country_sector_agriculture_share = GDP647_country_gdp }
+        set_variable = { GDP647_country_sector_civilian_share = GDP647_country_sector_civilian }
+        divide_variable = { GDP647_country_sector_civilian_share = GDP647_country_gdp }
+        set_variable = { GDP647_country_sector_military_share = GDP647_country_sector_military }
+        divide_variable = { GDP647_country_sector_military_share = GDP647_country_gdp }
+        set_variable = { GDP647_country_sector_services_share = GDP647_country_sector_services }
+        divide_variable = { GDP647_country_sector_services_share = GDP647_country_gdp }
+        set_variable = { GDP647_country_sector_resources_share = GDP647_country_sector_resources }
+        divide_variable = { GDP647_country_sector_resources_share = GDP647_country_gdp }
+        set_variable = { GDP647_country_sector_reinvestment_share = GDP647_country_sector_reinvestment }
+        divide_variable = { GDP647_country_sector_reinvestment_share = GDP647_country_gdp }
+    }
     if = {
         limit = { OR = { check_variable = { var = GDP647_country_gdp value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_country_gdp value = -1000 compare = less_than_or_equals } } }
         set_variable = { GDP647_country_gdp_compact = GDP647_country_gdp }
@@ -162,6 +183,27 @@ GDP647_format_country_amounts = {
 }
 
 GDP647_format_faction_amounts = {
+    set_variable = { GDP647_faction_sector_agriculture_share = 0 }
+    set_variable = { GDP647_faction_sector_civilian_share = 0 }
+    set_variable = { GDP647_faction_sector_military_share = 0 }
+    set_variable = { GDP647_faction_sector_services_share = 0 }
+    set_variable = { GDP647_faction_sector_resources_share = 0 }
+    set_variable = { GDP647_faction_sector_reinvestment_share = 0 }
+    if = {
+        limit = { check_variable = { GDP647_faction_gdp > 0 } }
+        set_variable = { GDP647_faction_sector_agriculture_share = GDP647_faction_sector_agriculture }
+        divide_variable = { GDP647_faction_sector_agriculture_share = GDP647_faction_gdp }
+        set_variable = { GDP647_faction_sector_civilian_share = GDP647_faction_sector_civilian }
+        divide_variable = { GDP647_faction_sector_civilian_share = GDP647_faction_gdp }
+        set_variable = { GDP647_faction_sector_military_share = GDP647_faction_sector_military }
+        divide_variable = { GDP647_faction_sector_military_share = GDP647_faction_gdp }
+        set_variable = { GDP647_faction_sector_services_share = GDP647_faction_sector_services }
+        divide_variable = { GDP647_faction_sector_services_share = GDP647_faction_gdp }
+        set_variable = { GDP647_faction_sector_resources_share = GDP647_faction_sector_resources }
+        divide_variable = { GDP647_faction_sector_resources_share = GDP647_faction_gdp }
+        set_variable = { GDP647_faction_sector_reinvestment_share = GDP647_faction_sector_reinvestment }
+        divide_variable = { GDP647_faction_sector_reinvestment_share = GDP647_faction_gdp }
+    }
     set_variable = { GDP647_faction_core_gdp_per_capita_compact_unit = 0 }
     set_variable = { GDP647_faction_core_gdp_per_capita_compact = GDP647_faction_core_gdp_per_capita }
     if = {
@@ -323,6 +365,27 @@ GDP647_format_faction_amounts = {
 }
 
 GDP647_format_state_amounts = {
+    set_variable = { GDP647_state_sector_agriculture_share = 0 }
+    set_variable = { GDP647_state_sector_civilian_share = 0 }
+    set_variable = { GDP647_state_sector_military_share = 0 }
+    set_variable = { GDP647_state_sector_services_share = 0 }
+    set_variable = { GDP647_state_sector_resources_share = 0 }
+    set_variable = { GDP647_state_sector_reinvestment_share = 0 }
+    if = {
+        limit = { check_variable = { GDP647_state_gdp > 0 } }
+        set_variable = { GDP647_state_sector_agriculture_share = GDP647_state_sector_agriculture }
+        divide_variable = { GDP647_state_sector_agriculture_share = GDP647_state_gdp }
+        set_variable = { GDP647_state_sector_civilian_share = GDP647_state_sector_civilian }
+        divide_variable = { GDP647_state_sector_civilian_share = GDP647_state_gdp }
+        set_variable = { GDP647_state_sector_military_share = GDP647_state_sector_military }
+        divide_variable = { GDP647_state_sector_military_share = GDP647_state_gdp }
+        set_variable = { GDP647_state_sector_services_share = GDP647_state_sector_services }
+        divide_variable = { GDP647_state_sector_services_share = GDP647_state_gdp }
+        set_variable = { GDP647_state_sector_resources_share = GDP647_state_sector_resources }
+        divide_variable = { GDP647_state_sector_resources_share = GDP647_state_gdp }
+        set_variable = { GDP647_state_sector_reinvestment_share = GDP647_state_sector_reinvestment }
+        divide_variable = { GDP647_state_sector_reinvestment_share = GDP647_state_gdp }
+    }
     if = {
         limit = { OR = { check_variable = { var = GDP647_state_gdp value = 1000 compare = greater_than_or_equals } check_variable = { var = GDP647_state_gdp value = -1000 compare = less_than_or_equals } } }
         set_variable = { GDP647_state_gdp_compact = GDP647_state_gdp }

@@ -21,7 +21,7 @@ scripted_gui = {
                         GDP647_publish_economic_benchmarks = yes
                     }
                     if = {
-                        limit = { NOT = { has_global_flag = GDP647_compact_amounts_ready_v2 } }
+                        limit = { NOT = { has_global_flag = GDP647_compact_amounts_ready_v4 } }
                         for_each_scope_loop = {
                             array = global.GDP647_countries
                             GDP647_format_country_amounts = yes
@@ -32,7 +32,7 @@ scripted_gui = {
                         }
                         set_temp_variable = { GDP647_record_faction_snapshot = 0 }
                         GDP647_refresh_faction_directory = yes
-                        set_global_flag = GDP647_compact_amounts_ready_v2
+                        set_global_flag = GDP647_compact_amounts_ready_v4
                     }
                     GDP647_initialize_follow_cache = yes
                     if = {
