@@ -1,0 +1,26 @@
+ideas = {
+
+	country = {
+		GPD_idea_test = {
+			picture = eng_guided_by_britain
+			allowed = { always = yes }
+			removal_cost = -1
+			modifier = {
+				military_factory_donations = 1
+				industrial_factory_donations = 2
+				dockyard_donations = 4
+			}
+		}
+		GDP_SOV_is_my_daddy = {
+			allowed = { always = yes }
+			picture =  generic_communism_drift_bonus
+			removal_cost = -1
+			targeted_modifier = {
+				tag = SOV
+				cic_to_target_factor = 0.25
+				mic_to_target_factor = 0.6
+			}
+		}
+	}
+	
+}

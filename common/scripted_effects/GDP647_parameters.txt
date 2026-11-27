@@ -1,45 +1,28 @@
-# Shared GDP coefficients from Global Economy Overview 0.9.6 (Workshop 3834553359).
-GDP647_geo_U9_parameters = {
-set_variable = { global.GDP647_geo_U9_p_agriculture_floor = 6.82354 }
-set_variable = { global.GDP647_geo_U9_p_agriculture_gain = 1841.80174 }
-set_variable = { global.GDP647_geo_U9_p_density_half = 0.59182 }
-set_variable = { global.GDP647_geo_U9_p_traditional_unit = 20 }
-set_variable = { global.GDP647_geo_U9_p_civil_unit = 144.78676 }
-set_variable = { global.GDP647_geo_U9_p_military_relative_unit = 1 }
-set_variable = { global.GDP647_geo_U9_p_dockyard_relative_unit = 0.75 }
-set_variable = { global.GDP647_geo_U9_p_modern_floor = 0.03 }
-set_variable = { global.GDP647_geo_U9_p_service_floor = 1 }
-set_variable = { global.GDP647_geo_U9_p_service_gain = 1196.23159 }
-set_variable = { global.GDP647_geo_U9_p_mining_scale = 0.5 }
-set_variable = { global.GDP647_geo_U9_p_cluster_half = 4.67355 }
-set_variable = { global.GDP647_geo_U9_p_resource_capacity_cost = 6.26295 }
-set_variable = { global.GDP647_geo_U9_p_population_floor = 0.01 }
-set_variable = { global.GDP647_geo_U9_p_infrastructure_offset = 1 }
-set_variable = { global.GDP647_geo_U9_p_infrastructure_divisor = 6 }
-set_variable = { global.GDP647_geo_U9_p_urban_offset = 0.1 }
-set_variable = { global.GDP647_geo_U9_p_capital_conversion = 1 }
-set_variable = { global.GDP647_geo_U9_p_productivity_floor = 0.25 }
-set_variable = { global.GDP647_geo_U9_p_productivity_ceiling = 4 }
-set_variable = { global.GDP647_geo_U9_p_occupation_base = 0.2 }
-set_variable = { global.GDP647_geo_U9_p_occupation_compliance = 0.005 }
-set_variable = { global.GDP647_geo_U9_p_occupation_ceiling = 0.7 }
-set_variable = { global.GDP647_geo_U9_p_resource_coal = 0.8 }
-set_variable = { global.GDP647_geo_U9_p_resource_oil = 0.81 }
-set_variable = { global.GDP647_geo_U9_p_resource_steel = 0.42 }
-set_variable = { global.GDP647_geo_U9_p_resource_aluminium = 0.0385 }
-set_variable = { global.GDP647_geo_U9_p_resource_rubber = 0.135 }
-set_variable = { global.GDP647_geo_U9_p_resource_tungsten = 0.0093 }
-set_variable = { global.GDP647_geo_U9_p_resource_chromium = 0.016 }
-# A shared sector-allocation setting. Historical country totals remain calibration inputs only.
-set_variable = { global.GDP647_geo_SA_p_support_share = 0.25 }
-set_variable = { global.GDP647_geo_SA_p_basic_share = 0.2 }
-set_variable = { global.GDP647_geo_SA_p_cluster_share = 0.8 }
-set_variable = { global.GDP647_geo_SA_p_infrastructure_base = 0.75 }
-set_variable = { global.GDP647_geo_SA_p_infrastructure_step = 0.05 }
-set_variable = { global.GDP647_geo_SA_p_port_step = 0.03 }
-set_variable = { global.GDP647_geo_SA_p_industry_gain = 0.2 }
-set_variable = { global.GDP647_geo_SA_p_industry_half = 1 }
-set_variable = { global.GDP647_geo_SA_p_index_shape = 3 }
-set_variable = { global.GDP647_geo_C92_policy = 1 }
-GDP647_geo_SA_parameter_epoch = yes
+# Model coefficients from the opening lab's industry preset.
+# GDP is in millions of dollars, population is in millions.
+GDP647_set_model_parameters = {
+    set_variable = { global.GDP647_p_R1 = 54.41306 }
+    set_variable = { global.GDP647_p_R2 = 252.12510 }
+    set_variable = { global.GDP647_p_R3 = 85.96455 }
+    set_variable = { global.GDP647_p_R4 = 241.13106 }
+    set_variable = { global.GDP647_p_R5 = 10.93312 }
+    set_variable = { global.GDP647_p_R6 = 196.11184 }
+    set_variable = { global.GDP647_p_occupation_base = 0.2 }
+    set_variable = { global.GDP647_p_occupation_step = 0.005 }
+    set_variable = { global.GDP647_p_farm_share = 0.3 }
+    set_variable = { global.GDP647_p_farm_civ_weight = 2 }
+    set_variable = { global.GDP647_p_dock_civ_share = 0.06 }
+    set_variable = { global.GDP647_p_dock_mil_share = 0.94 }
+    set_variable = { global.GDP647_p_dock_value = 0.35 }
+    set_variable = { global.GDP647_p_civil_density_weight = 0.90298 }
+    set_variable = { global.GDP647_p_service_industry_weight = 0.9 }
+    set_variable = { global.GDP647_p_fuel_weight = 1.3 }
+    set_variable = { global.GDP647_p_trade_share = 0.05 }
+    set_variable = { global.GDP647_p_resource_coal = 0.8 }
+    set_variable = { global.GDP647_p_resource_oil = 0.81 }
+    set_variable = { global.GDP647_p_resource_steel = 0.42 }
+    set_variable = { global.GDP647_p_resource_aluminium = 0.0385 }
+    set_variable = { global.GDP647_p_resource_rubber = 0.135 }
+    set_variable = { global.GDP647_p_resource_tungsten = 0.0093 }
+    set_variable = { global.GDP647_p_resource_chromium = 0.016 }
 }

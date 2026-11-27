@@ -65,7 +65,12 @@ on_actions = {
                 }
             }
             if = {
-                limit = { NOT = { has_global_flag = GDP647_ready_v2 } }
+                limit = {
+                    OR = {
+                        NOT = { has_global_flag = GDP647_ready_v2 }
+                        NOT = { has_global_flag = GDP647_formula_live_sectors_v5 }
+                    }
+                }
                 random_country = { limit = { exists = yes } GDP647_initialize = yes }
             }
             else_if = {

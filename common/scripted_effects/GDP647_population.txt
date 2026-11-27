@@ -79,8 +79,8 @@ GDP647_backfill_population_display = {
 # A save written after a failed publish can be marked ready with no usable GDP.
 GDP647_repair_population_update_snapshot = {
     if = {
-        limit = { NOT = { has_global_flag = GDP647_population_snapshot_checked } }
-        set_global_flag = GDP647_population_snapshot_checked
+        limit = { NOT = { has_global_flag = GDP647_reinvestment_snapshot_checked } }
+        set_global_flag = GDP647_reinvestment_snapshot_checked
         if = {
             limit = { has_global_flag = GDP647_ready_v2 }
             set_temp_variable = { GDP647_snapshot_has_gdp = 0 }

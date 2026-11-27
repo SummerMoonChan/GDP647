@@ -11,30 +11,198 @@ GDP647_initialize = {
     set_global_flag = GDP647_ready_v2
 }
 
+# Country scope. Freeze national inputs alongside the state data.
+GDP647_capture_economic_modifiers = {
+    set_variable = { GDP647_service_factor = modifier@research_speed_factor }
+    add_to_variable = { GDP647_service_factor = 1 }
+    clamp_variable = { var = GDP647_service_factor min = 0 }
+    multiply_variable = { GDP647_service_factor = amount_research_slots }
+    divide_variable = { GDP647_service_factor = 3 }
+    multiply_variable = { GDP647_service_factor = 0.2 }
+    add_to_variable = { GDP647_service_factor = 0.8 }
+
+    set_variable = { GDP647_construction_civ = num_of_civilian_factories_available_for_projects }
+    clamp_variable = { var = GDP647_construction_civ min = 0 }
+    set_variable = { GDP647_build_factor = modifier@production_speed_buildings_factor }
+    add_to_variable = { GDP647_build_factor = 1 }
+    clamp_variable = { var = GDP647_build_factor min = 0 }
+    set_variable = { GDP647_national_reinvestment = GDP647_construction_civ }
+    multiply_variable = { GDP647_national_reinvestment = GDP647_build_factor }
+    multiply_variable = { GDP647_national_reinvestment = global.GDP647_p_R6 }
+
+    set_variable = { GDP647_military_productivity = modifier@industrial_capacity_factory }
+    add_to_variable = { GDP647_military_productivity = 1 }
+    clamp_variable = { var = GDP647_military_productivity min = 0 }
+    # A +10 percentage point cap bonus above 50% transmits half its relative gain.
+    set_temp_variable = { GDP647_efficiency_proxy = modifier@production_factory_max_efficiency_factor }
+    add_to_temp_variable = { GDP647_efficiency_proxy = 1 }
+    clamp_temp_variable = { var = GDP647_efficiency_proxy min = 0 }
+    multiply_variable = { GDP647_military_productivity = GDP647_efficiency_proxy }
+    set_variable = { GDP647_dock_productivity = modifier@industrial_capacity_dockyard }
+    add_to_variable = { GDP647_dock_productivity = 1 }
+    clamp_variable = { var = GDP647_dock_productivity min = 0 }
+    set_variable = { GDP647_refinery_productivity = modifier@fuel_gain_factor_from_states }
+    add_to_variable = { GDP647_refinery_productivity = 1 }
+    clamp_variable = { var = GDP647_refinery_productivity min = 0 }
+}
+
 GDP647_capture_country = {
-    set_variable = { GDP647_geo_C92_f_policy = global.GDP647_geo_C92_policy }
-    GDP647_geo_U9_reset_frozen = yes
-    GDP647_geo_SA_reset_frozen = yes
+    GDP647_capture_economic_modifiers = yes
     clear_array = GDP647_geo_P5_states
     clear_array = GDP647_geo_P5_week_1
     clear_array = GDP647_geo_P5_week_2
     clear_array = GDP647_geo_P5_week_3
     clear_array = GDP647_geo_P5_week_4
-    set_variable = { GDP647_geo_P5_f_war = 0 }
-    if = { limit = { has_war = yes } set_variable = { GDP647_geo_P5_f_war = 1 } }
-    every_controlled_state = { GDP647_geo_P5_capture_state = yes }
-    GDP647_geo_U9_prepare_frozen = yes
-    GDP647_geo_SA_prepare_frozen = yes
-    GDP647_geo_U9_productivity = yes
-    set_variable = { GDP647_geo_U9_f_productivity = GDP647_geo_v4_productivity }
-    set_variable = { GDP647_geo_P5_next_GDP_total = 0 }
-    set_variable = { GDP647_geo_P5_next_GDP_overseas_m = 0 }
+    set_variable = { GDP647_effective_population = 0 }
+    set_variable = { GDP647_effective_civ = 0 }
     set_variable = { GDP647_next_core_population = 0 }
+    set_variable = { GDP647_core_urban_population = 0 }
+    set_variable = { GDP647_core_infra_population = 0 }
+    every_controlled_state = { GDP647_geo_P5_capture_state = yes }
+
+    # Equivalent to (civ / population) / (1 + civ / population).
+    set_temp_variable = { GDP647_support_denominator = GDP647_effective_population }
+    clamp_temp_variable = { var = GDP647_support_denominator min = 0.25 }
+    add_to_temp_variable = { GDP647_support_denominator = GDP647_effective_civ }
+    set_variable = { GDP647_national_service_support = GDP647_effective_civ }
+    divide_variable = { GDP647_national_service_support = GDP647_support_denominator }
+    set_variable = { GDP647_civil_productivity = GDP647_national_service_support }
+    multiply_variable = { GDP647_civil_productivity = 2 }
+    multiply_variable = { GDP647_civil_productivity = GDP647_civil_productivity }
+    clamp_variable = { var = GDP647_civil_productivity max = 1.65 }
+    subtract_from_variable = { GDP647_civil_productivity = 1 }
+    multiply_variable = { GDP647_civil_productivity = global.GDP647_p_civil_density_weight }
+    add_to_variable = { GDP647_civil_productivity = 1 }
+    multiply_variable = { GDP647_national_service_support = 0.65 }
+
+    GDP647_calculate_national_sectors = yes
+    set_variable = { GDP647_geo_P5_next_GDP_total = GDP647_national_agriculture }
+    add_to_variable = { GDP647_geo_P5_next_GDP_total = GDP647_national_civilian }
+    add_to_variable = { GDP647_geo_P5_next_GDP_total = GDP647_national_military }
+    add_to_variable = { GDP647_geo_P5_next_GDP_total = GDP647_national_services }
+    add_to_variable = { GDP647_geo_P5_next_GDP_total = GDP647_national_resources }
+    add_to_variable = { GDP647_geo_P5_next_GDP_total = GDP647_national_reinvestment }
+    set_variable = { GDP647_geo_P5_next_GDP_overseas_m = 0 }
 }
 
+# Country-only output. A content pack that grants off-map factories can maintain
+# GDP647_offsite_civ, GDP647_offsite_mil and GDP647_offsite_dock alongside the
+# grant. No residual of the factory total is used: it mixes foreign transfers.
+GDP647_calculate_national_sectors = {
+    set_temp_variable = { GDP647_extra_civ = modifier@industrial_factory_donations }
+    if = {
+        limit = { has_variable = GDP647_offsite_civ }
+        add_to_temp_variable = { GDP647_extra_civ = GDP647_offsite_civ }
+    }
+    clamp_temp_variable = { var = GDP647_extra_civ min = 0 }
+    set_temp_variable = { GDP647_extra_mil = modifier@military_factory_donations }
+    if = {
+        limit = { has_variable = GDP647_offsite_mil }
+        add_to_temp_variable = { GDP647_extra_mil = GDP647_offsite_mil }
+    }
+    clamp_temp_variable = { var = GDP647_extra_mil min = 0 }
+    set_temp_variable = { GDP647_extra_dock = modifier@dockyard_donations }
+    if = {
+        limit = { has_variable = GDP647_offsite_dock }
+        add_to_temp_variable = { GDP647_extra_dock = GDP647_offsite_dock }
+    }
+    clamp_temp_variable = { var = GDP647_extra_dock min = 0 }
+    set_temp_variable = { GDP647_national_urban_factor = 0.5 }
+    set_temp_variable = { GDP647_national_farm_infra = 1 }
+    if = {
+        limit = { check_variable = { GDP647_next_core_population > 0 } }
+        set_temp_variable = { GDP647_national_urban_factor = GDP647_core_urban_population }
+        divide_temp_variable = { GDP647_national_urban_factor = GDP647_next_core_population }
+        multiply_temp_variable = { GDP647_national_urban_factor = 0.5 }
+        add_to_temp_variable = { GDP647_national_urban_factor = 0.5 }
+        set_temp_variable = { GDP647_national_farm_infra = GDP647_core_infra_population }
+        divide_temp_variable = { GDP647_national_farm_infra = GDP647_next_core_population }
+        add_to_temp_variable = { GDP647_national_farm_infra = 1 }
+        divide_temp_variable = { GDP647_national_farm_infra = 4 }
+        multiply_temp_variable = { GDP647_national_farm_infra = GDP647_national_farm_infra }
+    }
+    set_variable = { GDP647_national_agriculture = GDP647_extra_civ }
+    multiply_variable = { GDP647_national_agriculture = global.GDP647_p_farm_share }
+    multiply_variable = { GDP647_national_agriculture = global.GDP647_p_farm_civ_weight }
+    multiply_variable = { GDP647_national_agriculture = GDP647_national_farm_infra }
+    multiply_variable = { GDP647_national_agriculture = global.GDP647_p_R1 }
+
+    set_temp_variable = { GDP647_national_civ_share = 1 }
+    subtract_from_temp_variable = { GDP647_national_civ_share = global.GDP647_p_farm_share }
+    set_temp_variable = { GDP647_national_dock_value = GDP647_extra_dock }
+    multiply_temp_variable = { GDP647_national_dock_value = GDP647_dock_productivity }
+    multiply_temp_variable = { GDP647_national_dock_value = global.GDP647_p_dock_value }
+    set_temp_variable = { GDP647_national_dock_civ = GDP647_national_dock_value }
+    multiply_temp_variable = { GDP647_national_dock_civ = global.GDP647_p_dock_civ_share }
+    set_temp_variable = { GDP647_national_dock_mil = GDP647_national_dock_value }
+    multiply_temp_variable = { GDP647_national_dock_mil = global.GDP647_p_dock_mil_share }
+    set_variable = { GDP647_national_civilian = GDP647_extra_civ }
+    multiply_variable = { GDP647_national_civilian = GDP647_national_civ_share }
+    multiply_variable = { GDP647_national_civilian = GDP647_national_urban_factor }
+    multiply_variable = { GDP647_national_civilian = GDP647_civil_productivity }
+    add_to_variable = { GDP647_national_civilian = GDP647_national_dock_civ }
+    multiply_variable = { GDP647_national_civilian = global.GDP647_p_R2 }
+    set_variable = { GDP647_national_military = GDP647_extra_mil }
+    multiply_variable = { GDP647_national_military = GDP647_military_productivity }
+    add_to_variable = { GDP647_national_military = GDP647_national_dock_mil }
+    multiply_variable = { GDP647_national_military = global.GDP647_p_R3 }
+
+    # Use traded resource volume as a service proxy. Script cannot read
+    # the "civilian factories from trade" row independently.
+    set_variable = { GDP647_national_services = 0 }
+    set_temp_variable = { GDP647_export_part = resource_exported@coal }
+    clamp_temp_variable = { var = GDP647_export_part min = 0 }
+    multiply_temp_variable = { GDP647_export_part = global.GDP647_p_resource_coal }
+    add_to_variable = { GDP647_national_services = GDP647_export_part }
+    set_temp_variable = { GDP647_export_part = resource_exported@oil }
+    clamp_temp_variable = { var = GDP647_export_part min = 0 }
+    multiply_temp_variable = { GDP647_export_part = global.GDP647_p_resource_oil }
+    add_to_variable = { GDP647_national_services = GDP647_export_part }
+    set_temp_variable = { GDP647_export_part = resource_exported@steel }
+    clamp_temp_variable = { var = GDP647_export_part min = 0 }
+    multiply_temp_variable = { GDP647_export_part = global.GDP647_p_resource_steel }
+    add_to_variable = { GDP647_national_services = GDP647_export_part }
+    set_temp_variable = { GDP647_export_part = resource_exported@aluminium }
+    clamp_temp_variable = { var = GDP647_export_part min = 0 }
+    multiply_temp_variable = { GDP647_export_part = global.GDP647_p_resource_aluminium }
+    add_to_variable = { GDP647_national_services = GDP647_export_part }
+    set_temp_variable = { GDP647_export_part = resource_exported@rubber }
+    clamp_temp_variable = { var = GDP647_export_part min = 0 }
+    multiply_temp_variable = { GDP647_export_part = global.GDP647_p_resource_rubber }
+    add_to_variable = { GDP647_national_services = GDP647_export_part }
+    set_temp_variable = { GDP647_export_part = resource_exported@tungsten }
+    clamp_temp_variable = { var = GDP647_export_part min = 0 }
+    multiply_temp_variable = { GDP647_export_part = global.GDP647_p_resource_tungsten }
+    add_to_variable = { GDP647_national_services = GDP647_export_part }
+    set_temp_variable = { GDP647_export_part = resource_exported@chromium }
+    clamp_temp_variable = { var = GDP647_export_part min = 0 }
+    multiply_temp_variable = { GDP647_export_part = global.GDP647_p_resource_chromium }
+    add_to_variable = { GDP647_national_services = GDP647_export_part }
+    multiply_variable = { GDP647_national_services = global.GDP647_p_R5 }
+    multiply_variable = { GDP647_national_services = global.GDP647_p_trade_share }
+
+    # Additional hourly base fuel from national modifiers. Refineries are
+    # valued in their states; the default country's base fuel is excluded.
+    set_variable = { GDP647_national_resources = modifier@base_fuel_gain }
+    add_to_variable = { GDP647_national_resources = 2 }
+    set_temp_variable = { GDP647_base_fuel_factor = modifier@base_fuel_gain_factor }
+    add_to_temp_variable = { GDP647_base_fuel_factor = 1 }
+    multiply_variable = { GDP647_national_resources = GDP647_base_fuel_factor }
+    subtract_from_variable = { GDP647_national_resources = 2 }
+    clamp_variable = { var = GDP647_national_resources min = 0 }
+    multiply_variable = { GDP647_national_resources = 24 }
+    multiply_variable = { GDP647_national_resources = global.GDP647_p_fuel_weight }
+    multiply_variable = { GDP647_national_resources = global.GDP647_p_R5 }
+}
+
+
 GDP647_begin = {
-    GDP647_geo_U9_parameters = yes
-    set_global_flag = GDP647_formula_geo_096
+    GDP647_set_model_parameters = yes
+    if = {
+        limit = { NOT = { has_global_flag = GDP647_formula_live_sectors_v5 } }
+        clear_variable = global.GDP647_growth_last_capture_day
+    }
+    set_global_flag = GDP647_formula_live_sectors_v5
     GDP647_capture_state_economy_categories = yes
     set_global_flag = GDP647_sampling
     clear_array = global.GDP647_sampled_countries
@@ -50,37 +218,33 @@ GDP647_begin = {
     }
 }
 
-# State scope; PREV is its controller at capture.
+# State scope. PREV is its controller at capture.
 GDP647_compute_state = {
-    set_variable = { GDP647_geo_U9_frozen = 1 }
-    GDP647_geo_U9_output = yes
-    set_variable = { GDP647_geo_base_gdp = GDP647_geo_agri }
-    add_to_variable = { GDP647_geo_base_gdp = GDP647_geo_civ }
-    add_to_variable = { GDP647_geo_base_gdp = GDP647_geo_mil }
-    add_to_variable = { GDP647_geo_base_gdp = GDP647_geo_service }
-    add_to_variable = { GDP647_geo_base_gdp = GDP647_geo_resources }
-    set_variable = { GDP647_geo_SA_frozen_capital_base_m = GDP647_geo_base_gdp }
-    subtract_from_variable = { GDP647_geo_SA_frozen_capital_base_m = GDP647_geo_service }
-    add_to_variable = { GDP647_geo_SA_frozen_capital_base_m = GDP647_geo_SA_legacy_service }
+    set_variable = { GDP647_state_full_access_gdp = 0 }
+    if = {
+        limit = { check_variable = { GDP647_geo_P5_is_core = 0 } }
+        set_temp_variable = { GDP647_sector_access = 1 }
+        set_temp_variable = { GDP647_sector_operation = 1 }
+        GDP647_calculate_state_sectors = yes
+        set_variable = { GDP647_state_full_access_gdp = GDP647_geo_P5_next_state_total }
+    }
+    set_temp_variable = { GDP647_sector_access = GDP647_geo_access }
+    set_temp_variable = { GDP647_sector_operation = GDP647_geo_operation }
+    GDP647_calculate_state_sectors = yes
 
-    set_variable = { GDP647_geo_investment = GDP647_geo_invested_capital_m }
-    multiply_variable = { GDP647_geo_investment = 0.2 }
-    multiply_variable = { GDP647_geo_investment = GDP647_geo_operation }
-    set_variable = { GDP647_geo_P5_next_state_total = GDP647_geo_base_gdp }
-    add_to_variable = { GDP647_geo_P5_next_state_total = GDP647_geo_investment }
     set_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = 0 }
     if = {
-        limit = { check_variable = { GDP647_geo_pop > 0 } }
+        limit = { check_variable = { GDP647_geo_U9_f_pop > 0 } }
         set_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = GDP647_geo_P5_next_state_total }
-        divide_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = GDP647_geo_pop }
+        divide_variable = { GDP647_geo_P5_next_GDP_state_per_capita_v41 = GDP647_geo_U9_f_pop }
     }
     add_to_variable = { PREV.GDP647_geo_P5_next_GDP_total = GDP647_geo_P5_next_state_total }
     if = {
-        limit = { check_variable = { GDP647_geo_P5_is_core = 1 } }
-        add_to_variable = { PREV.GDP647_next_core_population = GDP647_geo_pop }
+        limit = { check_variable = { GDP647_geo_P5_is_core = 0 } }
+        add_to_variable = { PREV.GDP647_geo_P5_next_GDP_overseas_m = GDP647_geo_P5_next_state_total }
     }
-    else = { add_to_variable = { PREV.GDP647_geo_P5_next_GDP_overseas_m = GDP647_geo_P5_next_state_total } }
 }
+
 
 GDP647_publish = {
     GDP647_seed_world_chart = yes
@@ -90,18 +254,17 @@ GDP647_publish = {
     clear_array = global.GDP647_states
     for_each_scope_loop = {
         array = global.GDP647_sampled_countries
-        GDP647_geo_SA_finish_frozen = yes
         set_temp_variable = { GDP647_prior_country_gdp = GDP647_country_gdp }
         set_variable = { GDP647_country_gdp = GDP647_geo_P5_next_GDP_total }
         set_variable = { GDP647_published_core_population = GDP647_next_core_population }
         set_variable = { GDP647_published_country_population = 0 }
         set_variable = { GDP647_country_people_k = 0 }
-        set_variable = { GDP647_country_sector_agriculture = 0 }
-        set_variable = { GDP647_country_sector_civilian = 0 }
-        set_variable = { GDP647_country_sector_military = 0 }
-        set_variable = { GDP647_country_sector_services = 0 }
-        set_variable = { GDP647_country_sector_resources = 0 }
-        set_variable = { GDP647_country_sector_reinvestment = 0 }
+        set_variable = { GDP647_country_sector_agriculture = GDP647_national_agriculture }
+        set_variable = { GDP647_country_sector_civilian = GDP647_national_civilian }
+        set_variable = { GDP647_country_sector_military = GDP647_national_military }
+        set_variable = { GDP647_country_sector_services = GDP647_national_services }
+        set_variable = { GDP647_country_sector_resources = GDP647_national_resources }
+        set_variable = { GDP647_country_sector_reinvestment = GDP647_national_reinvestment }
         set_temp_variable = { GDP647_prior_country_pc = GDP647_core_gdp_per_capita }
         set_variable = { GDP647_core_gdp_per_capita = 0 }
         if = {
@@ -120,7 +283,7 @@ GDP647_publish = {
             set_variable = { GDP647_state_sector_military = GDP647_geo_mil }
             set_variable = { GDP647_state_sector_services = GDP647_geo_service }
             set_variable = { GDP647_state_sector_resources = GDP647_geo_resources }
-            set_variable = { GDP647_state_sector_reinvestment = GDP647_geo_investment }
+            set_variable = { GDP647_state_sector_reinvestment = 0 }
             set_variable = { GDP647_published_state_population = GDP647_geo_U9_f_pop }
             set_variable = { GDP647_state_population_10k = GDP647_published_state_population }
             multiply_variable = { GDP647_state_population_10k = 100 }
@@ -138,11 +301,7 @@ GDP647_publish = {
             clear_variable = GDP647_state_gdp_ratio_pct
             if = {
                 limit = { check_variable = { GDP647_published_state_is_core = 0 } }
-                set_temp_variable = { GDP647_state_gdp_potential = GDP647_geo_invested_capital_m }
-                multiply_temp_variable = { GDP647_state_gdp_potential = 0.2 }
-                add_to_temp_variable = { GDP647_state_gdp_potential = GDP647_geo_population_potential }
-                add_to_temp_variable = { GDP647_state_gdp_potential = GDP647_geo_industry_potential }
-                add_to_temp_variable = { GDP647_state_gdp_potential = GDP647_geo_C92_resource_potential }
+                set_temp_variable = { GDP647_state_gdp_potential = GDP647_state_full_access_gdp }
                 if = {
                     limit = { check_variable = { GDP647_state_gdp_potential > 0 } }
                     set_variable = { GDP647_state_gdp_ratio_pct = GDP647_state_gdp }
@@ -156,7 +315,6 @@ GDP647_publish = {
             add_to_variable = { PREV.GDP647_country_sector_military = GDP647_state_sector_military }
             add_to_variable = { PREV.GDP647_country_sector_services = GDP647_state_sector_services }
             add_to_variable = { PREV.GDP647_country_sector_resources = GDP647_state_sector_resources }
-            add_to_variable = { PREV.GDP647_country_sector_reinvestment = GDP647_state_sector_reinvestment }
             set_temp_variable = { GDP647_pc_prior = GDP647_state_gdp_per_capita }
             set_variable = { GDP647_state_gdp_per_capita = GDP647_geo_P5_next_GDP_state_per_capita_v41 }
             add_to_array = { array = global.GDP647_states }
@@ -172,7 +330,6 @@ GDP647_publish = {
             GDP647_record_gdp_pc_growth = yes
             GDP647_record_gdp_growth = yes
             GDP647_format_state_amounts = yes
-            GDP647_invest = yes
         }
         set_variable = { GDP647_country_population_10k = GDP647_published_country_population }
         multiply_variable = { GDP647_country_population_10k = 100 }
@@ -209,7 +366,7 @@ GDP647_publish = {
 
 GDP647_finish_pending = {
     # Recapture batches saved under an earlier formula before computing any output.
-    if = { limit = { NOT = { has_global_flag = GDP647_formula_geo_096 } } GDP647_begin = yes }
+    if = { limit = { NOT = { has_global_flag = GDP647_formula_live_sectors_v5 } } GDP647_begin = yes }
     if = { limit = { check_variable = { global.GDP647_phase < 2 } } GDP647_week_1 = yes }
     if = { limit = { check_variable = { global.GDP647_phase < 3 } } GDP647_week_2 = yes }
     if = { limit = { check_variable = { global.GDP647_phase < 4 } } GDP647_week_3 = yes }
@@ -219,7 +376,7 @@ GDP647_finish_pending = {
 
 GDP647_tick = {
     # Recapture batches saved under an earlier formula before computing any output.
-    if = { limit = { NOT = { has_global_flag = GDP647_formula_geo_096 } } GDP647_begin = yes }
+    if = { limit = { NOT = { has_global_flag = GDP647_formula_live_sectors_v5 } } GDP647_begin = yes }
     if = {
         limit = { check_variable = { global.GDP647_phase = 1 } }
         GDP647_week_1 = yes
@@ -274,28 +431,6 @@ GDP647_week_4 = {
         array = global.GDP647_sampled_countries
         for_each_scope_loop = { array = GDP647_geo_P5_week_4 GDP647_compute_state = yes }
     }
-}
-
-GDP647_invest = {
-    # Add capital after publishing this month's GDP. The initial snapshot only starts the ledger.
-    if = {
-        limit = { has_state_flag = GDP647_geo_v4_capital_started }
-        set_variable = { GDP647_geo_v4_depreciation = GDP647_geo_invested_capital_m }
-        multiply_variable = { GDP647_geo_v4_depreciation = 0.03 }
-        divide_variable = { GDP647_geo_v4_depreciation = 12 }
-        subtract_from_variable = { GDP647_geo_invested_capital_m = GDP647_geo_v4_depreciation }
-
-        set_variable = { GDP647_geo_v4_new_capital = GDP647_geo_SA_frozen_capital_base_m }
-        if = {
-            limit = { check_variable = { GDP647_geo_P5_f_war = 0 } }
-            multiply_variable = { GDP647_geo_v4_new_capital = 0.015 }
-        }
-        else = { multiply_variable = { GDP647_geo_v4_new_capital = 0.0075 } }
-        divide_variable = { GDP647_geo_v4_new_capital = 12 }
-        add_to_variable = { GDP647_geo_invested_capital_m = GDP647_geo_v4_new_capital }
-        clamp_variable = { var = GDP647_geo_invested_capital_m min = 0 }
-    }
-    else = { set_state_flag = GDP647_geo_v4_capital_started }
 }
 
 # Economic columns toggle direction. TAG and population also return to the last economic order.
